@@ -32,3 +32,21 @@ def chat(req: ChatRequest):
         messages=req.messages,
     )
     return {"reply": response.content[0].text}
+
+from fastapi import Request
+from fastapi.responses import PlainTextResponse
+
+@app.post("/ask")
+async def ask(request: Request):
+    text = (await request.body()).decode("utf-8")
+    key = os.environ.get("ANTHROPIC_API_KEY")
+    if not key:
+        return PlainTextResponse("সার্ভার চলছে, কিন্তু API কী এখনো বসানো হয়নি।")
+    client = anthropic.Anthropic(api_key=key)
+    response = client.messages.create(
+        model="claude-sonnet-5-5",
+        max_tokens=1000,
+        system="তুমি একজন সহায়ক। ব্যবহারকারী যে ভাষায় লেখে, সেই ভাষায় উত্তর দাও।",
+        messages=[{"role": "user", "content": text}],
+    )
+    return PlainTextResponse(response.content[0].text)
