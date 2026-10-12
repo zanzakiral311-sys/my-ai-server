@@ -10,139 +10,223 @@
 @media(prefers-color-scheme:dark){:root[data-theme="auto"]{--bg:#111;--fg:#eee;--ai:#262626}}
 *{box-sizing:border-box}
 body{margin:0;font-family:sans-serif;background:var(--bg);color:var(--fg);font-size:var(--fs);display:flex;flex-direction:column;height:100vh;height:100dvh}
-header{padding:12px 16px;font-weight:600;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;gap:8px}
-header div{display:flex;gap:8px}
-header button{background:none;border:1px solid #8886;border-radius:8px;padding:4px 10px;color:inherit;font-size:14px}
+button{font-family:inherit;color:inherit}
+header{padding:10px 12px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px}
+header .t{flex:1;font-weight:600;text-align:center}
+.ib{background:none;border:none;font-size:22px;padding:4px 8px}
+.pill{background:#e5defd;color:#4527a0;border:none;border-radius:14px;padding:5px 10px;font-size:13px;font-weight:600}
 #chat{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px}
-.msg{max-width:88%;padding:10px 12px;border-radius:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.msg{max-width:90%;padding:10px 12px;border-radius:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
 .user{align-self:flex-end;background:#2f5fd0;color:#fff}
 .ai{align-self:flex-start;background:var(--ai)}
-.acts{display:flex;gap:16px;margin-top:6px;font-size:13px;opacity:.75}
+.msg img{max-width:100%;border-radius:10px;display:block;margin-bottom:6px}
+.acts{display:flex;gap:18px;margin-top:8px;font-size:13px;opacity:.8;flex-wrap:wrap}
 .acts span{cursor:pointer}
-form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--bd)}
-input[type=text]{flex:1;min-width:0;padding:12px;border-radius:20px;border:1px solid #8886;font-size:16px;background:var(--ai);color:var(--fg)}
-form button{border:none;border-radius:50%;width:44px;height:44px;background:#2f5fd0;color:#fff;font-size:18px}
-#set{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);color:var(--fg);z-index:10;overflow-y:auto}
-#set.open{display:block}
+form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--bd);align-items:center}
+form input{flex:1;min-width:0;padding:12px;border-radius:20px;border:1px solid #8886;font-size:16px;background:var(--ai);color:var(--fg)}
+.rb{border:none;border-radius:50%;width:42px;height:42px;font-size:18px;background:#777;color:#fff;flex-shrink:0}
+.rb.go{background:#2f5fd0}
+.rb.on{background:#7a5af8}
+.ov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);color:var(--fg);z-index:10;overflow-y:auto}
+.ov.open{display:block}
+#drawer{right:auto;width:82%;border-right:1px solid var(--bd)}
 .row{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--bd);gap:12px}
-.row select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1px solid #8886;border-radius:8px}
-.row button{background:none;border:1px solid #8886;border-radius:8px;padding:4px 10px;color:inherit;font-size:14px}
-.row .danger{color:#d33;border:none;font-size:16px;padding:0}
+.sec{padding:14px 16px 6px;font-size:13px;opacity:.65}
+select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1px solid #8886;border-radius:8px;max-width:55%}
+.btn{background:none;border:1px solid #8886;border-radius:8px;padding:6px 12px;font-size:14px}
+.danger{color:#d33}
+.ci{display:flex;justify-content:space-between;align-items:center;padding:6px 16px;border-bottom:1px solid var(--bd);gap:8px}
+.ci span{flex:1;cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:8px 0}
+.plan{border:2px solid #7a5af8;border-radius:12px;padding:14px;margin:8px 16px}
+.go2{display:block;margin:16px;padding:14px;border:none;border-radius:10px;background:#7a5af8;color:#fff;font-size:16px;width:calc(100% - 32px)}
+.feat{padding:6px 24px;line-height:2}
+.note{padding:0 16px 24px;font-size:12px;opacity:.65;line-height:1.6}
 </style>
 </head>
 <body>
-<header><span>আমার এআই</span><div><button id="new">নতুন চ্যাট</button><button id="gear">সেটিং</button></div></header>
+<header>
+<button class="ib" id="menu">☰</button>
+<span class="t">আমার এআই</span>
+<button class="pill" id="prem">👑 প্রিমিয়াম</button>
+<button class="ib" id="gear">⚙</button>
+</header>
 <div id="chat"></div>
-<form>
+<form id="f">
+<button type="button" class="rb" id="imgm">🖼</button>
 <input type="text" id="box" placeholder="কিছু জিজ্ঞেস করুন..." autocomplete="off">
-<button type="button" id="mic" style="background:#777">🎤</button>
-<button type="submit">➤</button>
+<button type="button" class="rb" id="mic">🎤</button>
+<button type="submit" class="rb go">➤</button>
 </form>
-<div id="set">
-<div class="row"><b>সেটিং</b><button id="close">বন্ধ</button></div>
-<div class="row"><span>থিম</span><select id="theme"><option value="auto">সিস্টেম অনুযায়ী</option><option value="light">হালকা</option><option value="dark">গাঢ়</option></select></div>
-<div class="row"><span>লেখার আকার</span><select id="fs"><option value="14px">ছোট</option><option value="16px">মাঝারি</option><option value="19px">বড়</option></select></div>
+
+<div class="ov" id="drawer">
+<div class="row"><b>চ্যাট ইতিহাস</b><button class="btn" id="dclose">বন্ধ</button></div>
+<div class="row"><button class="btn" id="dnew">＋ নতুন চ্যাট</button></div>
+<div id="dlist"></div>
+</div>
+
+<div class="ov" id="set">
+<div class="row"><b>সেটিং</b><button class="btn" id="sclose">বন্ধ</button></div>
+<div class="row"><div><b>অতিথি</b><br><small>লগইন এখনো চালু হয়নি</small></div></div>
+<div class="sec">ভাষা ও ভয়েস</div>
+<div class="row"><span>কথা বলার ও পড়ার ভাষা</span><select id="sl"><option value="bn-BD">বাংলা</option><option value="en-US">English</option></select></div>
+<div class="row"><span>পড়ে শোনানোর ভয়েস</span><select id="voice"></select></div>
 <div class="row"><span>পড়ার গতি</span><select id="rate"><option value="0.8">ধীর</option><option value="1">স্বাভাবিক</option><option value="1.3">দ্রুত</option></select></div>
 <div class="row"><span>উত্তর নিজে থেকে পড়ুক</span><input type="checkbox" id="auto"></div>
-<div class="row"><button class="danger" id="clr">সব চ্যাট মুছুন</button></div>
+<div class="sec">এআই আচরণ</div>
+<div class="row"><span>অনলাইনে যাচাই করুক</span><input type="checkbox" id="search"></div>
+<div class="row"><span>ছবির মান</span><select id="quality"><option value="normal">স্বাভাবিক</option><option value="high">উচ্চ</option></select></div>
+<div class="row"><span>উত্তরের ধরন</span><select id="style"><option value="short">সংক্ষিপ্ত</option><option value="long">বিস্তারিত</option></select></div>
+<div class="sec">চেহারা</div>
+<div class="row"><span>থিম</span><select id="theme"><option value="auto">সিস্টেম অনুযায়ী</option><option value="light">হালকা</option><option value="dark">গাঢ়</option></select></div>
+<div class="row"><span>লেখার আকার</span><select id="fs"><option value="14px">ছোট</option><option value="16px">মাঝারি</option><option value="19px">বড়</option></select></div>
+<div class="sec">ডেটা ও গোপনীয়তা</div>
+<div class="row"><span>চ্যাট এক্সপোর্ট (কপি)</span><button class="btn" id="exp">কপি করুন</button></div>
+<div class="row"><span class="danger">সব চ্যাট মুছুন</span><button class="btn danger" id="clr">মুছুন</button></div>
+<div class="row"><span>প্রাইভেসি পলিসি</span><button class="btn" id="priv">দেখুন</button></div>
+<div class="sec">অ্যাকাউন্ট</div>
+<div class="row"><span class="danger">লগআউট</span><button class="btn danger" id="logout">লগআউট</button></div>
+<div class="row"><span class="danger">অ্যাকাউন্ট মুছুন</span><button class="btn danger" id="delacc">মুছুন</button></div>
 </div>
+
+<div class="ov" id="pm">
+<div class="row"><b>প্রিমিয়াম</b><button class="btn" id="pclose">বন্ধ</button></div>
+<div style="text-align:center;font-size:40px;padding:16px 0 4px">👑</div>
+<div style="text-align:center;font-weight:600">সীমা ছাড়া ব্যবহার করুন</div>
+<div class="feat">🖼 প্রতিদিন বেশি ছবি আঁকা<br>⚡ দ্রুত ও উন্নত উত্তর<br>🌐 বেশি অনলাইন সার্চ<br>🕘 অসীম চ্যাট ইতিহাস</div>
+<div class="plan">মাসিক · ৳৫৯৯ প্রতি মাসে</div>
+<div class="plan">বার্ষিক · ৳৫,৯৯০ প্রতি বছরে (২ মাস ফ্রি)</div>
+<button class="go2" id="buy">প্রিমিয়াম শুরু করুন</button>
+<div class="note">দামগুলো নমুনা। চূড়ান্ত দাম আপনার দেশ অনুযায়ী Google Play দেখাবে। পেমেন্ট Google Play দিয়ে হবে এবং Play Store থেকে যেকোনো সময় বাতিল করা যাবে।</div>
+</div>
+
 <script>
 const $=id=>document.getElementById(id);
-let hist=JSON.parse(localStorage.getItem("h")||"[]");
-let S=Object.assign({theme:"auto",fs:"16px",rate:"1",auto:false},JSON.parse(localStorage.getItem("s")||"{}"));
-const chat=$("chat"),box=$("box");
-function applyS(){
-  document.documentElement.setAttribute("data-theme",S.theme);
-  document.documentElement.style.setProperty("--fs",S.fs);
-  localStorage.setItem("s",JSON.stringify(S));
-}
-function save(){localStorage.setItem("h",JSON.stringify(hist.slice(-40)))}
+let DB;try{DB=JSON.parse(localStorage.getItem("db"))}catch(e){}
+if(!DB||!DB.chats)DB={cur:null,chats:[]};
+let S=Object.assign({theme:"auto",fs:"16px",rate:"1",auto:false,search:true,style:"short",quality:"normal",sl:"bn-BD",voice:""},(()=>{try{return JSON.parse(localStorage.getItem("s"))||{}}catch(e){return{}}})());
+let imgMode=false;
+const chatEl=$("chat"),box=$("box");
+function persist(){try{DB.chats=DB.chats.slice(0,30);localStorage.setItem("db",JSON.stringify(DB))}catch(e){}}
+function saveS(){try{localStorage.setItem("s",JSON.stringify(S))}catch(e){}document.documentElement.setAttribute("data-theme",S.theme);document.documentElement.style.setProperty("--fs",S.fs)}
+function cur(){let c=DB.chats.find(x=>x.id===DB.cur);if(!c){c={id:Date.now(),title:"নতুন চ্যাট",msgs:[]};DB.chats.unshift(c);DB.cur=c.id}return c}
+function mk(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e}
 function copyText(x){
   try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(x);return true}}catch(e){}
-  try{
-    const a=document.createElement("textarea");
-    a.value=x;document.body.appendChild(a);a.select();
-    const ok=document.execCommand("copy");
-    document.body.removeChild(a);
-    return ok;
-  }catch(e){return false}
+  try{const a=document.createElement("textarea");a.value=x;document.body.appendChild(a);a.select();const ok=document.execCommand("copy");document.body.removeChild(a);return ok}catch(e){return false}
 }
 function speak(x){
   if(!window.speechSynthesis){alert("এই অ্যাপে শোনা চলে না। Chrome-এ খুলে চেষ্টা করুন।");return}
   speechSynthesis.cancel();
   const u=new SpeechSynthesisUtterance(x);
-  u.lang="bn-BD";
-  u.rate=parseFloat(S.rate);
-  u.onerror=()=>alert("এই ফোনে বাংলা ভয়েস পাওয়া যায়নি।");
+  u.lang=S.sl;u.rate=parseFloat(S.rate);
+  if(S.voice){const v=speechSynthesis.getVoices().find(v=>v.name===S.voice);if(v)u.voice=v}
+  u.onerror=()=>alert("এই ফোনে ভয়েস পাওয়া যায়নি।");
   speechSynthesis.speak(u);
 }
 function share(x,el){
   if(navigator.share){navigator.share({text:x}).catch(()=>{});return}
   el.textContent=copyText(x)?"কপি হয়েছে (এখানে শেয়ার চলে না)":"শেয়ার চলছে না";
 }
-function add(role,text){
-  const d=document.createElement("div");
-  d.className="msg "+(role==="user"?"user":"ai");
-  const t=document.createElement("div");
-  t.textContent=text;
-  d.appendChild(t);
-  if(role!=="user"){
-    const a=document.createElement("div");
-    a.className="acts";
-    a.innerHTML="<span>শুনুন</span><span>কপি</span><span>শেয়ার</span>";
-    const l=a.children[0],c=a.children[1],s=a.children[2];
-    l.onclick=()=>speak(t.textContent);
-    c.onclick=()=>{c.textContent=copyText(t.textContent)?"কপি হয়েছে":"কপি চলছে না"};
-    s.onclick=()=>share(t.textContent,s);
+function addMsg(m,last,pending){
+  const d=mk("div","msg "+(m.role==="user"?"user":"ai"));
+  if(m.img){const i=mk("img");i.src=m.img;d.appendChild(i)}
+  d.appendChild(mk("div","",m.content));
+  if(m.role!=="user"&&!pending){
+    const a=mk("div","acts");
+    const mkA=(txt,fn)=>{const s=mk("span","",txt);s.onclick=()=>fn(s);a.appendChild(s)};
+    if(m.img){
+      mkA("সেভ",()=>window.open(m.img,"_blank"));
+      mkA("শেয়ার",s=>share(m.img,s));
+    }else{
+      mkA("শুনুন",()=>speak(m.content));
+      mkA("কপি",s=>{s.textContent=copyText(m.content)?"কপি হয়েছে":"কপি চলছে না"});
+      mkA("শেয়ার",s=>share(m.content,s));
+    }
+    if(last)mkA("আবার তৈরি",()=>regen());
     d.appendChild(a);
   }
-  chat.appendChild(d);
-  chat.scrollTop=chat.scrollHeight;
-  return t;
+  chatEl.appendChild(d);
+  chatEl.scrollTop=chatEl.scrollHeight;
 }
-applyS();
-$("theme").value=S.theme;
-$("fs").value=S.fs;
-$("rate").value=S.rate;
-$("auto").checked=S.auto;
-$("theme").onchange=e=>{S.theme=e.target.value;applyS()};
-$("fs").onchange=e=>{S.fs=e.target.value;applyS()};
-$("rate").onchange=e=>{S.rate=e.target.value;applyS()};
-$("auto").onchange=e=>{S.auto=e.target.checked;applyS()};
-$("gear").onclick=()=>$("set").classList.add("open");
-$("close").onclick=()=>$("set").classList.remove("open");
-$("clr").onclick=()=>{
-  if(confirm("সব চ্যাট মুছে যাবে। নিশ্চিত?")){hist=[];save();chat.innerHTML="";$("set").classList.remove("open")}
-};
-$("new").onclick=()=>{hist=[];save();chat.innerHTML=""};
-hist.forEach(m=>add(m.role,m.content));
-document.querySelector("form").addEventListener("submit",async e=>{
-  e.preventDefault();
-  const q=box.value.trim();
-  if(!q)return;
-  box.value="";
-  add("user",q);
-  hist.push({role:"user",content:q});
-  const w=add("assistant","ভাবছি... (সার্ভার ঘুমিয়ে থাকলে ১ মিনিট লাগতে পারে)");
+function render(){chatEl.innerHTML="";const ms=cur().msgs;ms.forEach((m,i)=>addMsg(m,i===ms.length-1&&m.role!=="user"))}
+async function reply(c,q,asImg){
+  addMsg({role:"assistant",content:"ভাবছি... (সার্ভার ঘুমিয়ে থাকলে ১ মিনিট লাগতে পারে)"},false,true);
+  let m;
   try{
-    const r=await fetch("/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:hist.slice(-20)})});
-    const j=await r.json();
-    w.textContent=j.reply;
-    hist.push({role:"assistant",content:j.reply});
-    if(S.auto)speak(j.reply);
-  }catch(err){
-    w.textContent="সংযোগে সমস্যা হয়েছে, আবার চেষ্টা করুন।";
-  }
-  save();
-});
+    if(asImg){
+      const r=await fetch("/image",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:q,quality:S.quality})});
+      if(!r.ok){m={role:"assistant",content:"ছবি আঁকার সুবিধা এখনো চালু হয়নি।"}}
+      else{const j=await r.json();m={role:"assistant",content:j.reply||"ছবি তৈরি হয়েছে",img:j.url||""}}
+    }else{
+      const msgs=c.msgs.slice(-20).map(x=>({role:x.role,content:x.content}));
+      const r=await fetch("/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:msgs,search:S.search,style:S.style})});
+      const j=await r.json();
+      m={role:"assistant",content:j.reply||"উত্তর পাওয়া যায়নি।"};
+    }
+  }catch(e){m={role:"assistant",content:"সংযোগে সমস্যা হয়েছে, আবার চেষ্টা করুন।"}}
+  c.msgs.push(m);persist();render();
+  if(S.auto&&!m.img)speak(m.content);
+}
+function send(q,asImg){
+  const c=cur();
+  c.msgs.push({role:"user",content:q,kind:asImg?"img":"txt"});
+  if(c.title==="নতুন চ্যাট")c.title=q.slice(0,28);
+  persist();render();
+  reply(c,q,asImg);
+}
+function regen(){
+  const c=cur();
+  if(c.msgs.length&&c.msgs[c.msgs.length-1].role==="assistant")c.msgs.pop();
+  const u=c.msgs[c.msgs.length-1];
+  if(!u||u.role!=="user")return;
+  render();
+  reply(c,u.content,u.kind==="img");
+}
+$("f").addEventListener("submit",e=>{e.preventDefault();const q=box.value.trim();if(!q)return;box.value="";send(q,imgMode)});
+$("imgm").onclick=()=>{imgMode=!imgMode;$("imgm").className="rb"+(imgMode?" on":"");box.placeholder=imgMode?"কী আঁকতে হবে লিখুন...":"কিছু জিজ্ঞেস করুন..."};
 $("mic").onclick=()=>{
   const R=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!R){alert("এই অ্যাপে ভয়েস চলে না। Chrome-এ খুলে চেষ্টা করুন।");return}
-  const r=new R();
-  r.lang="bn-BD";
-  r.onresult=e=>{box.value=e.results[0][0].transcript};
-  r.start();
+  const r=new R();r.lang=S.sl;r.onresult=e=>{box.value=e.results[0][0].transcript};r.start();
 };
+function drawer(){
+  const l=$("dlist");l.innerHTML="";
+  DB.chats.forEach(c=>{
+    const r=mk("div","ci");
+    const s=mk("span","",c.title);
+    s.onclick=()=>{DB.cur=c.id;persist();render();$("drawer").classList.remove("open")};
+    const x=mk("button","ib","🗑");
+    x.onclick=()=>{DB.chats=DB.chats.filter(z=>z.id!==c.id);if(DB.cur===c.id)DB.cur=null;persist();render();drawer()};
+    r.appendChild(s);r.appendChild(x);l.appendChild(r);
+  });
+}
+$("menu").onclick=()=>{drawer();$("drawer").classList.add("open")};
+$("dclose").onclick=()=>$("drawer").classList.remove("open");
+$("dnew").onclick=()=>{DB.cur=null;cur();persist();render();$("drawer").classList.remove("open")};
+function bind(id,key,chk){const e=$(id);if(chk)e.checked=S[key];else e.value=S[key];e.onchange=()=>{S[key]=chk?e.checked:e.value;saveS()}}
+bind("theme","theme");bind("fs","fs");bind("rate","rate");bind("auto","auto",true);bind("search","search",true);bind("style","style");bind("quality","quality");bind("sl","sl");
+function voices(){
+  const v=$("voice");v.innerHTML="";
+  const o=mk("option","","ফোনের ডিফল্ট");o.value="";v.appendChild(o);
+  if(window.speechSynthesis){speechSynthesis.getVoices().filter(x=>x.lang.toLowerCase().indexOf(S.sl.slice(0,2))===0).forEach(x=>{const p=mk("option","",x.name);p.value=x.name;v.appendChild(p)})}
+  v.value=S.voice;
+}
+$("sl").addEventListener("change",voices);
+$("voice").onchange=e=>{S.voice=e.target.value;saveS()};
+$("gear").onclick=()=>{voices();$("set").classList.add("open")};
+$("sclose").onclick=()=>$("set").classList.remove("open");
+$("exp").onclick=()=>{
+  const t=DB.chats.map(c=>c.title+"\n"+c.msgs.map(m=>(m.role==="user"?"আমি: ":"এআই: ")+m.content).join("\n")).join("\n\n----\n\n");
+  alert(copyText(t)?"সব চ্যাট কপি হয়েছে। নোট অ্যাপে পেস্ট করে রাখুন।":"কপি করা যায়নি।");
+};
+$("clr").onclick=()=>{if(confirm("সব চ্যাট মুছে যাবে। নিশ্চিত?")){DB={cur:null,chats:[]};persist();render();$("set").classList.remove("open")}};
+$("priv").onclick=()=>alert("প্রাইভেসি পলিসি পেজ এখনো তৈরি হয়নি। প্রকাশের আগে বানাতে হবে।");
+$("logout").onclick=()=>alert("লগইন ব্যবস্থা এখনো যোগ হয়নি।");
+$("delacc").onclick=()=>alert("লগইন ব্যবস্থা এখনো যোগ হয়নি।");
+$("prem").onclick=()=>$("pm").classList.add("open");
+$("pclose").onclick=()=>$("pm").classList.remove("open");
+$("buy").onclick=()=>alert("পেমেন্ট এখনো চালু হয়নি। অ্যাপ প্রকাশের সময় Google Play Billing যোগ হবে।");
+saveS();render();
 </script>
 </body>
 </html>
