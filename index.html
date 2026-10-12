@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>আমার এআই</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:sans-serif;background:#fff;color:#111;display:flex;flex-direction:column;height:100vh;height:100dvh}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}.ai{background:#262626!important}input{background:#262626!important;color:#eee!important}}
+header{padding:12px 16px;font-weight:600;border-bottom:1px solid #8884;display:flex;justify-content:space-between;align-items:center}
+header button{background:none;border:1px solid #8886;border-radius:8px;padding:4px 10px;color:inherit}
+#chat{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:88%;padding:10px 12px;border-radius:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.user{align-self:flex-end;background:#2f5fd0;color:#fff}
+.ai{align-self:flex-start;background:#f0f0f3}
+.acts{display:flex;gap:16px;margin-top:6px;font-size:13px;opacity:.75}
+.acts span{cursor:pointer}
+form{display:flex;gap:8px;padding:10px;border-top:1px solid #8884}
+input{flex:1;min-width:0;padding:12px;border-radius:20px;border:1px solid #8886;font-size:16px}
+form button{border:none;border-radius:50%;width:44px;height:44px;background:#2f5fd0;color:#fff;font-size:18px}
+</style>
+</head>
+<body>
+<header><span>আমার এআই</span><button id="new">নতুন চ্যাট</button></header>
+<div id="chat"></div>
+<form>
+<input id="box" placeholder="কিছু জিজ্ঞেস করুন..." autocomplete="off">
+<button type="button" id="mic" style="background:#777">🎤</button>
+<button type="submit">➤</button>
+</form>
+<script>
+let hist=JSON.parse(localStorage.getItem("h")||"[]");
+const chat=document.getElementById("chat"),box=document.getElementById("box");
+function save(){localStorage.setItem("h",JSON.stringify(hist.slice(-40)))}
+function add(role,text){
+  const d=document.createElement("div");
+  d.className="msg "+(role==="user"?"user":"ai");
+  const t=document.createElement("div");
+  t.textContent=text;
+  d.appendChild(t);
+  if(role!=="user"){
+    const a=document.createElement("div");
+    a.className="acts";
+    a.innerHTML="<span>শুনুন</span><span>কপি</span><span>শেয়ার</span>";
+    const l=a.children[0],c=a.children[1],s=a.children[2];
+    l.onclick=()=>{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.textContent);u.lang="bn-BD";speechSynthesis.speak(u)};
+    c.onclick=()=>{navigator.clipboard.writeText(t.textContent);c.textContent="কপি হয়েছে"};
+    s.onclick=()=>{navigator.share?navigator.share({text:t.textContent}):alert("এই ব্রাউজারে শেয়ার চলে না")};
+    d.appendChild(a);
+  }
+  chat.appendChild(d);
+  chat.scrollTop=chat.scrollHeight;
+  return t;
+}
+hist.forEach(m=>add(m.role,m.content));
+document.querySelector("form").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const q=box.value.trim();
+  if(!q)return;
+  box.value="";
+  add("user",q);
+  hist.push({role:"user",content:q});
+  const w=add("assistant","ভাবছি... (সার্ভার ঘুমিয়ে থাকলে ১ মিনিট লাগতে পারে)");
+  try{
+    const r=await fetch("/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:hist.slice(-20)})});
+    const j=await r.json();
+    w.textContent=j.reply;
+    hist.push({role:"assistant",content:j.reply});
+  }catch(err){
+    w.textContent="সংযোগে সমস্যা হয়েছে, আবার চেষ্টা করুন।";
+  }
+  save();
+});
+document.getElementById("mic").onclick=()=>{
+  const R=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!R){alert("এই ব্রাউজারে ভয়েস চলে না");return}
+  const r=new R();
+  r.lang="bn-BD";
+  r.onresult=e=>{box.value=e.results[0][0].transcript};
+  r.start();
+};
+document.getElementById("new").onclick=()=>{hist=[];save();chat.innerHTML=""};
+</script>
+</body>
+</html>
