@@ -1,38 +1,85 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="bn" data-theme="auto">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>আমার এআই</title>
 <style>
+:root{--bg:#fff;--fg:#111;--ai:#f0f0f3;--bd:#8884;--fs:16px}
+:root[data-theme="dark"]{--bg:#111;--fg:#eee;--ai:#262626}
+@media(prefers-color-scheme:dark){:root[data-theme="auto"]{--bg:#111;--fg:#eee;--ai:#262626}}
 *{box-sizing:border-box}
-body{margin:0;font-family:sans-serif;background:#fff;color:#111;display:flex;flex-direction:column;height:100vh;height:100dvh}
-@media(prefers-color-scheme:dark){body{background:#111;color:#eee}.ai{background:#262626!important}input{background:#262626!important;color:#eee!important}}
-header{padding:12px 16px;font-weight:600;border-bottom:1px solid #8884;display:flex;justify-content:space-between;align-items:center}
-header button{background:none;border:1px solid #8886;border-radius:8px;padding:4px 10px;color:inherit}
+body{margin:0;font-family:sans-serif;background:var(--bg);color:var(--fg);font-size:var(--fs);display:flex;flex-direction:column;height:100vh;height:100dvh}
+header{padding:12px 16px;font-weight:600;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;gap:8px}
+header div{display:flex;gap:8px}
+header button{background:none;border:1px solid #8886;border-radius:8px;padding:4px 10px;color:inherit;font-size:14px}
 #chat{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px}
 .msg{max-width:88%;padding:10px 12px;border-radius:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
 .user{align-self:flex-end;background:#2f5fd0;color:#fff}
-.ai{align-self:flex-start;background:#f0f0f3}
+.ai{align-self:flex-start;background:var(--ai)}
 .acts{display:flex;gap:16px;margin-top:6px;font-size:13px;opacity:.75}
 .acts span{cursor:pointer}
-form{display:flex;gap:8px;padding:10px;border-top:1px solid #8884}
-input{flex:1;min-width:0;padding:12px;border-radius:20px;border:1px solid #8886;font-size:16px}
+form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--bd)}
+input[type=text]{flex:1;min-width:0;padding:12px;border-radius:20px;border:1px solid #8886;font-size:16px;background:var(--ai);color:var(--fg)}
 form button{border:none;border-radius:50%;width:44px;height:44px;background:#2f5fd0;color:#fff;font-size:18px}
+#set{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);color:var(--fg);z-index:10;overflow-y:auto}
+#set.open{display:block}
+.row{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--bd);gap:12px}
+.row select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1px solid #8886;border-radius:8px}
+.row button{background:none;border:1px solid #8886;border-radius:8px;padding:4px 10px;color:inherit;font-size:14px}
+.row .danger{color:#d33;border:none;font-size:16px;padding:0}
 </style>
 </head>
 <body>
-<header><span>আমার এআই</span><button id="new">নতুন চ্যাট</button></header>
+<header><span>আমার এআই</span><div><button id="new">নতুন চ্যাট</button><button id="gear">সেটিং</button></div></header>
 <div id="chat"></div>
 <form>
-<input id="box" placeholder="কিছু জিজ্ঞেস করুন..." autocomplete="off">
+<input type="text" id="box" placeholder="কিছু জিজ্ঞেস করুন..." autocomplete="off">
 <button type="button" id="mic" style="background:#777">🎤</button>
 <button type="submit">➤</button>
 </form>
+<div id="set">
+<div class="row"><b>সেটিং</b><button id="close">বন্ধ</button></div>
+<div class="row"><span>থিম</span><select id="theme"><option value="auto">সিস্টেম অনুযায়ী</option><option value="light">হালকা</option><option value="dark">গাঢ়</option></select></div>
+<div class="row"><span>লেখার আকার</span><select id="fs"><option value="14px">ছোট</option><option value="16px">মাঝারি</option><option value="19px">বড়</option></select></div>
+<div class="row"><span>পড়ার গতি</span><select id="rate"><option value="0.8">ধীর</option><option value="1">স্বাভাবিক</option><option value="1.3">দ্রুত</option></select></div>
+<div class="row"><span>উত্তর নিজে থেকে পড়ুক</span><input type="checkbox" id="auto"></div>
+<div class="row"><button class="danger" id="clr">সব চ্যাট মুছুন</button></div>
+</div>
 <script>
+const $=id=>document.getElementById(id);
 let hist=JSON.parse(localStorage.getItem("h")||"[]");
-const chat=document.getElementById("chat"),box=document.getElementById("box");
+let S=Object.assign({theme:"auto",fs:"16px",rate:"1",auto:false},JSON.parse(localStorage.getItem("s")||"{}"));
+const chat=$("chat"),box=$("box");
+function applyS(){
+  document.documentElement.setAttribute("data-theme",S.theme);
+  document.documentElement.style.setProperty("--fs",S.fs);
+  localStorage.setItem("s",JSON.stringify(S));
+}
 function save(){localStorage.setItem("h",JSON.stringify(hist.slice(-40)))}
+function copyText(x){
+  try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(x);return true}}catch(e){}
+  try{
+    const a=document.createElement("textarea");
+    a.value=x;document.body.appendChild(a);a.select();
+    const ok=document.execCommand("copy");
+    document.body.removeChild(a);
+    return ok;
+  }catch(e){return false}
+}
+function speak(x){
+  if(!window.speechSynthesis){alert("এই অ্যাপে শোনা চলে না। Chrome-এ খুলে চেষ্টা করুন।");return}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(x);
+  u.lang="bn-BD";
+  u.rate=parseFloat(S.rate);
+  u.onerror=()=>alert("এই ফোনে বাংলা ভয়েস পাওয়া যায়নি।");
+  speechSynthesis.speak(u);
+}
+function share(x,el){
+  if(navigator.share){navigator.share({text:x}).catch(()=>{});return}
+  el.textContent=copyText(x)?"কপি হয়েছে (এখানে শেয়ার চলে না)":"শেয়ার চলছে না";
+}
 function add(role,text){
   const d=document.createElement("div");
   d.className="msg "+(role==="user"?"user":"ai");
@@ -44,15 +91,30 @@ function add(role,text){
     a.className="acts";
     a.innerHTML="<span>শুনুন</span><span>কপি</span><span>শেয়ার</span>";
     const l=a.children[0],c=a.children[1],s=a.children[2];
-    l.onclick=()=>{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.textContent);u.lang="bn-BD";speechSynthesis.speak(u)};
-    c.onclick=()=>{navigator.clipboard.writeText(t.textContent);c.textContent="কপি হয়েছে"};
-    s.onclick=()=>{navigator.share?navigator.share({text:t.textContent}):alert("এই ব্রাউজারে শেয়ার চলে না")};
+    l.onclick=()=>speak(t.textContent);
+    c.onclick=()=>{c.textContent=copyText(t.textContent)?"কপি হয়েছে":"কপি চলছে না"};
+    s.onclick=()=>share(t.textContent,s);
     d.appendChild(a);
   }
   chat.appendChild(d);
   chat.scrollTop=chat.scrollHeight;
   return t;
 }
+applyS();
+$("theme").value=S.theme;
+$("fs").value=S.fs;
+$("rate").value=S.rate;
+$("auto").checked=S.auto;
+$("theme").onchange=e=>{S.theme=e.target.value;applyS()};
+$("fs").onchange=e=>{S.fs=e.target.value;applyS()};
+$("rate").onchange=e=>{S.rate=e.target.value;applyS()};
+$("auto").onchange=e=>{S.auto=e.target.checked;applyS()};
+$("gear").onclick=()=>$("set").classList.add("open");
+$("close").onclick=()=>$("set").classList.remove("open");
+$("clr").onclick=()=>{
+  if(confirm("সব চ্যাট মুছে যাবে। নিশ্চিত?")){hist=[];save();chat.innerHTML="";$("set").classList.remove("open")}
+};
+$("new").onclick=()=>{hist=[];save();chat.innerHTML=""};
 hist.forEach(m=>add(m.role,m.content));
 document.querySelector("form").addEventListener("submit",async e=>{
   e.preventDefault();
@@ -67,20 +129,20 @@ document.querySelector("form").addEventListener("submit",async e=>{
     const j=await r.json();
     w.textContent=j.reply;
     hist.push({role:"assistant",content:j.reply});
+    if(S.auto)speak(j.reply);
   }catch(err){
     w.textContent="সংযোগে সমস্যা হয়েছে, আবার চেষ্টা করুন।";
   }
   save();
 });
-document.getElementById("mic").onclick=()=>{
+$("mic").onclick=()=>{
   const R=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!R){alert("এই ব্রাউজারে ভয়েস চলে না");return}
+  if(!R){alert("এই অ্যাপে ভয়েস চলে না। Chrome-এ খুলে চেষ্টা করুন।");return}
   const r=new R();
   r.lang="bn-BD";
   r.onresult=e=>{box.value=e.results[0][0].transcript};
   r.start();
 };
-document.getElementById("new").onclick=()=>{hist=[];save();chat.innerHTML=""};
 </script>
 </body>
 </html>
