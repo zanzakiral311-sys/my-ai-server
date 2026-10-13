@@ -355,14 +355,13 @@ $("welGo").onclick=()=>{
   saveS();
   $("sl").value=S.sl;
   $("wel").classList.remove("open");
- if(/\bwv\b/.test(navigator.userAgent)){$("mCam").style.display="none"}
   applyLang();
-};
 saveS();
 applyLang();
 $("welL").value=S.lang;
 $("sl").value=S.sl;
 if(!S.onb)$("wel").classList.add("open");
-</script>
+if(/\bwv\b/.test(navigator.userAgent)){$("mCam").style.display="none"}
+  </script>
 </body>
 </html>
