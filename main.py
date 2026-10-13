@@ -70,3 +70,7 @@ def chat(req: ChatRequest):
 @app.post("/image")
 def image(req: ImageRequest):
     return JSONResponse({"reply": "ছবি আঁকার সুবিধা এখনো চালু হয়নি।"}, status_code=501)
+
+@app.get("/privacy")
+def privacy():
+    return FileResponse("privacy.html")
