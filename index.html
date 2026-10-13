@@ -355,6 +355,7 @@ $("welGo").onclick=()=>{
   saveS();
   $("sl").value=S.sl;
   $("wel").classList.remove("open");
+ if(/\bwv\b/.test(navigator.userAgent)){$("mCam").style.display="none"}
   applyLang();
 };
 saveS();
