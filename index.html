@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>আমার এআই</title>
+<title>My AI</title>
 <style>
 :root{--bg:#fff;--fg:#111;--ai:#f0f0f3;--bd:#8884;--fs:16px}
 :root[data-theme="dark"]{--bg:#111;--fg:#eee;--ai:#262626}
@@ -22,11 +22,15 @@ header .t{flex:1;font-weight:600;text-align:center}
 .msg img{max-width:100%;border-radius:10px;display:block;margin-bottom:6px}
 .acts{display:flex;gap:18px;margin-top:8px;font-size:13px;opacity:.8;flex-wrap:wrap}
 .acts span{cursor:pointer}
+#chip{display:none;padding:6px 12px;font-size:13px;justify-content:space-between;align-items:center;border-top:1px solid var(--bd);background:var(--ai)}
 form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--bd);align-items:center}
 form input{flex:1;min-width:0;padding:12px;border-radius:20px;border:1px solid #8886;font-size:16px;background:var(--ai);color:var(--fg)}
-.rb{border:none;border-radius:50%;width:42px;height:42px;font-size:18px;background:#777;color:#fff;flex-shrink:0}
+.rb{border:none;border-radius:50%;width:42px;height:42px;font-size:20px;background:#777;color:#fff;flex-shrink:0}
 .rb.go{background:#2f5fd0}
 .rb.on{background:#7a5af8}
+#amenu{display:none;position:fixed;left:10px;bottom:70px;background:var(--bg);border:1px solid var(--bd);border-radius:12px;z-index:5;overflow:hidden;min-width:200px}
+#amenu.open{display:block}
+#amenu button{display:block;width:100%;text-align:left;padding:13px 18px;background:none;border:none;border-bottom:1px solid var(--bd);font-size:15px}
 .ov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);color:var(--fg);z-index:10;overflow-y:auto}
 .ov.open{display:block}
 #drawer{right:auto;width:82%;border-right:1px solid var(--bd)}
@@ -57,12 +61,22 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 <button class="ib" id="gear">⚙</button>
 </header>
 <div id="chat"></div>
+<div id="chip"></div>
 <form id="f">
-<button type="button" class="rb" id="imgm">🖼</button>
+<button type="button" class="rb" id="plus">＋</button>
 <input type="text" id="box" autocomplete="off">
 <button type="button" class="rb" id="mic">🎤</button>
 <button type="submit" class="rb go">➤</button>
 </form>
+<div id="amenu">
+<button type="button" id="mCam" data-i18n="mCam"></button>
+<button type="button" id="mGal" data-i18n="mGal"></button>
+<button type="button" id="mDoc" data-i18n="mDoc"></button>
+<button type="button" id="mDraw" data-i18n="mDraw"></button>
+</div>
+<input type="file" id="fCam" accept="image/*" capture="environment" style="display:none">
+<input type="file" id="fGal" accept="image/*" style="display:none">
+<input type="file" id="fDoc" accept=".pdf,.txt,.md,.csv,application/pdf,text/plain" style="display:none">
 
 <div class="ov" id="drawer">
 <div class="row"><b data-i18n="dTitle"></b><button class="btn" id="dclose" data-i18n="close"></button></div>
@@ -122,14 +136,14 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 <script>
 const $=id=>document.getElementById(id);
 const T={
-bn:{title:"আমার এআই",prem:"👑 প্রিমিয়াম",ph:"কিছু জিজ্ঞেস করুন...",phImg:"কী আঁকতে হবে লিখুন...",dTitle:"চ্যাট ইতিহাস",close:"বন্ধ",newc:"＋ নতুন চ্যাট",newTitle:"নতুন চ্যাট",thinking:"ভাবছি... (সার্ভার ঘুমিয়ে থাকলে ১ মিনিট লাগতে পারে)",errConn:"সংযোগে সমস্যা হয়েছে, আবার চেষ্টা করুন।",noImg:"ছবি আঁকার সুবিধা এখনো চালু হয়নি।",noReply:"উত্তর পাওয়া যায়নি।",listen:"শুনুন",copy:"কপি",copied:"কপি হয়েছে",copyFail:"কপি চলছে না",share:"শেয়ার",shareCopied:"কপি হয়েছে (এখানে শেয়ার চলে না)",shareFail:"শেয়ার চলছে না",regen:"আবার তৈরি",save:"সেভ",noSpeech:"এই অ্যাপে শোনা চলে না। Chrome-এ খুলে চেষ্টা করুন।",noVoice:"এই ফোনে ভয়েস পাওয়া যায়নি।",noMic:"এই অ্যাপে ভয়েস চলে না। Chrome-এ খুলে চেষ্টা করুন।",settings:"সেটিং",guest:"অতিথি",loginNot:"লগইন এখনো চালু হয়নি",secLang:"ভাষা ও ভয়েস",appLang:"অ্যাপের ভাষা",country:"দেশ",sl:"কথা বলা ও পড়ার ভাষা",voice:"পড়ে শোনানোর ভয়েস",vdef:"ফোনের ডিফল্ট",rate:"পড়ার গতি",r1:"ধীর",r2:"স্বাভাবিক",r3:"দ্রুত",auto:"উত্তর নিজে থেকে পড়ুক",secAi:"এআই আচরণ",search:"অনলাইনে যাচাই করুক",imgq:"ছবির মান",q1:"স্বাভাবিক",q2:"উচ্চ",style:"উত্তরের ধরন",s1:"সংক্ষিপ্ত",s2:"বিস্তারিত",secLook:"চেহারা",theme:"থিম",th1:"সিস্টেম অনুযায়ী",th2:"হালকা",th3:"গাঢ়",fs:"লেখার আকার",f1:"ছোট",f2:"মাঝারি",f3:"বড়",secData:"ডেটা ও গোপনীয়তা",exp:"চ্যাট এক্সপোর্ট (কপি)",expBtn:"কপি করুন",expOk:"সব চ্যাট কপি হয়েছে। নোট অ্যাপে পেস্ট করে রাখুন।",expFail:"কপি করা যায়নি।",clr:"সব চ্যাট মুছুন",clrBtn:"মুছুন",clrQ:"সব চ্যাট মুছে যাবে। নিশ্চিত?",priv:"প্রাইভেসি পলিসি",view:"দেখুন",secAcc:"অ্যাকাউন্ট",logout:"লগআউট",delacc:"অ্যাকাউন্ট মুছুন",loginMsg:"লগইন ব্যবস্থা এখনো যোগ হয়নি।",pTitle:"প্রিমিয়াম",pSub:"সীমা ছাড়া ব্যবহার করুন",pf1:"🖼 প্রতিদিন বেশি ছবি আঁকা",pf2:"⚡ দ্রুত ও উন্নত উত্তর",pf3:"🌐 বেশি অনলাইন সার্চ",pf4:"🕘 অসীম চ্যাট ইতিহাস",plan1:"মাসিক · ৳৫৯৯ প্রতি মাসে",plan2:"বার্ষিক · ৳৫,৯৯০ প্রতি বছরে (২ মাস ফ্রি)",buy:"প্রিমিয়াম শুরু করুন",buyMsg:"পেমেন্ট এখনো চালু হয়নি। অ্যাপ প্রকাশের সময় Google Play Billing যোগ হবে।",pNote:"দামগুলো নমুনা। চূড়ান্ত দাম আপনার দেশ অনুযায়ী Google Play দেখাবে। পেমেন্ট Google Play দিয়ে হবে এবং Play Store থেকে যেকোনো সময় বাতিল করা যাবে।",wTitle:"স্বাগতম / Welcome",wSub:"শুরু করতে আপনার ভাষা ও দেশ বেছে নিন।",wc:"দেশ",wl:"ভাষা",pick:"— বেছে নিন —",go:"শুরু করুন",need:"আগে আপনার দেশ বেছে নিন।",me:"আমি",ai:"এআই"},
-en:{title:"My AI",prem:"👑 Premium",ph:"Ask anything...",phImg:"Describe what to draw...",dTitle:"Chat history",close:"Close",newc:"＋ New chat",newTitle:"New chat",thinking:"Thinking... (may take up to 1 minute if the server was asleep)",errConn:"Connection problem. Please try again.",noImg:"Image drawing is not available yet.",noReply:"No reply received.",listen:"Listen",copy:"Copy",copied:"Copied",copyFail:"Copy failed",share:"Share",shareCopied:"Copied (sharing not supported here)",shareFail:"Sharing failed",regen:"Regenerate",save:"Save",noSpeech:"Listening is not supported in this app. Try in Chrome.",noVoice:"No voice available on this phone.",noMic:"Voice input is not supported in this app. Try in Chrome.",settings:"Settings",guest:"Guest",loginNot:"Login is not available yet",secLang:"Language & voice",appLang:"App language",country:"Country",sl:"Speaking & reading language",voice:"Reading voice",vdef:"Phone default",rate:"Reading speed",r1:"Slow",r2:"Normal",r3:"Fast",auto:"Read replies automatically",secAi:"AI behavior",search:"Verify online",imgq:"Image quality",q1:"Normal",q2:"High",style:"Reply style",s1:"Short",s2:"Detailed",secLook:"Appearance",theme:"Theme",th1:"System",th2:"Light",th3:"Dark",fs:"Text size",f1:"Small",f2:"Medium",f3:"Large",secData:"Data & privacy",exp:"Export chats (copy)",expBtn:"Copy",expOk:"All chats copied. Paste them into a notes app.",expFail:"Could not copy.",clr:"Delete all chats",clrBtn:"Delete",clrQ:"All chats will be deleted. Sure?",priv:"Privacy policy",view:"View",secAcc:"Account",logout:"Log out",delacc:"Delete account",loginMsg:"Login is not added yet.",pTitle:"Premium",pSub:"Use without limits",pf1:"🖼 More image drawing every day",pf2:"⚡ Faster, better replies",pf3:"🌐 More online searches",pf4:"🕘 Unlimited chat history",plan1:"Monthly · ৳599 per month",plan2:"Yearly · ৳5,990 per year (2 months free)",buy:"Start Premium",buyMsg:"Payment is not live yet. Google Play Billing will be added at launch.",pNote:"Prices are samples. Google Play will show the final price for your country. Payment is through Google Play and can be cancelled any time in the Play Store.",wTitle:"স্বাগতম / Welcome",wSub:"Choose your language and country to begin.",wc:"Country",wl:"Language",pick:"— Select —",go:"Start",need:"Please select your country first.",me:"Me",ai:"AI"}
+bn:{title:"আমার এআই",prem:"👑 প্রিমিয়াম",ph:"কিছু জিজ্ঞেস করুন...",phImg:"কী আঁকতে হবে লিখুন...",mCam:"📷 ক্যামেরা",mGal:"🖼 গ্যালারি",mDoc:"📄 ফাইল",mDraw:"🎨 ছবি আঁকুন",tooBig:"ফাইল বেশি বড়। ছোট ফাইল দিন (ছবি ৮MB, PDF ৪MB পর্যন্ত)।",readFail:"ফাইল পড়া যায়নি।",lookAt:"এটা দেখো",dTitle:"চ্যাট ইতিহাস",close:"বন্ধ",newc:"＋ নতুন চ্যাট",newTitle:"নতুন চ্যাট",thinking:"ভাবছি... (সার্ভার ঘুমিয়ে থাকলে ১ মিনিট লাগতে পারে)",errConn:"সংযোগে সমস্যা হয়েছে, আবার চেষ্টা করুন।",noImg:"ছবি আঁকার সুবিধা এখনো চালু হয়নি।",noReply:"উত্তর পাওয়া যায়নি।",listen:"শুনুন",copy:"কপি",copied:"কপি হয়েছে",copyFail:"কপি চলছে না",share:"শেয়ার",shareCopied:"কপি হয়েছে (এখানে শেয়ার চলে না)",shareFail:"শেয়ার চলছে না",regen:"আবার তৈরি",save:"সেভ",noSpeech:"এই অ্যাপে শোনা চলে না। Chrome-এ খুলে চেষ্টা করুন।",noVoice:"এই ফোনে ভয়েস পাওয়া যায়নি।",noMic:"এই অ্যাপে ভয়েস চলে না। Chrome-এ খুলে চেষ্টা করুন।",settings:"সেটিং",guest:"অতিথি",loginNot:"লগইন এখনো চালু হয়নি",secLang:"ভাষা ও ভয়েস",appLang:"অ্যাপের ভাষা",country:"দেশ",sl:"কথা বলা ও পড়ার ভাষা",voice:"পড়ে শোনানোর ভয়েস",vdef:"ফোনের ডিফল্ট",rate:"পড়ার গতি",r1:"ধীর",r2:"স্বাভাবিক",r3:"দ্রুত",auto:"উত্তর নিজে থেকে পড়ুক",secAi:"এআই আচরণ",search:"অনলাইনে যাচাই করুক",imgq:"ছবির মান",q1:"স্বাভাবিক",q2:"উচ্চ",style:"উত্তরের ধরন",s1:"সংক্ষিপ্ত",s2:"বিস্তারিত",secLook:"চেহারা",theme:"থিম",th1:"সিস্টেম অনুযায়ী",th2:"হালকা",th3:"গাঢ়",fs:"লেখার আকার",f1:"ছোট",f2:"মাঝারি",f3:"বড়",secData:"ডেটা ও গোপনীয়তা",exp:"চ্যাট এক্সপোর্ট (কপি)",expBtn:"কপি করুন",expOk:"সব চ্যাট কপি হয়েছে। নোট অ্যাপে পেস্ট করে রাখুন।",expFail:"কপি করা যায়নি।",clr:"সব চ্যাট মুছুন",clrBtn:"মুছুন",clrQ:"সব চ্যাট মুছে যাবে। নিশ্চিত?",priv:"প্রাইভেসি পলিসি",view:"দেখুন",secAcc:"অ্যাকাউন্ট",logout:"লগআউট",delacc:"অ্যাকাউন্ট মুছুন",loginMsg:"লগইন ব্যবস্থা এখনো যোগ হয়নি।",pTitle:"প্রিমিয়াম",pSub:"সীমা ছাড়া ব্যবহার করুন",pf1:"🖼 প্রতিদিন বেশি ছবি আঁকা",pf2:"⚡ দ্রুত ও উন্নত উত্তর",pf3:"🌐 বেশি অনলাইন সার্চ",pf4:"🕘 অসীম চ্যাট ইতিহাস",plan1:"মাসিক · ৳৫৯৯ প্রতি মাসে",plan2:"বার্ষিক · ৳৫,৯৯০ প্রতি বছরে (২ মাস ফ্রি)",buy:"প্রিমিয়াম শুরু করুন",buyMsg:"পেমেন্ট এখনো চালু হয়নি। অ্যাপ প্রকাশের সময় Google Play Billing যোগ হবে।",pNote:"দামগুলো নমুনা। চূড়ান্ত দাম আপনার দেশ অনুযায়ী Google Play দেখাবে। পেমেন্ট Google Play দিয়ে হবে এবং Play Store থেকে যেকোনো সময় বাতিল করা যাবে।",wTitle:"স্বাগতম / Welcome",wSub:"শুরু করতে আপনার ভাষা ও দেশ বেছে নিন।",wc:"দেশ",wl:"ভাষা",pick:"— বেছে নিন —",go:"শুরু করুন",need:"আগে আপনার দেশ বেছে নিন।",me:"আমি",ai:"এআই"},
+en:{title:"My AI",prem:"👑 Premium",ph:"Ask anything...",phImg:"Describe what to draw...",mCam:"📷 Camera",mGal:"🖼 Gallery",mDoc:"📄 File",mDraw:"🎨 Draw an image",tooBig:"File is too large (images up to 8MB, PDF up to 4MB).",readFail:"Could not read the file.",lookAt:"Look at this",dTitle:"Chat history",close:"Close",newc:"＋ New chat",newTitle:"New chat",thinking:"Thinking... (may take up to 1 minute if the server was asleep)",errConn:"Connection problem. Please try again.",noImg:"Image drawing is not available yet.",noReply:"No reply received.",listen:"Listen",copy:"Copy",copied:"Copied",copyFail:"Copy failed",share:"Share",shareCopied:"Copied (sharing not supported here)",shareFail:"Sharing failed",regen:"Regenerate",save:"Save",noSpeech:"Listening is not supported in this app. Try in Chrome.",noVoice:"No voice available on this phone.",noMic:"Voice input is not supported in this app. Try in Chrome.",settings:"Settings",guest:"Guest",loginNot:"Login is not available yet",secLang:"Language & voice",appLang:"App language",country:"Country",sl:"Speaking & reading language",voice:"Reading voice",vdef:"Phone default",rate:"Reading speed",r1:"Slow",r2:"Normal",r3:"Fast",auto:"Read replies automatically",secAi:"AI behavior",search:"Verify online",imgq:"Image quality",q1:"Normal",q2:"High",style:"Reply style",s1:"Short",s2:"Detailed",secLook:"Appearance",theme:"Theme",th1:"System",th2:"Light",th3:"Dark",fs:"Text size",f1:"Small",f2:"Medium",f3:"Large",secData:"Data & privacy",exp:"Export chats (copy)",expBtn:"Copy",expOk:"All chats copied. Paste them into a notes app.",expFail:"Could not copy.",clr:"Delete all chats",clrBtn:"Delete",clrQ:"All chats will be deleted. Sure?",priv:"Privacy policy",view:"View",secAcc:"Account",logout:"Log out",delacc:"Delete account",loginMsg:"Login is not added yet.",pTitle:"Premium",pSub:"Use without limits",pf1:"🖼 More image drawing every day",pf2:"⚡ Faster, better replies",pf3:"🌐 More online searches",pf4:"🕘 Unlimited chat history",plan1:"Monthly · ৳599 per month",plan2:"Yearly · ৳5,990 per year (2 months free)",buy:"Start Premium",buyMsg:"Payment is not live yet. Google Play Billing will be added at launch.",pNote:"Prices are samples. Google Play will show the final price for your country. Payment is through Google Play and can be cancelled any time in the Play Store.",wTitle:"স্বাগতম / Welcome",wSub:"Choose your language and country to begin.",wc:"Country",wl:"Language",pick:"— Select —",go:"Start",need:"Please select your country first.",me:"Me",ai:"AI"}
 };
 const C=[["BD","বাংলাদেশ","Bangladesh"],["IN","ভারত","India"],["PK","পাকিস্তান","Pakistan"],["NP","নেপাল","Nepal"],["LK","শ্রীলঙ্কা","Sri Lanka"],["MY","মালয়েশিয়া","Malaysia"],["SG","সিঙ্গাপুর","Singapore"],["AE","সংযুক্ত আরব আমিরাত","United Arab Emirates"],["SA","সৌদি আরব","Saudi Arabia"],["QA","কাতার","Qatar"],["KW","কুয়েত","Kuwait"],["OM","ওমান","Oman"],["GB","যুক্তরাজ্য","United Kingdom"],["US","যুক্তরাষ্ট্র","United States"],["CA","কানাডা","Canada"],["AU","অস্ট্রেলিয়া","Australia"],["DE","জার্মানি","Germany"],["FR","ফ্রান্স","France"],["IT","ইতালি","Italy"],["JP","জাপান","Japan"],["KR","দক্ষিণ কোরিয়া","South Korea"],["XX","অন্যান্য","Other"]];
 let DB;try{DB=JSON.parse(localStorage.getItem("db"))}catch(e){}
 if(!DB||!DB.chats)DB={cur:null,chats:[]};
 let S=Object.assign({theme:"auto",fs:"16px",rate:"1",auto:false,search:true,style:"short",quality:"normal",sl:"bn-BD",voice:"",lang:"bn",country:"",onb:false},(()=>{try{return JSON.parse(localStorage.getItem("s"))||{}}catch(e){return{}}})());
-let imgMode=false;
+let imgMode=false,att=null,lastAtt=null;
 const chatEl=$("chat"),box=$("box");
 const t=k=>(T[S.lang]&&T[S.lang][k])||T.bn[k]||k;
 function persist(){try{DB.chats=DB.chats.slice(0,30);localStorage.setItem("db",JSON.stringify(DB))}catch(e){}}
@@ -144,7 +158,7 @@ function fillCountries(sel){
   C.forEach(c=>{const p=mk("option","",S.lang==="en"?c[2]:c[1]);p.value=c[0];sel.appendChild(p)});
   sel.value=v;
 }
-function setPH(){box.placeholder=imgMode?t("phImg"):t("ph")}
+function setPH(){box.placeholder=imgMode?t("phImg"):t("ph");$("plus").className="rb"+(imgMode?" on":"")}
 function applyLang(){
   document.documentElement.lang=S.lang;
   document.querySelectorAll("[data-i18n]").forEach(e=>{e.textContent=t(e.dataset.i18n)});
@@ -174,7 +188,7 @@ function share(x,el){
 function addMsg(m,last,pending){
   const d=mk("div","msg "+(m.role==="user"?"user":"ai"));
   if(m.img){const i=mk("img");i.src=m.img;d.appendChild(i)}
-  d.appendChild(mk("div","",m.content));
+  d.appendChild(mk("div","",m.content+(m.note?"\n📎 "+m.note:"")));
   if(m.role!=="user"&&!pending){
     const a=mk("div","acts");
     const mkA=(txt,fn)=>{const s=mk("span","",txt);s.onclick=()=>fn(s);a.appendChild(s)};
@@ -193,7 +207,7 @@ function addMsg(m,last,pending){
   chatEl.scrollTop=chatEl.scrollHeight;
 }
 function render(){chatEl.innerHTML="";const ms=cur().msgs;ms.forEach((m,i)=>addMsg(m,i===ms.length-1&&m.role!=="user"))}
-async function reply(c,q,asImg){
+async function reply(c,q,asImg,a){
   addMsg({role:"assistant",content:t("thinking")},false,true);
   let m;
   try{
@@ -203,7 +217,9 @@ async function reply(c,q,asImg){
       else{const j=await r.json();m={role:"assistant",content:j.reply||"OK",img:j.url||""}}
     }else{
       const msgs=c.msgs.slice(-20).map(x=>({role:x.role,content:x.content}));
-      const r=await fetch("/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:msgs,search:S.search,style:S.style})});
+      const body={messages:msgs,search:S.search,style:S.style};
+      if(a)body.attachment={type:a.type,media_type:a.media_type,data:a.data,text:a.text,name:a.name};
+      const r=await fetch("/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
       const j=await r.json();
       m={role:"assistant",content:j.reply||t("noReply")};
     }
@@ -211,12 +227,64 @@ async function reply(c,q,asImg){
   c.msgs.push(m);persist();render();
   if(S.auto&&!m.img)speak(m.content);
 }
+function showChip(){
+  const c=$("chip");
+  c.innerHTML="";
+  if(!att){c.style.display="none";return}
+  c.style.display="flex";
+  c.appendChild(mk("span","","📎 "+att.name));
+  const x=mk("button","ib","✕");
+  x.type="button";
+  x.onclick=()=>{att=null;showChip()};
+  c.appendChild(x);
+}
+function readFile(f){
+  if(!f)return;
+  if(f.size>8*1024*1024){alert(t("tooBig"));return}
+  const rd=new FileReader();
+  if(f.type.indexOf("image/")===0){
+    rd.onload=()=>{
+      const im=new Image();
+      im.onload=()=>{
+        const k=Math.min(1,1280/Math.max(im.width,im.height));
+        const w=Math.round(im.width*k),h=Math.round(im.height*k);
+        const cv=document.createElement("canvas");
+        cv.width=w;cv.height=h;
+        cv.getContext("2d").drawImage(im,0,0,w,h);
+        const d=cv.toDataURL("image/jpeg",0.8);
+        att={type:"image",media_type:"image/jpeg",data:d.split(",")[1],name:f.name||"image"};
+        showChip();
+      };
+      im.onerror=()=>alert(t("readFail"));
+      im.src=rd.result;
+    };
+    rd.readAsDataURL(f);
+  }else if(f.type==="application/pdf"||/\.pdf$/i.test(f.name)){
+    if(f.size>4*1024*1024){alert(t("tooBig"));return}
+    rd.onload=()=>{att={type:"pdf",media_type:"application/pdf",data:String(rd.result).split(",")[1],name:f.name};showChip()};
+    rd.readAsDataURL(f);
+  }else{
+    rd.onload=()=>{att={type:"text",text:String(rd.result).slice(0,20000),name:f.name};showChip()};
+    rd.readAsText(f);
+  }
+}
+["fCam","fGal","fDoc"].forEach(id=>{$(id).onchange=e=>{readFile(e.target.files[0]);e.target.value=""}});
+$("plus").onclick=()=>$("amenu").classList.toggle("open");
+$("mCam").onclick=()=>{$("amenu").classList.remove("open");$("fCam").click()};
+$("mGal").onclick=()=>{$("amenu").classList.remove("open");$("fGal").click()};
+$("mDoc").onclick=()=>{$("amenu").classList.remove("open");$("fDoc").click()};
+$("mDraw").onclick=()=>{$("amenu").classList.remove("open");imgMode=!imgMode;setPH()};
 function send(q,asImg){
   const c=cur();
-  c.msgs.push({role:"user",content:q,kind:asImg?"img":"txt"});
-  if(isNew(c))c.title=q.slice(0,28);
+  const a=asImg?null:att;
+  const m={role:"user",content:q||t("lookAt"),kind:asImg?"img":"txt"};
+  if(a)m.note=a.name;
+  c.msgs.push(m);
+  if(isNew(c))c.title=(q||(a?a.name:"")).slice(0,28);
+  lastAtt=a;
+  att=null;showChip();
   persist();render();
-  reply(c,q,asImg);
+  reply(c,m.content,asImg,a);
 }
 function regen(){
   const c=cur();
@@ -224,10 +292,15 @@ function regen(){
   const u=c.msgs[c.msgs.length-1];
   if(!u||u.role!=="user")return;
   render();
-  reply(c,u.content,u.kind==="img");
+  reply(c,u.content,u.kind==="img",u.note?lastAtt:null);
 }
-$("f").addEventListener("submit",e=>{e.preventDefault();const q=box.value.trim();if(!q)return;box.value="";send(q,imgMode)});
-$("imgm").onclick=()=>{imgMode=!imgMode;$("imgm").className="rb"+(imgMode?" on":"");setPH()};
+$("f").addEventListener("submit",e=>{
+  e.preventDefault();
+  const q=box.value.trim();
+  if(imgMode){if(!q)return}else if(!q&&!att)return;
+  box.value="";
+  send(q,imgMode);
+});
 $("mic").onclick=()=>{
   const R=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!R){alert(t("noMic"));return}
