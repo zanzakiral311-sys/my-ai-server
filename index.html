@@ -51,6 +51,38 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 .wbox p{text-align:center;opacity:.75;margin:0 0 28px}
 .wbox label{display:block;margin:16px 0 6px;font-size:14px;opacity:.8}
 .wbox select{width:100%;max-width:100%;padding:12px;font-size:16px}
+
+:root{--card:#fff;--cbd:#e1e6f3;--cbd2:#c5cde3;--sbg:#f3f5fb}
+:root[data-theme="dark"]{--card:#0f1a35;--cbd:#1a3470;--cbd2:#2b4a8c;--sbg:linear-gradient(180deg,#050a18,#0a1330)}
+@media(prefers-color-scheme:dark){:root[data-theme="auto"]{--card:#0f1a35;--cbd:#1a3470;--cbd2:#2b4a8c;--sbg:linear-gradient(180deg,#050a18,#0a1330)}}
+#set{background:var(--sbg)}
+.shead{display:flex;align-items:center;gap:12px;padding:14px 14px 12px}
+.shead b{display:block;font-size:20px}
+.shead small{display:block;opacity:.65;font-size:13px}
+.sgear{font-size:26px;color:#4f8cff}
+.card{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--cbd);border-radius:16px;padding:12px;margin:10px 14px}
+.card.tap{cursor:pointer}
+.ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;color:#fff;font-weight:700}
+.tx{flex:1;min-width:0}
+.tx b{display:block;font-size:15px}
+.tx small{display:block;opacity:.65;font-size:12px;margin-top:2px;line-height:1.4}
+.pillv{border:1px solid var(--cbd2);border-radius:20px;padding:8px 14px;font-size:14px;max-width:46%;text-align:center;flex-shrink:0}
+.card select{max-width:46%;font-size:14px;padding:8px 10px;border-radius:20px;border:1px solid var(--cbd2);background:var(--ai);color:var(--fg);flex-shrink:0}
+.chev{opacity:.6;font-size:24px;flex-shrink:0}
+.sw{-webkit-appearance:none;appearance:none;width:50px;height:28px;border-radius:14px;background:#8b93a8;position:relative;flex-shrink:0;outline:none;border:none}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s}
+.sw:checked{background:#2f6bff}
+.sw:checked::after{left:25px}
+#pick{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:30;background:rgba(0,0,0,.55)}
+#pick.open{display:flex;align-items:flex-end}
+.sheet{background:var(--bg);color:var(--fg);width:100%;max-height:82%;border-radius:18px 18px 0 0;display:flex;flex-direction:column}
+.pl{overflow-y:auto}
+.pi{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--bd);cursor:pointer}
+.pi.sel{background:var(--ai)}
+.pf{font-size:24px}
+.pn{flex:1}
+.pc{color:#2f6bff;font-weight:700}
+#pkSearch{width:100%;padding:12px;border-radius:12px;border:1px solid #8886;background:var(--ai);color:var(--fg);font-size:16px}
 </style>
 </head>
 <body>
@@ -85,29 +117,31 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 </div>
 
 <div class="ov" id="set">
-<div class="row"><b data-i18n="settings"></b><button class="btn" id="sclose" data-i18n="close"></button></div>
-<div class="row"><div><b data-i18n="guest"></b><br><small data-i18n="loginNot"></small></div></div>
+<div class="shead"><button class="ib" id="sclose">←</button><div class="sgear">⚙</div><div><b data-i18n="settings"></b><small data-i18n="settingsD"></small></div></div>
+<div class="card"><div class="ic" style="background:#4f6bff">👤</div><div class="tx"><b data-i18n="guest"></b><small data-i18n="loginNot"></small></div></div>
 <div class="sec" data-i18n="secLang"></div>
-<div class="row"><span data-i18n="appLang"></span><select id="alang"></select></div>
-<div class="row"><span data-i18n="country"></span><select id="ccountry"></select></div>
-<div class="row"><span data-i18n="sl"></span><select id="sl"></select></div>
-<div class="row"><span data-i18n="voice"></span><select id="voice"></select></div>
-<div class="row"><span data-i18n="rate"></span><select id="rate"><option value="0.8" data-i18n="r1"></option><option value="1" data-i18n="r2"></option><option value="1.3" data-i18n="r3"></option></select></div>
-<div class="row"><span data-i18n="auto"></span><input type="checkbox" id="auto"></div>
+<div class="card tap" id="alangB"><div class="ic" style="background:#4f6bff">🌐</div><div class="tx"><b data-i18n="appLang"></b><small data-i18n="appLangD"></small></div><span class="pillv" id="alangV"></span></div>
+<div class="card tap" id="ccountryB"><div class="ic" style="background:#22b36b">📍</div><div class="tx"><b data-i18n="country"></b><small data-i18n="countryD"></small></div><span class="pillv" id="ccountryV"></span></div>
+<div class="card"><div class="ic" style="background:#8b5cf6">🎤</div><div class="tx"><b data-i18n="sl"></b><small data-i18n="slD"></small></div><select id="sl"></select></div>
+<div class="card"><div class="ic" style="background:#0ea5a4">🔊</div><div class="tx"><b data-i18n="voice"></b><small data-i18n="voiceD"></small></div><select id="voice"></select></div>
+<div class="card"><div class="ic" style="background:#f59e0b">⏩</div><div class="tx"><b data-i18n="rate"></b><small data-i18n="rateD"></small></div><select id="rate"><option value="0.8" data-i18n="r1"></option><option value="1" data-i18n="r2"></option><option value="1.3" data-i18n="r3"></option></select></div>
+<div class="card"><div class="ic" style="background:#ec4899">▶</div><div class="tx"><b data-i18n="auto"></b><small data-i18n="autoD"></small></div><input type="checkbox" class="sw" id="auto"></div>
 <div class="sec" data-i18n="secAi"></div>
-<div class="row"><span data-i18n="search"></span><input type="checkbox" id="search"></div>
-<div class="row"><span data-i18n="imgq"></span><select id="quality"><option value="normal" data-i18n="q1"></option><option value="high" data-i18n="q2"></option></select></div>
-<div class="row"><span data-i18n="style"></span><select id="style"><option value="short" data-i18n="s1"></option><option value="long" data-i18n="s2"></option></select></div>
+<div class="card"><div class="ic" style="background:#2563eb">🌍</div><div class="tx"><b data-i18n="search"></b><small data-i18n="searchD"></small></div><input type="checkbox" class="sw" id="search"></div>
+<div class="card"><div class="ic" style="background:#6366f1">🖼</div><div class="tx"><b data-i18n="imgq"></b><small data-i18n="imgqD"></small></div><select id="quality"><option value="normal" data-i18n="q1"></option><option value="high" data-i18n="q2"></option></select></div>
+<div class="card"><div class="ic" style="background:#06b6d4">💬</div><div class="tx"><b data-i18n="style"></b><small data-i18n="styleD"></small></div><select id="style"><option value="short" data-i18n="s1"></option><option value="long" data-i18n="s2"></option></select></div>
 <div class="sec" data-i18n="secLook"></div>
-<div class="row"><span data-i18n="theme"></span><select id="theme"><option value="auto" data-i18n="th1"></option><option value="light" data-i18n="th2"></option><option value="dark" data-i18n="th3"></option></select></div>
-<div class="row"><span data-i18n="fs"></span><select id="fs"><option value="14px" data-i18n="f1"></option><option value="16px" data-i18n="f2"></option><option value="19px" data-i18n="f3"></option></select></div>
+<div class="card"><div class="ic" style="background:#8b5cf6">🎨</div><div class="tx"><b data-i18n="theme"></b><small data-i18n="themeD"></small></div><select id="theme"><option value="auto" data-i18n="th1"></option><option value="light" data-i18n="th2"></option><option value="dark" data-i18n="th3"></option></select></div>
+<div class="card"><div class="ic" style="background:#f97316">Aa</div><div class="tx"><b data-i18n="fs"></b><small data-i18n="fsD"></small></div><select id="fs"><option value="14px" data-i18n="f1"></option><option value="16px" data-i18n="f2"></option><option value="19px" data-i18n="f3"></option></select></div>
 <div class="sec" data-i18n="secData"></div>
-<div class="row"><span data-i18n="exp"></span><button class="btn" id="exp" data-i18n="expBtn"></button></div>
-<div class="row"><span class="danger" data-i18n="clr"></span><button class="btn danger" id="clr" data-i18n="clrBtn"></button></div>
-<div class="row"><span data-i18n="priv"></span><button class="btn" id="priv" data-i18n="view"></button></div>
+<div class="card tap" id="exp"><div class="ic" style="background:#3b82f6">📤</div><div class="tx"><b data-i18n="exp"></b><small data-i18n="expD"></small></div><span class="chev">›</span></div>
+<div class="card tap" id="clr"><div class="ic" style="background:#ef4444">🗑</div><div class="tx"><b class="danger" data-i18n="clr"></b><small data-i18n="clrD"></small></div><span class="chev">›</span></div>
+<div class="card tap" id="priv"><div class="ic" style="background:#14b8a6">🛡</div><div class="tx"><b data-i18n="priv"></b><small data-i18n="privD"></small></div><span class="chev">›</span></div>
+<div class="card"><div class="ic" style="background:#8a93b8">ℹ</div><div class="tx"><b data-i18n="aboutT"></b><small data-i18n="aboutD"></small></div><span class="pillv">v1.0.0</span></div>
 <div class="sec" data-i18n="secAcc"></div>
-<div class="row"><span class="danger" data-i18n="logout"></span><button class="btn danger" id="logout" data-i18n="logout"></button></div>
-<div class="row"><span class="danger" data-i18n="delacc"></span><button class="btn danger" id="delacc" data-i18n="clrBtn"></button></div>
+<div class="card tap" id="logout"><div class="ic" style="background:#ef4444">🚪</div><div class="tx"><b class="danger" data-i18n="logout"></b><small data-i18n="logoutD"></small></div><span class="chev">›</span></div>
+<div class="card tap" id="delacc"><div class="ic" style="background:#b91c1c">⛔</div><div class="tx"><b class="danger" data-i18n="delacc"></b><small data-i18n="delaccD"></small></div><span class="chev">›</span></div>
+<div style="height:30px"></div>
 </div>
 
 <div class="ov" id="pm">
@@ -133,12 +167,14 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 </div>
 </div>
 
+<div id="pick"><div class="sheet"><div class="row"><b id="pkTitle"></b><button class="btn" id="pkClose" data-i18n="close"></button></div><div style="padding:10px 14px"><input type="text" id="pkSearch" autocomplete="off"></div><div id="pkList" class="pl"></div></div></div>
+
 <script>
 const $=id=>document.getElementById(id);
 const T={
-bn:{title:"আমার এআই",prem:"👑 প্রিমিয়াম",ph:"কিছু জিজ্ঞেস করুন...",phImg:"কী আঁকতে হবে লিখুন...",mCam:"📷 ক্যামেরা",mGal:"🖼 গ্যালারি",mDoc:"📄 ফাইল",mDraw:"🎨 ছবি আঁকুন",tooBig:"ফাইল বেশি বড়। ছোট ফাইল দিন (ছবি ৮MB, PDF ৪MB পর্যন্ত)।",readFail:"ফাইল পড়া যায়নি।",lookAt:"এটা দেখো",dTitle:"চ্যাট ইতিহাস",close:"বন্ধ",newc:"＋ নতুন চ্যাট",newTitle:"নতুন চ্যাট",thinking:"ভাবছি... (সার্ভার ঘুমিয়ে থাকলে ১ মিনিট লাগতে পারে)",errConn:"সংযোগে সমস্যা হয়েছে, আবার চেষ্টা করুন।",noImg:"ছবি আঁকার সুবিধা এখনো চালু হয়নি।",noReply:"উত্তর পাওয়া যায়নি।",listen:"শুনুন",copy:"কপি",copied:"কপি হয়েছে",copyFail:"কপি চলছে না",share:"শেয়ার",shareCopied:"কপি হয়েছে (এখানে শেয়ার চলে না)",shareFail:"শেয়ার চলছে না",regen:"আবার তৈরি",save:"সেভ",noSpeech:"এই অ্যাপে শোনা চলে না। Chrome-এ খুলে চেষ্টা করুন।",noVoice:"এই ফোনে ভয়েস পাওয়া যায়নি।",noMic:"এই অ্যাপে ভয়েস চলে না। Chrome-এ খুলে চেষ্টা করুন।",settings:"সেটিং",guest:"অতিথি",loginNot:"লগইন এখনো চালু হয়নি",secLang:"ভাষা ও ভয়েস",appLang:"অ্যাপের ভাষা",country:"দেশ",sl:"কথা বলা ও পড়ার ভাষা",voice:"পড়ে শোনানোর ভয়েস",vdef:"ফোনের ডিফল্ট",rate:"পড়ার গতি",r1:"ধীর",r2:"স্বাভাবিক",r3:"দ্রুত",auto:"উত্তর নিজে থেকে পড়ুক",secAi:"এআই আচরণ",search:"অনলাইনে যাচাই করুক",imgq:"ছবির মান",q1:"স্বাভাবিক",q2:"উচ্চ",style:"উত্তরের ধরন",s1:"সংক্ষিপ্ত",s2:"বিস্তারিত",secLook:"চেহারা",theme:"থিম",th1:"সিস্টেম অনুযায়ী",th2:"হালকা",th3:"গাঢ়",fs:"লেখার আকার",f1:"ছোট",f2:"মাঝারি",f3:"বড়",secData:"ডেটা ও গোপনীয়তা",exp:"চ্যাট এক্সপোর্ট (কপি)",expBtn:"কপি করুন",expOk:"সব চ্যাট কপি হয়েছে। নোট অ্যাপে পেস্ট করে রাখুন।",expFail:"কপি করা যায়নি।",clr:"সব চ্যাট মুছুন",clrBtn:"মুছুন",clrQ:"সব চ্যাট মুছে যাবে। নিশ্চিত?",priv:"প্রাইভেসি পলিসি",view:"দেখুন",secAcc:"অ্যাকাউন্ট",logout:"লগআউট",delacc:"অ্যাকাউন্ট মুছুন",loginMsg:"লগইন ব্যবস্থা এখনো যোগ হয়নি।",pTitle:"প্রিমিয়াম",pSub:"সীমা ছাড়া ব্যবহার করুন",pf1:"🖼 প্রতিদিন বেশি ছবি আঁকা",pf2:"⚡ দ্রুত ও উন্নত উত্তর",pf3:"🌐 বেশি অনলাইন সার্চ",pf4:"🕘 অসীম চ্যাট ইতিহাস",plan1:"মাসিক · ৳৫৯৯ প্রতি মাসে",plan2:"বার্ষিক · ৳৫,৯৯০ প্রতি বছরে (২ মাস ফ্রি)",buy:"প্রিমিয়াম শুরু করুন",buyMsg:"পেমেন্ট এখনো চালু হয়নি। অ্যাপ প্রকাশের সময় Google Play Billing যোগ হবে।",pNote:"দামগুলো নমুনা। চূড়ান্ত দাম আপনার দেশ অনুযায়ী Google Play দেখাবে। পেমেন্ট Google Play দিয়ে হবে এবং Play Store থেকে যেকোনো সময় বাতিল করা যাবে।",trFail:"অনুবাদ এখন পাওয়া যাচ্ছে না। আপাতত English দেখানো হচ্ছে।",wTitle:"স্বাগতম / Welcome",wSub:"শুরু করতে আপনার ভাষা ও দেশ বেছে নিন।",wc:"দেশ",wl:"ভাষা",pick:"— বেছে নিন —",go:"শুরু করুন",need:"আগে আপনার দেশ বেছে নিন।",me:"আমি",ai:"এআই"},
-en:{title:"My AI",prem:"👑 Premium",ph:"Ask anything...",phImg:"Describe what to draw...",mCam:"📷 Camera",mGal:"🖼 Gallery",mDoc:"📄 File",mDraw:"🎨 Draw an image",tooBig:"File is too large (images up to 8MB, PDF up to 4MB).",readFail:"Could not read the file.",lookAt:"Look at this",dTitle:"Chat history",close:"Close",newc:"＋ New chat",newTitle:"New chat",thinking:"Thinking... (may take up to 1 minute if the server was asleep)",errConn:"Connection problem. Please try again.",noImg:"Image drawing is not available yet.",noReply:"No reply received.",listen:"Listen",copy:"Copy",copied:"Copied",copyFail:"Copy failed",share:"Share",shareCopied:"Copied (sharing not supported here)",shareFail:"Sharing failed",regen:"Regenerate",save:"Save",noSpeech:"Listening is not supported in this app. Try in Chrome.",noVoice:"No voice available on this phone.",noMic:"Voice input is not supported in this app. Try in Chrome.",settings:"Settings",guest:"Guest",loginNot:"Login is not available yet",secLang:"Language & voice",appLang:"App language",country:"Country",sl:"Speaking & reading language",voice:"Reading voice",vdef:"Phone default",rate:"Reading speed",r1:"Slow",r2:"Normal",r3:"Fast",auto:"Read replies automatically",secAi:"AI behavior",search:"Verify online",imgq:"Image quality",q1:"Normal",q2:"High",style:"Reply style",s1:"Short",s2:"Detailed",secLook:"Appearance",theme:"Theme",th1:"System",th2:"Light",th3:"Dark",fs:"Text size",f1:"Small",f2:"Medium",f3:"Large",secData:"Data & privacy",exp:"Export chats (copy)",expBtn:"Copy",expOk:"All chats copied. Paste them into a notes app.",expFail:"Could not copy.",clr:"Delete all chats",clrBtn:"Delete",clrQ:"All chats will be deleted. Sure?",priv:"Privacy policy",view:"View",secAcc:"Account",logout:"Log out",delacc:"Delete account",loginMsg:"Login is not added yet.",pTitle:"Premium",pSub:"Use without limits",pf1:"🖼 More image drawing every day",pf2:"⚡ Faster, better replies",pf3:"🌐 More online searches",pf4:"🕘 Unlimited chat history",plan1:"Monthly · ৳599 per month",plan2:"Yearly · ৳5,990 per year (2 months free)",buy:"Start Premium",buyMsg:"Payment is not live yet. Google Play Billing will be added at launch.",pNote:"Prices are samples. Google Play will show the final price for your country. Payment is through Google Play and can be cancelled any time in the Play Store.",trFail:"Translation is not available right now. Showing English for now.",wTitle:"স্বাগতম / Welcome",wSub:"Choose your language and country to begin.",wc:"Country",wl:"Language",pick:"— Select —",go:"Start",need:"Please select your country first.",me:"Me",ai:"AI"},
-hi:{title:"मेरा एआई",prem:"👑 प्रीमियम",ph:"कुछ भी पूछें...",phImg:"क्या बनाना है लिखें...",mCam:"📷 कैमरा",mGal:"🖼 गैलरी",mDoc:"📄 फ़ाइल",mDraw:"🎨 तस्वीर बनाएँ",tooBig:"फ़ाइल बहुत बड़ी है (तस्वीर 8MB और PDF 4MB तक)।",readFail:"फ़ाइल पढ़ी नहीं जा सकी।",lookAt:"इसे देखो",dTitle:"चैट इतिहास",close:"बंद करें",newc:"＋ नई चैट",newTitle:"नई चैट",thinking:"सोच रहा हूँ... (सर्वर सो रहा हो तो 1 मिनट तक लग सकता है)",errConn:"कनेक्शन में समस्या हुई, फिर कोशिश करें।",noImg:"तस्वीर बनाने की सुविधा अभी चालू नहीं है।",noReply:"कोई जवाब नहीं मिला।",listen:"सुनें",copy:"कॉपी",copied:"कॉपी हो गया",copyFail:"कॉपी नहीं हुआ",share:"शेयर",shareCopied:"कॉपी हो गया (यहाँ शेयर काम नहीं करता)",shareFail:"शेयर नहीं हो सका",regen:"दोबारा बनाएँ",save:"सेव",noSpeech:"इस ऐप में सुनना काम नहीं करता। Chrome में खोलकर देखें।",noVoice:"इस फ़ोन में आवाज़ नहीं मिली।",noMic:"इस ऐप में बोलकर लिखना काम नहीं करता। Chrome में खोलकर देखें।",settings:"सेटिंग",guest:"अतिथि",loginNot:"लॉगिन अभी चालू नहीं है",secLang:"भाषा और आवाज़",appLang:"ऐप की भाषा",country:"देश",sl:"बोलने और पढ़ने की भाषा",voice:"पढ़कर सुनाने की आवाज़",vdef:"फ़ोन की डिफ़ॉल्ट",rate:"पढ़ने की गति",r1:"धीमी",r2:"सामान्य",r3:"तेज़",auto:"जवाब अपने आप पढ़ें",secAi:"एआई व्यवहार",search:"ऑनलाइन जाँच करें",imgq:"तस्वीर की गुणवत्ता",q1:"सामान्य",q2:"उच्च",style:"जवाब का तरीका",s1:"संक्षिप्त",s2:"विस्तृत",secLook:"रूप",theme:"थीम",th1:"सिस्टम के अनुसार",th2:"हल्का",th3:"गहरा",fs:"अक्षर का आकार",f1:"छोटा",f2:"मध्यम",f3:"बड़ा",secData:"डेटा और गोपनीयता",exp:"चैट निर्यात (कॉपी)",expBtn:"कॉपी करें",expOk:"सभी चैट कॉपी हो गईं। किसी नोट ऐप में पेस्ट करके रखें।",expFail:"कॉपी नहीं हो सका।",clr:"सभी चैट हटाएँ",clrBtn:"हटाएँ",clrQ:"सभी चैट हट जाएँगी। पक्का?",priv:"गोपनीयता नीति",view:"देखें",secAcc:"खाता",logout:"लॉग आउट",delacc:"खाता हटाएँ",loginMsg:"लॉगिन की सुविधा अभी जुड़ी नहीं है।",pTitle:"प्रीमियम",pSub:"बिना सीमा के इस्तेमाल करें",pf1:"🖼 रोज़ ज़्यादा तस्वीरें बनाएँ",pf2:"⚡ तेज़ और बेहतर जवाब",pf3:"🌐 ज़्यादा ऑनलाइन खोज",pf4:"🕘 असीमित चैट इतिहास",plan1:"मासिक · ₹499 प्रति माह",plan2:"वार्षिक · ₹4,990 प्रति वर्ष (2 महीने मुफ़्त)",buy:"प्रीमियम शुरू करें",buyMsg:"भुगतान अभी चालू नहीं है। ऐप जारी होने पर Google Play Billing जुड़ेगा।",pNote:"कीमतें नमूना हैं। अंतिम कीमत आपके देश के अनुसार Google Play दिखाएगा। भुगतान Google Play से होगा और Play Store से कभी भी रद्द किया जा सकता है।",trFail:"अनुवाद अभी उपलब्ध नहीं है। अभी English दिखाई जा रही है।",wTitle:"स्वागत है / Welcome",wSub:"शुरू करने के लिए अपनी भाषा और देश चुनें।",wc:"देश",wl:"भाषा",pick:"— चुनें —",go:"शुरू करें",need:"पहले अपना देश चुनें।",me:"मैं",ai:"एआई"}
+bn:{title:"আমার এআই",prem:"👑 প্রিমিয়াম",ph:"কিছু জিজ্ঞেস করুন...",phImg:"কী আঁকতে হবে লিখুন...",mCam:"📷 ক্যামেরা",mGal:"🖼 গ্যালারি",mDoc:"📄 ফাইল",mDraw:"🎨 ছবি আঁকুন",tooBig:"ফাইল বেশি বড়। ছোট ফাইল দিন (ছবি ৮MB, PDF ৪MB পর্যন্ত)।",readFail:"ফাইল পড়া যায়নি।",lookAt:"এটা দেখো",dTitle:"চ্যাট ইতিহাস",close:"বন্ধ",newc:"＋ নতুন চ্যাট",newTitle:"নতুন চ্যাট",thinking:"ভাবছি... (সার্ভার ঘুমিয়ে থাকলে ১ মিনিট লাগতে পারে)",errConn:"সংযোগে সমস্যা হয়েছে, আবার চেষ্টা করুন।",noImg:"ছবি আঁকার সুবিধা এখনো চালু হয়নি।",noReply:"উত্তর পাওয়া যায়নি।",listen:"শুনুন",copy:"কপি",copied:"কপি হয়েছে",copyFail:"কপি চলছে না",share:"শেয়ার",shareCopied:"কপি হয়েছে (এখানে শেয়ার চলে না)",shareFail:"শেয়ার চলছে না",regen:"আবার তৈরি",save:"সেভ",noSpeech:"এই অ্যাপে শোনা চলে না। Chrome-এ খুলে চেষ্টা করুন।",noVoice:"এই ফোনে ভয়েস পাওয়া যায়নি।",noMic:"এই অ্যাপে ভয়েস চলে না। Chrome-এ খুলে চেষ্টা করুন।",settings:"সেটিং",guest:"অতিথি",loginNot:"লগইন এখনো চালু হয়নি",secLang:"ভাষা ও ভয়েস",appLang:"অ্যাপের ভাষা",country:"দেশ",sl:"কথা বলা ও পড়ার ভাষা",voice:"পড়ে শোনানোর ভয়েস",vdef:"ফোনের ডিফল্ট",rate:"পড়ার গতি",r1:"ধীর",r2:"স্বাভাবিক",r3:"দ্রুত",auto:"উত্তর নিজে থেকে পড়ুক",secAi:"এআই আচরণ",search:"অনলাইনে যাচাই করুক",imgq:"ছবির মান",q1:"স্বাভাবিক",q2:"উচ্চ",style:"উত্তরের ধরন",s1:"সংক্ষিপ্ত",s2:"বিস্তারিত",secLook:"চেহারা",theme:"থিম",th1:"সিস্টেম অনুযায়ী",th2:"হালকা",th3:"গাঢ়",fs:"লেখার আকার",f1:"ছোট",f2:"মাঝারি",f3:"বড়",secData:"ডেটা ও গোপনীয়তা",exp:"চ্যাট এক্সপোর্ট (কপি)",expBtn:"কপি করুন",expOk:"সব চ্যাট কপি হয়েছে। নোট অ্যাপে পেস্ট করে রাখুন।",expFail:"কপি করা যায়নি।",clr:"সব চ্যাট মুছুন",clrBtn:"মুছুন",clrQ:"সব চ্যাট মুছে যাবে। নিশ্চিত?",priv:"প্রাইভেসি পলিসি",view:"দেখুন",secAcc:"অ্যাকাউন্ট",logout:"লগআউট",delacc:"অ্যাকাউন্ট মুছুন",loginMsg:"লগইন ব্যবস্থা এখনো যোগ হয়নি।",pTitle:"প্রিমিয়াম",pSub:"সীমা ছাড়া ব্যবহার করুন",pf1:"🖼 প্রতিদিন বেশি ছবি আঁকা",pf2:"⚡ দ্রুত ও উন্নত উত্তর",pf3:"🌐 বেশি অনলাইন সার্চ",pf4:"🕘 অসীম চ্যাট ইতিহাস",plan1:"মাসিক · ৳৫৯৯ প্রতি মাসে",plan2:"বার্ষিক · ৳৫,৯৯০ প্রতি বছরে (২ মাস ফ্রি)",buy:"প্রিমিয়াম শুরু করুন",buyMsg:"পেমেন্ট এখনো চালু হয়নি। অ্যাপ প্রকাশের সময় Google Play Billing যোগ হবে।",pNote:"দামগুলো নমুনা। চূড়ান্ত দাম আপনার দেশ অনুযায়ী Google Play দেখাবে। পেমেন্ট Google Play দিয়ে হবে এবং Play Store থেকে যেকোনো সময় বাতিল করা যাবে।",settingsD:"অ্যাপ সেটিং ও পছন্দ",srch:"খুঁজুন...",appLangD:"আপনার পছন্দের ভাষা বেছে নিন",countryD:"আপনার দেশের নাম বেছে নিন",slD:"মাইক ও পড়ার ভাষা",voiceD:"যে ভয়েসে উত্তর শুনবেন",rateD:"পড়ার গতি ঠিক করুন",autoD:"উত্তর এলেই নিজে পড়ে শোনাবে",searchD:"ওয়েবে খুঁজে উত্তর যাচাই করবে",imgqD:"ছবি আঁকার মান",styleD:"ছোট বা বিস্তারিত উত্তর",themeD:"অ্যাপের রঙের ধরন বেছে নিন",fsD:"লেখা ছোট বা বড় করুন",expD:"সব চ্যাট কপি করে রাখুন",clrD:"ফোন থেকে সব চ্যাট মুছে ফেলুন",privD:"আপনার ডেটা কীভাবে ব্যবহার হয়",aboutT:"অ্যাপ সম্পর্কে",aboutD:"ভার্সন ও অন্যান্য তথ্য",logoutD:"এই ডিভাইস থেকে বেরিয়ে যান",delaccD:"অ্যাকাউন্ট ও ডেটা স্থায়ীভাবে মুছুন",trFail:"অনুবাদ এখন পাওয়া যাচ্ছে না। আপাতত English দেখানো হচ্ছে।",wTitle:"স্বাগতম / Welcome",wSub:"শুরু করতে আপনার ভাষা ও দেশ বেছে নিন।",wc:"দেশ",wl:"ভাষা",pick:"— বেছে নিন —",go:"শুরু করুন",need:"আগে আপনার দেশ বেছে নিন।",me:"আমি",ai:"এআই"},
+en:{title:"My AI",prem:"👑 Premium",ph:"Ask anything...",phImg:"Describe what to draw...",mCam:"📷 Camera",mGal:"🖼 Gallery",mDoc:"📄 File",mDraw:"🎨 Draw an image",tooBig:"File is too large (images up to 8MB, PDF up to 4MB).",readFail:"Could not read the file.",lookAt:"Look at this",dTitle:"Chat history",close:"Close",newc:"＋ New chat",newTitle:"New chat",thinking:"Thinking... (may take up to 1 minute if the server was asleep)",errConn:"Connection problem. Please try again.",noImg:"Image drawing is not available yet.",noReply:"No reply received.",listen:"Listen",copy:"Copy",copied:"Copied",copyFail:"Copy failed",share:"Share",shareCopied:"Copied (sharing not supported here)",shareFail:"Sharing failed",regen:"Regenerate",save:"Save",noSpeech:"Listening is not supported in this app. Try in Chrome.",noVoice:"No voice available on this phone.",noMic:"Voice input is not supported in this app. Try in Chrome.",settings:"Settings",guest:"Guest",loginNot:"Login is not available yet",secLang:"Language & voice",appLang:"App language",country:"Country",sl:"Speaking & reading language",voice:"Reading voice",vdef:"Phone default",rate:"Reading speed",r1:"Slow",r2:"Normal",r3:"Fast",auto:"Read replies automatically",secAi:"AI behavior",search:"Verify online",imgq:"Image quality",q1:"Normal",q2:"High",style:"Reply style",s1:"Short",s2:"Detailed",secLook:"Appearance",theme:"Theme",th1:"System",th2:"Light",th3:"Dark",fs:"Text size",f1:"Small",f2:"Medium",f3:"Large",secData:"Data & privacy",exp:"Export chats (copy)",expBtn:"Copy",expOk:"All chats copied. Paste them into a notes app.",expFail:"Could not copy.",clr:"Delete all chats",clrBtn:"Delete",clrQ:"All chats will be deleted. Sure?",priv:"Privacy policy",view:"View",secAcc:"Account",logout:"Log out",delacc:"Delete account",loginMsg:"Login is not added yet.",pTitle:"Premium",pSub:"Use without limits",pf1:"🖼 More image drawing every day",pf2:"⚡ Faster, better replies",pf3:"🌐 More online searches",pf4:"🕘 Unlimited chat history",plan1:"Monthly · ৳599 per month",plan2:"Yearly · ৳5,990 per year (2 months free)",buy:"Start Premium",buyMsg:"Payment is not live yet. Google Play Billing will be added at launch.",pNote:"Prices are samples. Google Play will show the final price for your country. Payment is through Google Play and can be cancelled any time in the Play Store.",settingsD:"App settings and preferences",srch:"Search...",appLangD:"Choose your preferred language",countryD:"Choose your country",slD:"Language for mic and reading",voiceD:"The voice used to read replies",rateD:"Set how fast replies are read",autoD:"Reads each reply as it arrives",searchD:"Checks answers by searching the web",imgqD:"Quality of drawn images",styleD:"Short or detailed replies",themeD:"Choose the app colors",fsD:"Make text smaller or larger",expD:"Copy all your chats",clrD:"Remove all chats from this phone",privD:"How your data is used",aboutT:"About the app",aboutD:"Version and other info",logoutD:"Sign out on this device",delaccD:"Permanently delete your account and data",trFail:"Translation is not available right now. Showing English for now.",wTitle:"স্বাগতম / Welcome",wSub:"Choose your language and country to begin.",wc:"Country",wl:"Language",pick:"— Select —",go:"Start",need:"Please select your country first.",me:"Me",ai:"AI"},
+hi:{title:"मेरा एआई",prem:"👑 प्रीमियम",ph:"कुछ भी पूछें...",phImg:"क्या बनाना है लिखें...",mCam:"📷 कैमरा",mGal:"🖼 गैलरी",mDoc:"📄 फ़ाइल",mDraw:"🎨 तस्वीर बनाएँ",tooBig:"फ़ाइल बहुत बड़ी है (तस्वीर 8MB और PDF 4MB तक)।",readFail:"फ़ाइल पढ़ी नहीं जा सकी।",lookAt:"इसे देखो",dTitle:"चैट इतिहास",close:"बंद करें",newc:"＋ नई चैट",newTitle:"नई चैट",thinking:"सोच रहा हूँ... (सर्वर सो रहा हो तो 1 मिनट तक लग सकता है)",errConn:"कनेक्शन में समस्या हुई, फिर कोशिश करें।",noImg:"तस्वीर बनाने की सुविधा अभी चालू नहीं है।",noReply:"कोई जवाब नहीं मिला।",listen:"सुनें",copy:"कॉपी",copied:"कॉपी हो गया",copyFail:"कॉपी नहीं हुआ",share:"शेयर",shareCopied:"कॉपी हो गया (यहाँ शेयर काम नहीं करता)",shareFail:"शेयर नहीं हो सका",regen:"दोबारा बनाएँ",save:"सेव",noSpeech:"इस ऐप में सुनना काम नहीं करता। Chrome में खोलकर देखें।",noVoice:"इस फ़ोन में आवाज़ नहीं मिली।",noMic:"इस ऐप में बोलकर लिखना काम नहीं करता। Chrome में खोलकर देखें।",settings:"सेटिंग",guest:"अतिथि",loginNot:"लॉगिन अभी चालू नहीं है",secLang:"भाषा और आवाज़",appLang:"ऐप की भाषा",country:"देश",sl:"बोलने और पढ़ने की भाषा",voice:"पढ़कर सुनाने की आवाज़",vdef:"फ़ोन की डिफ़ॉल्ट",rate:"पढ़ने की गति",r1:"धीमी",r2:"सामान्य",r3:"तेज़",auto:"जवाब अपने आप पढ़ें",secAi:"एआई व्यवहार",search:"ऑनलाइन जाँच करें",imgq:"तस्वीर की गुणवत्ता",q1:"सामान्य",q2:"उच्च",style:"जवाब का तरीका",s1:"संक्षिप्त",s2:"विस्तृत",secLook:"रूप",theme:"थीम",th1:"सिस्टम के अनुसार",th2:"हल्का",th3:"गहरा",fs:"अक्षर का आकार",f1:"छोटा",f2:"मध्यम",f3:"बड़ा",secData:"डेटा और गोपनीयता",exp:"चैट निर्यात (कॉपी)",expBtn:"कॉपी करें",expOk:"सभी चैट कॉपी हो गईं। किसी नोट ऐप में पेस्ट करके रखें।",expFail:"कॉपी नहीं हो सका।",clr:"सभी चैट हटाएँ",clrBtn:"हटाएँ",clrQ:"सभी चैट हट जाएँगी। पक्का?",priv:"गोपनीयता नीति",view:"देखें",secAcc:"खाता",logout:"लॉग आउट",delacc:"खाता हटाएँ",loginMsg:"लॉगिन की सुविधा अभी जुड़ी नहीं है।",pTitle:"प्रीमियम",pSub:"बिना सीमा के इस्तेमाल करें",pf1:"🖼 रोज़ ज़्यादा तस्वीरें बनाएँ",pf2:"⚡ तेज़ और बेहतर जवाब",pf3:"🌐 ज़्यादा ऑनलाइन खोज",pf4:"🕘 असीमित चैट इतिहास",plan1:"मासिक · ₹499 प्रति माह",plan2:"वार्षिक · ₹4,990 प्रति वर्ष (2 महीने मुफ़्त)",buy:"प्रीमियम शुरू करें",buyMsg:"भुगतान अभी चालू नहीं है। ऐप जारी होने पर Google Play Billing जुड़ेगा।",pNote:"कीमतें नमूना हैं। अंतिम कीमत आपके देश के अनुसार Google Play दिखाएगा। भुगतान Google Play से होगा और Play Store से कभी भी रद्द किया जा सकता है।",settingsD:"ऐप सेटिंग और पसंद",srch:"खोजें...",appLangD:"अपनी पसंद की भाषा चुनें",countryD:"अपना देश चुनें",slD:"माइक और पढ़ने की भाषा",voiceD:"जवाब सुनाने की आवाज़",rateD:"पढ़ने की गति तय करें",autoD:"जवाब आते ही अपने आप सुनाएगा",searchD:"वेब पर खोजकर जवाब जाँचेगा",imgqD:"बनाई गई तस्वीर की गुणवत्ता",styleD:"संक्षिप्त या विस्तृत जवाब",themeD:"ऐप के रंग चुनें",fsD:"अक्षर छोटे या बड़े करें",expD:"सभी चैट कॉपी करें",clrD:"इस फ़ोन से सभी चैट हटाएँ",privD:"आपका डेटा कैसे इस्तेमाल होता है",aboutT:"ऐप के बारे में",aboutD:"संस्करण और अन्य जानकारी",logoutD:"इस डिवाइस से साइन आउट करें",delaccD:"खाता और डेटा हमेशा के लिए हटाएँ",trFail:"अनुवाद अभी उपलब्ध नहीं है। अभी English दिखाई जा रही है।",wTitle:"स्वागत है / Welcome",wSub:"शुरू करने के लिए अपनी भाषा और देश चुनें।",wc:"देश",wl:"भाषा",pick:"— चुनें —",go:"शुरू करें",need:"पहले अपना देश चुनें।",me:"मैं",ai:"एआई"}
 };
 const LANGS=[["bn","বাংলা","bn-BD"],["en","English","en-US"],["hi","हिन्दी","hi-IN"],["ur","اردو","ur-PK"],["ne","नेपाली","ne-NP"],["si","සිංහල","si-LK"],["ta","தமிழ்","ta-IN"],["ms","Bahasa Melayu","ms-MY"],["id","Bahasa Indonesia","id-ID"],["th","ไทย","th-TH"],["vi","Tiếng Việt","vi-VN"],["zh","中文","zh-CN"],["ja","日本語","ja-JP"],["ko","한국어","ko-KR"],["ar","العربية","ar-SA"],["tr","Türkçe","tr-TR"],["fa","فارسی","fa-IR"],["fr","Français","fr-FR"],["de","Deutsch","de-DE"],["it","Italiano","it-IT"],["es","Español","es-ES"],["pt","Português","pt-BR"],["ru","Русский","ru-RU"],["nl","Nederlands","nl-NL"],["pl","Polski","pl-PL"],["sv","Svenska","sv-SE"],["tl","Filipino","fil-PH"],["sw","Kiswahili","sw-KE"]];
 const RTL=["ar","ur","fa"];
@@ -179,12 +215,12 @@ function applyLang(){
   document.querySelectorAll("[data-i18n]").forEach(e=>{e.textContent=t(e.dataset.i18n)});
   document.title=t("title");
   fillCountries($("welC"));
-  fillCountries($("ccountry"));
+  updPills();
   setPH();
   render();
 }
 function fillLangSel(sel,useSL){sel.innerHTML="";LANGS.forEach(l=>{const o=mk("option","",l[1]);o.value=useSL?l[2]:l[0];sel.appendChild(o)})}
-fillLangSel($("alang"));fillLangSel($("welL"));fillLangSel($("sl"),true);
+fillLangSel($("welL"));fillLangSel($("sl"),true);
 let trBusy=false;
 async function ensureLang(){
   const L=S.lang;
@@ -364,23 +400,56 @@ function voices(){
 }
 $("sl").addEventListener("change",voices);
 $("voice").onchange=e=>{S.voice=e.target.value;saveS()};
-$("alang").onchange=e=>{
-  S.lang=e.target.value;
-  S.sl=SLMAP[S.lang]||"en-US";
+const LFLAG={bn:"BD",en:"GB",hi:"IN",ur:"PK",ne:"NP",si:"LK",ta:"IN",ms:"MY",id:"ID",th:"TH",vi:"VN",zh:"CN",ja:"JP",ko:"KR",ar:"SA",tr:"TR",fa:"IR",fr:"FR",de:"DE",it:"IT",es:"ES",pt:"BR",ru:"RU",nl:"NL",pl:"PL",sv:"SE",tl:"PH",sw:"KE"};
+function flag(cc){if(!cc||cc==="XX")return "🌍";return String.fromCodePoint.apply(null,cc.split("").map(ch=>127397+ch.charCodeAt(0)))}
+function cname(c){return S.lang==="bn"?(c[3]||c[1]):c[1]}
+function updPills(){
+  const l=LANGS.find(x=>x[0]===S.lang);
+  $("alangV").textContent=flag(LFLAG[S.lang])+" "+(l?l[1]:S.lang);
+  const c=C.find(x=>x[0]===S.country);
+  $("ccountryV").textContent=c?(flag(c[0])+" "+cname(c)):t("pick");
+}
+function setLang(l){
+  S.lang=l;
+  S.sl=SLMAP[l]||"en-US";
   $("sl").value=S.sl;
   saveS();applyLang();ensureLang();voices();
-};
-$("ccountry").onchange=e=>{
-  S.country=e.target.value;
-  if(S.country){
-    S.lang=langFor(S.country);
-    S.sl=SLMAP[S.lang]||"en-US";
-    $("alang").value=S.lang;
-    $("sl").value=S.sl;
-  }
+}
+function setCountry(c){
+  S.country=c;
+  if(c){S.lang=langFor(c);S.sl=SLMAP[S.lang]||"en-US";$("sl").value=S.sl}
   saveS();applyLang();ensureLang();voices();
-};
-$("gear").onclick=()=>{$("alang").value=S.lang;$("ccountry").value=S.country;voices();$("set").classList.add("open")};
+}
+let pickKind="";
+function renderPick(){
+  const q=$("pkSearch").value.trim().toLowerCase();
+  const list=$("pkList");list.innerHTML="";
+  const items=pickKind==="lang"
+    ?LANGS.map(l=>({id:l[0],name:l[1],fl:flag(LFLAG[l[0]]),sel:S.lang===l[0],hay:(l[1]+" "+l[0]).toLowerCase()}))
+    :C.map(c=>({id:c[0],name:cname(c),fl:flag(c[0]),sel:S.country===c[0],hay:(c[1]+" "+(c[3]||"")+" "+c[0]).toLowerCase()}));
+  items.filter(i=>!q||i.hay.indexOf(q)>=0).forEach(i=>{
+    const r=mk("div","pi"+(i.sel?" sel":""));
+    r.appendChild(mk("span","pf",i.fl));
+    r.appendChild(mk("span","pn",i.name));
+    if(i.sel)r.appendChild(mk("span","pc","✓"));
+    r.onclick=()=>{$("pick").classList.remove("open");if(pickKind==="lang")setLang(i.id);else setCountry(i.id)};
+    list.appendChild(r);
+  });
+}
+function openPick(kind){
+  pickKind=kind;
+  $("pkTitle").textContent=t(kind==="lang"?"appLang":"country");
+  $("pkSearch").value="";
+  $("pkSearch").placeholder=t("srch");
+  renderPick();
+  $("pick").classList.add("open");
+}
+$("alangB").onclick=()=>openPick("lang");
+$("ccountryB").onclick=()=>openPick("country");
+$("pkSearch").oninput=renderPick;
+$("pkClose").onclick=()=>$("pick").classList.remove("open");
+$("pick").onclick=e=>{if(e.target===$("pick"))$("pick").classList.remove("open")};
+$("gear").onclick=()=>{updPills();voices();$("set").classList.add("open")};
 $("sclose").onclick=()=>$("set").classList.remove("open");
 $("exp").onclick=()=>{
   const tx=DB.chats.map(c=>(isNew(c)?t("newTitle"):c.title)+"\n"+c.msgs.map(m=>(m.role==="user"?t("me"):t("ai"))+": "+m.content).join("\n")).join("\n\n----\n\n");
