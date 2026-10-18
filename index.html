@@ -29,15 +29,15 @@ header .t{flex:1;font-weight:600;text-align:center}
 .chip-close-btn{position:absolute;top:-6px;right:-6px;background:rgba(0,0,0,0.7);color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .chip-doc-info{display:flex;align-items:center;gap:6px;background:var(--bg);padding:6px 10px;border-radius:8px;border:1px solid var(--bd)}
 
-form{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--bd);align-items:center;background:var(--bg)}
+form{display:flex;gap:6px;padding:10px 14px;border-top:1px solid var(--bd);align-items:center;background:var(--bg)}
 form input{flex:1;min-width:0;padding:12px 16px;border-radius:24px;border:1px solid #8886;font-size:16px;background:var(--ai);color:var(--fg)}
 .rb{border:none;border-radius:50%;width:40px;height:40px;font-size:18px;background:transparent;color:var(--fg);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .rb.go{background:#2f5fd0;color:#fff}
 .rb.on{background:#7a5af8;color:#fff}
 
 .rb.voice-wave-btn{background:#3b82f6;color:#fff;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-.rb.voice-wave-btn.listening{background:#e53935;animation:pulse 1.2s infinite}
-.rb.mic-inline{background:transparent;color:var(--fg);width:36px;height:36px;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.rb.mic-inline{background:transparent;color:var(--fg);width:38px;height:38px;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.rb.listening{color:#e53935;animation:pulse 1.2s infinite}
 @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
 
 #amenu{display:none;position:fixed;left:12px;bottom:72px;background:var(--bg);border:1px solid var(--bd);border-radius:24px;z-index:5;overflow:hidden;min-width:230px;box-shadow:0 10px 30px rgba(0,0,0,0.25)}
@@ -247,22 +247,20 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 </div>
 
 <div id="pick"><div class="sheet"><div class="row"><b id="pkTitle"></b><button class="btn" id="pkClose" data-i18n="close"></button></div><div style="padding:10px 14px"><input type="text" id="pkSearch" autocomplete="off"></div><div id="pkList" class="pl"></div></div></div>
-
 <script>
 const $=id=>document.getElementById(id);
 const T={
 bn:{title:"আমার এআই",prem:"👑 প্রিমিয়াম",ph:"যে কোনো কিছু জিজ্ঞাসা করুন...",phImg:"কী আঁকতে হবে লিখুন...",mCam:"Camera",mGal:"Photos",mDoc:"Files",mDraw:"Draw an image",tooBig:"ফাইল বেশি বড়। ছোট ফাইল দিন (ছবি ৮MB, PDF ৪MB পর্যন্ত)।",readFail:"ফাইল পড়া যায়নি।",lookAt:"এটা দেখো",dTitle:"চ্যাট ইতিহাস",close:"বন্ধ",newc:"＋ নতুন চ্যাট",newTitle:"নতুন চ্যাট",thinking:"ভাবছি... (সার্ভার ঘুমিয়ে থাকলে ১ মিনিট লাগতে পারে)",errConn:"সংযোগে সমস্যা হয়েছে, আবার চেষ্টা করুন।",noImg:"ছবি আঁকার সুবিধা এখনো চালু হয়নি।",noReply:"উত্তর পাওয়া যায়নি।",listen:"শুনুন",copy:"কপি",copied:"কপি হয়েছে",copyFail:"কপি চলছে না",share:"শেয়ার",shareCopied:"কপি হয়েছে (এখানে শেয়ার চলে না)",shareFail:"শেয়ার চলছে না",regen:"আবার তৈরি",save:"সেভ",noSpeech:"এই অ্যাপে শোনা চলে না। Chrome-এ খুলে চেষ্টা করুন।",noVoice:"এই ফোনে ভয়েস পাওয়া যায়নি।",noMic:"এই অ্যাপে ভয়েস চলে না। Chrome-এ খুলে চেষ্টা করুন।",settings:"সেটিং",guest:"অতিথি",loginNot:"লগইন এখনো চালু হয়নি",secLang:"ভাষা ও ভয়েস",appLang:"অ্যাপের ভাষা",country:"দেশ",sl:"কথা বলা ও পড়ার ভাষা",voice:"পড়ে শোনানোর ভয়েস",vdef:"ফোনের ডিফল্ট",rate:"পড়ার গতি",r1:"ধীর",r2:"স্বাভাবিক",r3:"দ্রুত",auto:"উত্তর নিজে থেকে পড়ুক",secAi:"এআই আচরণ",search:"অনলাইনে যাচাই করুক",imgq:"ছবির মান",q1:"স্বাভাবিক",q2:"উচ্চ",style:"উত্তরের ধরন",s1:"সংক্ষিপ্ত",s2:"বিস্তারিত",secLook:"চেহারা",theme:"থিম",th1:"সিস্টেম অনুযায়ী",th2:"হালকা",th3:"গাঢ়",fs:"লেখার আকার",f1:"ছোট",f2:"মাঝারি",f3:"বড়",secData:"ডেটা ও গোপনীয়তা",exp:"চ্যাট এক্সপোর্ট (কপি)",expBtn:"কপি করুন",expOk:"সব চ্যাট কপি হয়েছে। নোট অ্যাপে পেস্ট করে রাখুন।",expFail:"কপি করা যায়নি।",clr:"সব চ্যাট মুছুন",clrBtn:"মুছুন",clrQ:"সব চ্যাট মুছে যাবে। নিশ্চিত?",priv:"প্রাইভেসি পলিসি",view:"দেখুন",secAcc:"অ্যাকাউন্ট",logout:"লগআউট",delacc:"অ্যাকাউন্ট মুছুন",loginMsg:"লগইন ব্যবস্থা এখনো যোগ হয়নি।",pTitle:"My AI এর আরও সুবিধা নিন",pSub:"আপনার জন্য উপযুক্ত প্ল্যানটি বেছে নিন",proDesc:"দৈনন্দিন কাজের জন্য",maxDesc:"My AI এর সাথে বেশি সময়",bMonthly:"মাসিক বিল",bYearly:"বার্ষিক বিল",savePct:"৯% সেভ",btnPro:"Pro প্ল্যান নিন",btnMax:"Max প্ল্যান নিন",fPro1:"✓ ফ্রি প্ল্যানের সব সুবিধা, সাথে:",fPro2:"✓ বেশি ব্যবহার ও দ্রুত উত্তর",fPro3:"✓ উন্নত My AI ফিচার ব্যবহার করুন",fPro4:"✓ অসীম চ্যাট ইতিহাস",fMax1:"✓ Pro প্ল্যানের সব সুবিধা, সাথে:",fMax2:"✓ Pro এর চেয়ে ৫ গুণ বা ২০ গুণ বেশি ব্যবহার",fMax3:"✓ বেশি ট্রাফিকের সময়েও দ্রুত রেসপন্স",fMax4:"✓ নতুন সব ফিচারে সবার আগে অ্যাক্সেস",pNote:"দামগুলো নমুনা। চূড়ান্ত দাম আপনার দেশ অনুযায়ী Google Play দেখাবে। প্লে স্টোর থেকে যেকোনো সময় বাতিল করা যাবে।",settingsD:"অ্যাপ সেটিং ও পছন্দ",srch:"খুঁজুন...",appLangD:"আপনার পছন্দের ভাষা বেছে নিন",countryD:"আপনার দেশের নাম বেছে নিন",slD:"মাইক ও পড়ার ভাষা",voiceD:"যে ভয়েসে উত্তর শুনবেন",rateD:"পড়ার গতি ঠিক করুন",autoD:"উত্তর এলেই নিজে পড়ে শোনাবে",searchD:"ওয়েবে খুঁজে উত্তর যাচাই করবে",imgqD:"ছবি আঁকার মান",styleD:"ছোট বা বিস্তারিত উত্তর",themeD:"অ্যাপের রঙের ধরন বেছে নিন",fsD:"লেখা ছোট বা বড় করুন",expD:"সব চ্যাট কপি করে রাখুন",clrD:"ফোন থেকে সব চ্যাট মুছে ফেলুন",privD:"আপনার ডেটা কীভাবে ব্যবহার হয়",aboutT:"অ্যাপ সম্পর্কে",aboutD:"ভার্সন ও অন্যান্য তথ্য",logoutD:"এই ডিভাইস থেকে বেরিয়ে যান",delaccD:"অ্যাকাউন্ট ও ডেটা স্থায়ীভাবে মুছুন",trFail:"অনুবাদ এখন পাওয়া যাচ্ছে না। আপাতত English দেখানো হচ্ছে।",wTitle:"স্বাগতম / Welcome",wSub:"শুরু করতে আপনার ভাষা ও দেশ বেছে নিন।",wc:"দেশ",wl:"ভাষা",pick:"— বেছে নিন —",go:"সেভ করে শুরু করুন",need:"আগে আপনার দেশ বেছে নিন।",me:"আমি",ai:"এআই"},
 en:{title:"My AI",prem:"👑 Premium",ph:"Ask anything...",phImg:"Describe what to draw...",mCam:"Camera",mGal:"Photos",mDoc:"Files",mDraw:"Draw an image",tooBig:"File is too large (images up to 8MB, PDF up to 4MB).",readFail:"Could not read the file.",lookAt:"Look at this",dTitle:"Chat history",close:"Close",newc:"＋ New chat",newTitle:"New chat",thinking:"Thinking... (may take up to 1 minute if the server was asleep)",errConn:"Connection problem. Please try again.",noImg:"Image drawing is not available yet.",noReply:"No reply received.",listen:"Listen",copy:"Copy",copied:"Copied",copyFail:"Copy failed",share:"Share",shareCopied:"Copied (sharing not supported here)",shareFail:"Sharing failed",regen:"Regenerate",save:"Save",noSpeech:"Listening is not supported in this app. Try in Chrome.",noVoice:"No voice available on this phone.",noMic:"Voice input is not supported in this app. Try in Chrome.",settings:"Settings",guest:"Guest",loginNot:"Login is not available yet",secLang:"Language & voice",appLang:"App language",country:"Country",sl:"Speaking & reading language",voice:"Reading voice",vdef:"Phone default",rate:"Reading speed",r1:"Slow",r2:"Normal",r3:"Fast",auto:"Read replies automatically",secAi:"AI behavior",search:"Verify online",imgq:"Image quality",q1:"Normal",q2:"High",style:"Reply style",s1:"Short",s2:"Detailed",secLook:"Appearance",theme:"Theme",th1:"System",th2:"Light",th3:"Dark",fs:"Text size",f1:"Small",f2:"Medium",f3:"Large",secData:"Data & privacy",exp:"Export chats (copy)",expBtn:"Copy",expOk:"All chats copied. Paste them into a notes app.",expFail:"Could not copy.",clr:"Delete all chats",clrBtn:"Delete",clrQ:"All chats will be deleted. Sure?",priv:"Privacy policy",view:"View",secAcc:"Account",logout:"Log out",delacc:"Delete account",loginMsg:"Login is not added yet.",pTitle:"Get more My AI",pSub:"Choose the plan right for you",proDesc:"For everyday productivity",maxDesc:"More time with My AI",bMonthly:"Billed monthly",bYearly:"Billed annually",savePct:"Save 9%",btnPro:"Get Pro plan",btnMax:"Get Max plan",fPro1:"✓ Everything in Free, plus:",fPro2:"✓ More usage & faster replies",fPro3:"✓ Access advanced My AI features",fPro4:"✓ Unlimited chat history",fMax1:"✓ Everything in Pro, plus:",fMax2:"✓ 5x or 20x more usage than Pro",fMax3:"✓ Priority access at high traffic times",fMax4:"✓ Early access to advanced features",pNote:"Prices are samples. Google Play will show the final price. Cancel anytime in Play Store.",settingsD:"App settings and preferences",srch:"Search...",appLangD:"Choose your preferred language",countryD:"Choose your country",slD:"Language for mic and reading",voiceD:"The voice used to read replies",rateD:"Set how fast replies are read",autoD:"Reads each reply as it arrives",searchD:"Checks answers by searching the web",imgqD:"Quality of drawn images",styleD:"Short or detailed replies",themeD:"Choose the app colors",fsD:"Make text smaller or larger",expD:"Copy all your chats",clrD:"Remove all chats from this phone",privD:"How your data is used",aboutT:"About the app",aboutD:"Version and other info",logoutD:"Sign out on this device",delaccD:"Permanently delete your account and data",trFail:"Translation is not available right now. Showing English for now.",wTitle:"স্বাগতম / Welcome",wSub:"Choose your language and country to begin.",wc:"Country",wl:"Language",pick:"— Select —",go:"Save and Continue",need:"Please select your country first.",me:"Me",ai:"AI"}
 };
-const LANGS=[["bn","বাংলা","bn-BD"],["en","English","en-US"],["hi","हिन्दी","hi-IN"],["ur","اردو","ur-PK"],["ne","নেपाली","ne-NP"],["si","සිංහල","si-LK"],["ta","தமிழ்","ta-IN"],["ms","Bahasa Melayu","ms-MY"],["id","Bahasa Indonesia","id-ID"],["th","ไทย","th-TH"],["vi","Tiếng Việt","vi-VN"],["zh","中文","zh-CN"],["ja","日本語","ja-JP"],["ko","한국어","ko-KR"],["ar","العربية","ar-SA"],["tr","Türkçe","tr-TR"],["fa","فارسی","fa-IR"],["fr","Français","fr-FR"],["de","Deutsch","de-DE"],["it","Italiano","it-IT"],["es","Español","es-ES"],["pt","Português","pt-BR"],["ru","Русский","ru-RU"],["nl","Nederlands","nl-NL"],["pl","Polski","pl-PL"],["sv","Svenska","sv-SE"],["tl","Filipino","fil-PH"],["sw","Kiswahili","sw-KE"]];
+const LANGS=[["bn","বাংলা","bn-BD"],["en","English","en-US"],["hi","हिन्दी","hi-IN"],["ur","اردو","ur-PK"],["ne","নেपाली","ne-NP"],["si","සිංহල","si-LK"],["ta","தமிழ்","ta-IN"],["ms","Bahasa Melayu","ms-MY"],["id","Bahasa Indonesia","id-ID"],["th","ไทย","th-TH"],["vi","Tiếng Việt","vi-VN"],["zh","中文","zh-CN"],["ja","日本語","ja-JP"],["ko","한국어","ko-KR"],["ar","العربية","ar-SA"],["tr","Türkçe","tr-TR"],["fa","فارسی","fa-IR"],["fr","Français","fr-FR"],["de","Deutsch","de-DE"],["it","Italiano","it-IT"],["es","Español","es-ES"],["pt","Português","pt-BR"],["ru","Русский","ru-RU"],["nl","Nederlands","nl-NL"],["pl","Polski","pl-PL"],["sv","Svenska","sv-SE"],["tl","Filipino","fil-PH"],["sw","Kiswahili","sw-KE"]];
 const RTL=["ar","ur","fa"];
 const SLMAP={};LANGS.forEach(l=>{SLMAP[l[0]]=l[2]});
 const C=[["BD","Bangladesh","bn","বাংলাদেশ"],["IN","India","hi","ভারত"],["PK","Pakistan","ur","পাকিস্তান"],["NP","Nepal","ne","নেপাল"],["LK","Sri Lanka","si","শ্রীলঙ্কা"],["BT","Bhutan","en","ভুটান"],["MV","Maldives","en","মালদ্বীপ"],["AF","Afghanistan","fa","আফগানিস্তান"],
 ["MY","Malaysia","ms","মালয়েশিয়া"],["SG","Singapore","en","সিঙ্গাপুর"],["ID","Indonesia","id"],["TH","Thailand","th"],["VN","Vietnam","vi"],["PH","Philippines","tl"],["MM","Myanmar","en"],["KH","Cambodia","en"],["BN","Brunei","ms"],
 ["CN","China","zh"],["HK","Hong Kong","zh"],["TW","Taiwan","zh"],["JP","Japan","ja","জাপান"],["KR","South Korea","ko","দক্ষিণ কোরিয়া"],
 ["AE","United Arab Emirates","ar","সংযুক্ত আরব আমিরাত"],["SA","Saudi Arabia","ar","সৌদি আরব"],["QA","Qatar","ar","কাতার"],["KW","Kuwait","ar","কুয়েত"],["OM","Oman","ar","ওমান"],["BH","Bahrain","ar"],["JO","Jordan","ar"],["LB","Lebanon","ar"],["IQ","Iraq","ar"],["IR","Iran","fa"],["IL","Israel","en"],["TR","Turkey","tr"],["EG","Egypt","ar"],["MA","Morocco","ar"],["DZ","Algeria","ar"],["TN","Tunisia","ar"],["LY","Libya","ar"],["SD","Sudan","ar"],
-["GB","United Kingdom","en","যুক্তরাজ্য"],["IE","Ireland","en"],["DE","Germany","de","জার্মানি"],["AT","Austria","de"],["CH","Switzerland","de"],["FR","France","fr","ফ্রান্স"],["BE","Belgium","fr"],["IT","Italy","it","ইতালি"],["ES","Spain","es"],["PT","Portugal","pt"],["NL","Netherlands","nl"],["PL","Poland","pl"],["SE","Sweden","sv"],["NO","Norway","en"],["DK","Denmark","en"],["FI","Finland","en"],["RU","Russia","ru"],["UA","Ukraine","en"],["US","United States","en","যুক্তরাষ্ট্র"],["CA","Canada","en","কানাডা"],["MX","Mexico","es"],["BR","Brazil","pt"],["AR","Argentina","es"],["CO","Colombia","es"],["CL","Chile","es"],["PE","Peru","es"],
-["NG","Nigeria","en"],["KE","Kenya","sw"],["TZ","Tanzania","sw"],["ZA","South Africa","en"],["ET","Ethiopia","en"],["GH","Ghana","en"],["AU","Australia","en","অস্ট্রেলিয়া"],["NZ","New Zealand","en"],["XX","Other","en","অন্যান্য"]];
+["GB","United Kingdom","en","যুক্তরাজ্য"],["IE","Ireland","en"],["DE","Germany","de","জার্মানি"],["AT","Austria","de"],["CH","Switzerland","de"],["FR","France","fr","ফ্রান্স"],["BE","Belgium","fr"],["IT","Italy","it","ইতালি"],["ES","Spain","es"],["PT","Portugal","pt"],["NL","Netherlands","nl"],["PL","Poland","pl"],["SE","Sweden","sv"],["NO","Norway","en"],["DK","Denmark","en"],["FI","Finland","en"],["RU","Russia","ru"],["UA","Ukraine","en"],["US","United States","en","যুক্তরাষ্ট্র"],["CA","Canada","en","কানাডা"],["MX","Mexico","es"],["BR","Brazil","pt"],["AR","Argentina","es"],["CO","Colombia","es"],["CL","Chile","es"],["PE","Peru","es"],["NG","Nigeria","en"],["KE","Kenya","sw"],["TZ","Tanzania","sw"],["ZA","South Africa","en"],["ET","Ethiopia","en"],["GH","Ghana","en"],["AU","Australia","en","অস্ট্রেলিয়া"],["NZ","New Zealand","en"],["XX","Other","en","অন্যান্য"]];
 const langFor=c=>{const f=C.find(x=>x[0]===c);return f?f[2]:"en"};
 let TR={};try{TR=JSON.parse(localStorage.getItem("tr"))||{}}catch(e){TR={}}
 const warned={};
@@ -388,7 +386,6 @@ function updateInputButtons(){
   container.innerHTML = "";
   
   if(att){
-    // Attached state: Show Mic and Send (Arrow Up) buttons
     const micBtn = mk("button", "rb mic-inline");
     micBtn.type = "button";
     micBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>';
@@ -401,20 +398,20 @@ function updateInputButtons(){
     container.appendChild(micBtn);
     container.appendChild(sendBtn);
   } else {
-    // Normal state: Show ChatGPT style Voice Wave button and Send button
+    const micBtn = mk("button", "rb mic-inline");
+    micBtn.type = "button";
+    micBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>';
+    micBtn.onclick = triggerMic;
+
     const waveBtn = mk("button", "rb voice-wave-btn");
     waveBtn.type = "button";
-    waveBtn.id = "mic";
+    waveBtn.id = "micWave";
     waveBtn.title = "Voice Input";
     waveBtn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5v14M7 5v14M2 9v6M22 9v6"/></svg>';
     waveBtn.onclick = triggerMic;
 
-    const sendBtn = mk("button", "rb go");
-    sendBtn.type = "submit";
-    sendBtn.innerHTML = '➤';
-
+    container.appendChild(micBtn);
     container.appendChild(waveBtn);
-    container.appendChild(sendBtn);
   }
 }
 
@@ -515,15 +512,15 @@ $("f").addEventListener("submit",e=>{
 let rec=null;
 function triggerMic(){
   const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const micEl = $("mic") || document.querySelector(".mic-inline");
+  const micEls = document.querySelectorAll(".mic-inline, .voice-wave-btn");
   if(!SpeechRec){alert(t("noMic"));return}
   if(!rec){
     rec = new SpeechRec();
     rec.continuous = false;
     rec.interimResults = true;
-    rec.onstart = () => { if(micEl)micEl.classList.add("listening"); };
-    rec.onend = () => { if(micEl)micEl.classList.remove("listening"); };
-    rec.onerror = () => { if(micEl)micEl.classList.remove("listening"); };
+    rec.onstart = () => { micEls.forEach(el=>el.classList.add("listening")); };
+    rec.onend = () => { micEls.forEach(el=>el.classList.remove("listening")); };
+    rec.onerror = () => { micEls.forEach(el=>el.classList.remove("listening")); };
     rec.onresult = (e) => {
       let transcript = Array.from(e.results).map(r => r[0].transcript).join('');
       box.value = transcript;
