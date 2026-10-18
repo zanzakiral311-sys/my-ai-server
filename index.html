@@ -29,7 +29,6 @@ header .t{flex:1;font-weight:600;text-align:center}
 .chip-close-btn{position:absolute;top:-6px;right:-6px;background:rgba(0,0,0,0.7);color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .chip-doc-info{display:flex;align-items:center;gap:6px;background:var(--bg);padding:6px 10px;border-radius:8px;border:1px solid var(--bd)}
 
-/* ChatGPT Style Input Bar & Audio Wave Mic Button */
 form{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--bd);align-items:center;background:var(--bg)}
 form input{flex:1;min-width:0;padding:12px 16px;border-radius:24px;border:1px solid #8886;font-size:16px;background:var(--ai);color:var(--fg)}
 .rb{border:none;border-radius:50%;width:40px;height:40px;font-size:18px;background:transparent;color:var(--fg);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -40,7 +39,6 @@ form input{flex:1;min-width:0;padding:12px 16px;border-radius:24px;border:1px so
 .rb.mic-btn.listening{background:#e53935;color:#fff;animation:pulse 1.2s infinite}
 @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
 
-/* ChatGPT Style Floating Rounded Popup Menu */
 #amenu{display:none;position:fixed;left:12px;bottom:72px;background:var(--bg);border:1px solid var(--bd);border-radius:24px;z-index:5;overflow:hidden;min-width:230px;box-shadow:0 10px 30px rgba(0,0,0,0.25)}
 #amenu.open{display:block}
 #amenu button{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:15px 20px;background:none;border:none;border-bottom:1px solid var(--bd);font-size:15px;cursor:pointer;color:var(--fg)}
@@ -58,10 +56,27 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 .danger{color:#d33}
 .ci{display:flex;justify-content:space-between;align-items:center;padding:6px 16px;border-bottom:1px solid var(--bd);gap:8px}
 .ci span{flex:1;cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:8px 0}
-.plan{border:2px solid #7a5af8;border-radius:12px;padding:14px;margin:8px 16px}
-.go2{display:block;margin:16px;padding:14px;border:none;border-radius:10px;background:#7a5af8;color:#fff;font-size:16px;width:calc(100% - 32px);cursor:pointer}
-.feat{padding:6px 24px;line-height:2}
-.note{padding:0 16px 24px;font-size:12px;opacity:.65;line-height:1.6}
+
+/* Claude Style Premium Modal CSS */
+#pm{background:var(--bg);color:var(--fg)}
+.claude-modal{max-width:540px;margin:0 auto;padding:24px 16px 40px}
+.claude-title{font-size:24px;font-weight:700;text-align:center;margin:12px 0 6px}
+.claude-sub{font-size:15px;text-align:center;opacity:.7;margin-bottom:24px}
+.plan-card{border:1px solid var(--bd);border-radius:16px;padding:20px;margin-bottom:20px;background:var(--bg);box-shadow:0 4px 12px rgba(0,0,0,0.03)}
+.plan-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.plan-name{font-size:18px;font-weight:700}
+.plan-desc{font-size:13px;opacity:.65;margin-bottom:16px}
+.plan-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.plan-opt{border:1px solid var(--bd);border-radius:12px;padding:14px;cursor:pointer;position:relative;background:var(--ai)}
+.plan-opt.active{border-color:#2f5fd0;background:var(--bg);box-shadow:0 0 0 1px #2f5fd0}
+.plan-price{font-size:16px;font-weight:700;margin-top:6px}
+.plan-period{font-size:12px;opacity:.6}
+.badge-save{position:absolute;top:-10px;right:12px;background:#e5defd;color:#4527a0;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px}
+.claude-btn{display:block;width:100%;padding:14px;border:none;border-radius:24px;background:#111;color:#fff;font-size:16px;font-weight:600;text-align:center;cursor:pointer;margin-bottom:20px}
+:root[data-theme="dark"] .claude-btn{background:#fff;color:#111}
+.features-list{font-size:14px;line-height:2.2;opacity:.85;border-top:1px solid var(--bd);padding-top:16px}
+.features-list div{display:flex;align-items:center;gap:8px}
+
 .wbox{max-width:420px;margin:0 auto;padding:40px 20px}
 .wbox h1{text-align:center;font-size:26px;margin:0 0 8px}
 .wbox p{text-align:center;opacity:.75;margin:0 0 28px}
@@ -98,7 +113,8 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 .pf{font-size:24px}
 .pn{flex:1}
 .pc{color:#2f6bff;font-weight:700}
-#pkSearch{width:100%;padding:12px;border-radius:12px;border:1px solid #8886;background:var(--ai);color:var(--fg);font-size:16px}
+#pkSearch{width:100%
+  <padding:12px;border-radius:12px;border:1px solid #8886;background:var(--ai);color:var(--fg);font-size:16px}
 </style>
 </head>
 <body>
@@ -127,6 +143,7 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 <input type="file" id="fCam" accept="image/*" capture="environment" style="display:none">
 <input type="file" id="fGal" accept="image/*" style="display:none">
 <input type="file" id="fDoc" accept=".pdf,.txt,.md,.csv,application/pdf,text/plain" style="display:none">
+
 <div class="ov" id="drawer">
 <div class="row"><b data-i18n="dTitle"></b><button class="btn" id="dclose" data-i18n="close"></button></div>
 <div class="row"><button class="btn" id="dnew" data-i18n="newc"></button></div>
@@ -161,15 +178,63 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 <div style="height:30px"></div>
 </div>
 
+<!-- Claude Style Get More My AI Modal -->
 <div class="ov" id="pm">
-<div class="row"><b data-i18n="pTitle"></b><button class="btn" id="pclose" data-i18n="close"></button></div>
-<div style="text-align:center;font-size:40px;padding:16px 0 4px">👑</div>
-<div style="text-align:center;font-weight:600" data-i18n="pSub"></div>
-<div class="feat"><div data-i18n="pf1"></div><div data-i18n="pf2"></div><div data-i18n="pf3"></div><div data-i18n="pf4"></div></div>
-<div class="plan" data-i18n="plan1"></div>
-<div class="plan" data-i18n="plan2"></div>
-<button class="go2" id="buy" data-i18n="buy"></button>
-<div class="note" data-i18n="pNote"></div>
+<div class="claude-modal">
+<div style="display:flex;justify-content:flex-end"><button class="btn" id="pclose" data-i18n="close">Close</button></div>
+<div class="claude-title">Get more My AI</div>
+<div class="claude-sub">Choose the plan right for you</div>
+
+<div class="plan-card">
+<div class="plan-header"><span class="plan-name">Pro</span></div>
+<div class="plan-desc">For everyday productivity</div>
+<div class="plan-options">
+<div class="plan-opt active">
+<div style="width:16px;height:16px;border:2px solid #2f5fd0;border-radius:50%;display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;background:#2f5fd0;border-radius:50%"></div></div>
+<div class="plan-price">৳99.90</div>
+<div class="plan-period">Billed monthly</div>
+</div>
+<div class="plan-opt">
+<span class="badge-save">Save 9%</span>
+<div style="width:16px;height:16px;border:2px solid #888;border-radius:50%"></div>
+<div class="plan-price">৳1,080.00</div>
+<div class="plan-period">Billed annually</div>
+</div>
+</div>
+<button class="claude-btn" id="buyPro">Get Pro plan</button>
+<div class="features-list">
+<div>✓ Everything in Free, plus:</div>
+<div>✓ More usage & faster replies</div>
+<div>✓ Access advanced My AI features</div>
+<div>✓ Unlimited chat history</div>
+</div>
+</div>
+
+<div class="plan-card">
+<div class="plan-header"><span class="plan-name">Max</span></div>
+<div class="plan-desc">More time with My AI</div>
+<div class="plan-options">
+<div class="plan-opt active">
+<div style="width:16px;height:16px;border:2px solid #2f5fd0;border-radius:50%;display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;background:#2f5fd0;border-radius:50%"></div></div>
+<div class="plan-price">৳624.38</div>
+<div class="plan-period">Billed monthly</div>
+</div>
+<div class="plan-opt">
+<div style="width:16px;height:16px;border:2px solid #888;border-radius:50%"></div>
+<div class="plan-price">৳1,248.75</div>
+<div class="plan-period">Billed monthly</div>
+</div>
+</div>
+<button class="claude-btn" id="buyMax">Get Max plan</button>
+<div class="features-list">
+<div>✓ Everything in Pro, plus:</div>
+<div>✓ 5x or 20x more usage than Pro</div>
+<div>✓ Priority access at high traffic times</div>
+<div>✓ Early access to advanced features</div>
+</div>
+</div>
+<div class="note" style="text-align:center;font-size:11px;opacity:0.6;margin-top:16px">Prices are samples. Google Play will show the final price. Cancel anytime in Play Store.</div>
+</div>
 </div>
 
 <div class="ov" id="wel">
@@ -185,7 +250,7 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 </div>
 
 <div id="pick"><div class="sheet"><div class="row"><b id="pkTitle"></b><button class="btn" id="pkClose" data-i18n="close"></button></div><div style="padding:10px 14px"><input type="text" id="pkSearch" autocomplete="off"></div><div id="pkList" class="pl"></div></div></div>
-<script>
+  <script>
 const $=id=>document.getElementById(id);
 const T={
 bn:{title:"আমার এআই",prem:"👑 প্রিমিয়াম",ph:"Ask anything...",phImg:"কী আঁকতে হবে লিখুন...",mCam:"Camera",mGal:"Photos",mDoc:"Files",mDraw:"Draw an image",tooBig:"ফাইল বেশি বড়। ছোট ফাইল দিন (ছবি ৮MB, PDF ৪MB পর্যন্ত)।",readFail:"ফাইল পড়া যায়নি।",lookAt:"এটা দেখো",dTitle:"চ্যাট ইতিহাস",close:"বন্ধ",newc:"＋ নতুন চ্যাট",newTitle:"নতুন চ্যাট",thinking:"ভাবছি... (সার্ভার ঘুমিয়ে থাকলে ১ মিনিট লাগতে পারে)",errConn:"সংযোগে সমস্যা হয়েছে, আবার চেষ্টা করুন।",noImg:"ছবি আঁকার সুবিধা এখনো চালু হয়নি।",noReply:"উত্তর পাওয়া যায়নি।",listen:"শুনুন",copy:"কপি",copied:"কপি হয়েছে",copyFail:"কপি চলছে না",share:"শেয়ার",shareCopied:"কপি হয়েছে (এখানে শেয়ার চলে না)",shareFail:"শেয়ার চলছে না",regen:"আবার তৈরি",save:"সেভ",noSpeech:"এই অ্যাপে শোনা চলে না। Chrome-এ খুলে চেষ্টা করুন।",noVoice:"এই ফোনে ভয়েস পাওয়া যায়নি।",noMic:"এই অ্যাপে ভয়েস চলে না। Chrome-এ খুলে চেষ্টা করুন।",settings:"সেটিং",guest:"অতিথি",loginNot:"লগইন এখনো চালু হয়নি",secLang:"ভাষা ও ভয়েস",appLang:"অ্যাপের ভাষা",country:"দেশ",sl:"কথা বলা ও পড়ার ভাষা",voice:"পড়ে শোনানোর ভয়েস",vdef:"ফোনের ডিফল্ট",rate:"পড়ার গতি",r1:"ধীর",r2:"স্বাভাবিক",r3:"দ্রুত",auto:"উত্তর নিজে থেকে পড়ুক",secAi:"এআই আচরণ",search:"অনলাইনে যাচাই করুক",imgq:"ছবির মান",q1:"স্বাভাবিক",q2:"উচ্চ",style:"উত্তরের ধরন",s1:"সংক্ষিপ্ত",s2:"বিস্তারিত",secLook:"চেহারা",theme:"থিম",th1:"সিস্টেম অনুযায়ী",th2:"হালকা",th3:"গাঢ়",fs:"লেখার আকার",f1:"ছোট",f2:"মাঝারি",f3:"বড়",secData:"ডেটা ও গোপনীয়তা",exp:"চ্যাট এক্সপোর্ট (কপি)",expBtn:"কপি করুন",expOk:"সব চ্যাট কপি হয়েছে। নোট অ্যাপে পেস্ট করে রাখুন।",expFail:"কপি করা যায়নি।",clr:"সব চ্যাট মুছুন",clrBtn:"মুছুন",clrQ:"সব চ্যাট মুছে যাবে। নিশ্চিত?",priv:"প্রাইভেসি পলিসি",view:"দেখুন",secAcc:"অ্যাকাউন্ট",logout:"লগআউট",delacc:"অ্যাকাউন্ট মুছুন",loginMsg:"লগইন ব্যবস্থা এখনো যোগ হয়নি।",pTitle:"প্রিমিয়াম",pSub:"সীমা ছাড়া ব্যবহার করুন",pf1:"🖼 প্রতিদিন বেশি ছবি আঁকা",pf2:"⚡ দ্রুত ও উন্নত উত্তর",pf3:"🌐 বেশি অনলাইন সার্চ",pf4:"🕘 অসীম চ্যাট ইতিহাস",plan1:"মাসিক · ৳৫৯৯ প্রতি মাসে",plan2:"বার্ষিক · ৳৫,৯৯০ প্রতি বছরে (২ মাস ফ্রি)",buy:"প্রিমিয়াম শুরু করুন",buyMsg:"পেমেন্ট এখনো চালু হয়নি। অ্যাপ প্রকাশের সময় Google Play Billing যোগ হবে।",pNote:"দামগুলো নমুনা। চূড়ান্ত দাম আপনার দেশ অনুযায়ী Google Play দেখাবে। পেমেন্ট Google Play দিয়ে হবে এবং Play Store থেকে যেকোনো সময় বাতিল করা যাবে।",settingsD:"অ্যাপ সেটিং ও পছন্দ",srch:"খুঁজুন...",appLangD:"আপনার পছন্দের ভাষা বেছে নিন",countryD:"আপনার দেশের নাম বেছে নিন",slD:"মাইক ও পড়ার ভাষা",voiceD:"যে ভয়েসে উত্তর শুনবেন",rateD:"পড়ার গতি ঠিক করুন",autoD:"উত্তর এলেই নিজে পড়ে শোনাবে",searchD:"ওয়েবে খুঁজে উত্তর যাচাই করবে",imgqD:"ছবি আঁকার মান",styleD:"ছোট বা বিস্তারিত উত্তর",themeD:"অ্যাপের রঙের ধরন বেছে নিন",fsD:"লেখা ছোট বা বড় করুন",expD:"সব চ্যাট কপি করে রাখুন",clrD:"ফোন থেকে সব চ্যাট মুছে ফেলুন",privD:"আপনার ডেটা কীভাবে ব্যবহার হয়",aboutT:"অ্যাপ সম্পর্কে",aboutD:"ভার্সন ও অন্যান্য তথ্য",logoutD:"এই ডিভাইস থেকে বেরিয়ে যান",delaccD:"অ্যাকাউন্ট ও ডেটা স্থায়ীভাবে মুছুন",trFail:"অনুবাদ এখন পাওয়া যাচ্ছে না। আপাতত English দেখানো হচ্ছে।",wTitle:"স্বাগতম / Welcome",wSub:"শুরু করতে আপনার ভাষা ও দেশ বেছে নিন।",wc:"দেশ",wl:"ভাষা",pick:"— বেছে নিন —",go:"শুরু করুন",need:"আগে আপনার দেশ বেছে নিন।",me:"আমি",ai:"এআই"},
@@ -520,7 +585,8 @@ $("logout").onclick=()=>alert(t("loginMsg"));
 $("delacc").onclick=()=>alert(t("loginMsg"));
 $("prem").onclick=()=>$("pm").classList.add("open");
 $("pclose").onclick=()=>$("pm").classList.remove("open");
-$("buy").onclick=()=>alert(t("buyMsg"));
+$("buyPro").onclick=()=>alert(t("buyMsg"));
+$("buyMax").onclick=()=>alert(t("buyMsg"));
 $("welL").onchange=e=>{S.lang=e.target.value;applyLang();ensureLang()};
 $("welC").onchange=e=>{
   if(!e.target.value)return;
