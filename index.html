@@ -57,7 +57,6 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 .ci{display:flex;justify-content:space-between;align-items:center;padding:6px 16px;border-bottom:1px solid var(--bd);gap:8px}
 .ci span{flex:1;cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:8px 0}
 
-/* Claude Style Premium Modal CSS */
 #pm{background:var(--bg);color:var(--fg)}
 .claude-modal{max-width:540px;margin:0 auto;padding:24px 16px 40px}
 .claude-title{font-size:24px;font-weight:700;text-align:center;margin:12px 0 6px}
@@ -113,8 +112,7 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 .pf{font-size:24px}
 .pn{flex:1}
 .pc{color:#2f6bff;font-weight:700}
-#pkSearch{width:100%
-  <padding:12px;border-radius:12px;border:1px solid #8886;background:var(--ai);color:var(--fg);font-size:16px}
+#pkSearch{width:100%;padding:12px;border-radius:12px;border:1px solid #8886;background:var(--ai);color:var(--fg);font-size:16px}
 </style>
 </head>
 <body>
@@ -135,15 +133,14 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 <button type="submit" class="rb go">➤</button>
 </form>
 <div id="amenu">
-<button type="button" id="mCam"><span style="font-size:18px">📷</span> <span data-i18n="mCam">Camera</span></button>
-<button type="button" id="mGal"><span style="font-size:18px">🖼</span> <span data-i18n="mGal">Photos</span></button>
-<button type="button" id="mDoc"><span style="font-size:18px">📄</span> <span data-i18n="mDoc">Files</span></button>
-<button type="button" id="mDraw"><span style="font-size:18px">🎨</span> <span data-i18n="mDraw">Draw an image</span></button>
+<button type="button" id="mCam"><span style="font-size:18px">📷</span> <span data-i18n="mCam">ক্যামেরা</span></button>
+<button type="button" id="mGal"><span style="font-size:18px">🖼</span> <span data-i18n="mGal">ছবি</span></button>
+<button type="button" id="mDoc"><span style="font-size:18px">📄</span> <span data-i18n="mDoc">ফাইল</span></button>
+<button type="button" id="mDraw"><span style="font-size:18px">🎨</span> <span data-i18n="mDraw">ছবি আঁকুন</span></button>
 </div>
 <input type="file" id="fCam" accept="image/*" capture="environment" style="display:none">
 <input type="file" id="fGal" accept="image/*" style="display:none">
 <input type="file" id="fDoc" accept=".pdf,.txt,.md,.csv,application/pdf,text/plain" style="display:none">
-
 <div class="ov" id="drawer">
 <div class="row"><b data-i18n="dTitle"></b><button class="btn" id="dclose" data-i18n="close"></button></div>
 <div class="row"><button class="btn" id="dnew" data-i18n="newc"></button></div>
@@ -163,7 +160,7 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 <div class="sec" data-i18n="secAi"></div>
 <div class="card"><div class="ic" style="background:#2563eb">🌍</div><div class="tx"><b data-i18n="search"></b><small data-i18n="searchD"></small></div><input type="checkbox" class="sw" id="search"></div>
 <div class="card"><div class="ic" style="background:#6366f1">🖼</div><div class="tx"><b data-i18n="imgq"></b><small data-i18n="imgqD"></small></div><select id="quality"><option value="normal" data-i18n="q1">স্বাভাবিক</option><option value="high" data-i18n="q2">উচ্চ</option></select></div>
-<div class="card"><div class="ic" style="background:#06b6d4">💬</div><div class="tx"><b data-i18n="style"></b><small data-i18n="styleD"></small></div><select id="style"><option value="short" data-i18n="s1">সংক্ষিপ্ত</option><option value="long" data-i18n="s2">বিস্তারিত</option></select></div>
+<div class="card"><div class="ic" style="background:#0ea5a4">💬</div><div class="tx"><b data-i18n="style"></b><small data-i18n="styleD"></small></div><select id="style"><option value="short" data-i18n="s1">সংক্ষিপ্ত</option><option value="long" data-i18n="s2">বিস্তারিত</option></select></div>
 <div class="sec" data-i18n="secLook"></div>
 <div class="card"><div class="ic" style="background:#8b5cf6">🎨</div><div class="tx"><b data-i18n="theme"></b><small data-i18n="themeD"></small></div><select id="theme"><option value="auto" data-i18n="th1">সিস্টেম অনুযায়ী</option><option value="light" data-i18n="th2">হালকা</option><option value="dark" data-i18n="th3">গাঢ়</option></select></div>
 <div class="card"><div class="ic" style="background:#f97316">Aa</div><div class="tx"><b data-i18n="fs"></b><small data-i18n="fsD"></small></div><select id="fs"><option value="14px" data-i18n="f1">ছোট</option><option value="16px" data-i18n="f2">মাঝারি</option><option value="19px" data-i18n="f3">বড়</option></select></div>
@@ -178,62 +175,61 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 <div style="height:30px"></div>
 </div>
 
-<!-- Claude Style Get More My AI Modal -->
 <div class="ov" id="pm">
 <div class="claude-modal">
-<div style="display:flex;justify-content:flex-end"><button class="btn" id="pclose" data-i18n="close">Close</button></div>
-<div class="claude-title">Get more My AI</div>
-<div class="claude-sub">Choose the plan right for you</div>
+<div style="display:flex;justify-content:flex-end"><button class="btn" id="pclose" data-i18n="close">বন্ধ</button></div>
+<div class="claude-title" data-i18n="pTitle">My AI এর আরও সুবিধা নিন</div>
+<div class="claude-sub" data-i18n="pSub">আপনার জন্য উপযুক্ত প্ল্যানটি বেছে নিন</div>
 
 <div class="plan-card">
 <div class="plan-header"><span class="plan-name">Pro</span></div>
-<div class="plan-desc">For everyday productivity</div>
+<div class="plan-desc" data-i18n="proDesc">দৈনন্দিন কাজের জন্য</div>
 <div class="plan-options">
 <div class="plan-opt active">
 <div style="width:16px;height:16px;border:2px solid #2f5fd0;border-radius:50%;display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;background:#2f5fd0;border-radius:50%"></div></div>
-<div class="plan-price">৳99.90</div>
-<div class="plan-period">Billed monthly</div>
+<div class="plan-price">৳৯৯.৯০</div>
+<div class="plan-period" data-i18n="bMonthly">মাসিক বিল</div>
 </div>
 <div class="plan-opt">
-<span class="badge-save">Save 9%</span>
+<span class="badge-save" data-i18n="savePct">৯% সেভ</span>
 <div style="width:16px;height:16px;border:2px solid #888;border-radius:50%"></div>
-<div class="plan-price">৳1,080.00</div>
-<div class="plan-period">Billed annually</div>
+<div class="plan-price">৳১,০৮০.০০</div>
+<div class="plan-period" data-i18n="bYearly">বার্ষিক বিল</div>
 </div>
 </div>
-<button class="claude-btn" id="buyPro">Get Pro plan</button>
+<button class="claude-btn" id="buyPro" data-i18n="btnPro">Pro প্ল্যান নিন</button>
 <div class="features-list">
-<div>✓ Everything in Free, plus:</div>
-<div>✓ More usage & faster replies</div>
-<div>✓ Access advanced My AI features</div>
-<div>✓ Unlimited chat history</div>
+<div data-i18n="fPro1">✓ ফ্রি প্ল্যানের সব সুবিধা, সাথে:</div>
+<div data-i18n="fPro2">✓ বেশি ব্যবহার ও দ্রুত উত্তর</div>
+<div data-i18n="fPro3">✓ উন্নত My AI ফিচার ব্যবহার করুন</div>
+<div data-i18n="fPro4">✓ অসীম চ্যাট ইতিহাস</div>
 </div>
 </div>
 
 <div class="plan-card">
 <div class="plan-header"><span class="plan-name">Max</span></div>
-<div class="plan-desc">More time with My AI</div>
+<div class="plan-desc" data-i18n="maxDesc">My AI এর সাথে বেশি সময়</div>
 <div class="plan-options">
 <div class="plan-opt active">
 <div style="width:16px;height:16px;border:2px solid #2f5fd0;border-radius:50%;display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;background:#2f5fd0;border-radius:50%"></div></div>
-<div class="plan-price">৳624.38</div>
-<div class="plan-period">Billed monthly</div>
+<div class="plan-price">৳৬২৪.৩৮</div>
+<div class="plan-period" data-i18n="bMonthly">মাসিক বিল</div>
 </div>
 <div class="plan-opt">
 <div style="width:16px;height:16px;border:2px solid #888;border-radius:50%"></div>
-<div class="plan-price">৳1,248.75</div>
-<div class="plan-period">Billed monthly</div>
+<div class="plan-price">৳১,২৪৮.৭৫</div>
+<div class="plan-period" data-i18n="bMonthly">মাসিক বিল</div>
 </div>
 </div>
-<button class="claude-btn" id="buyMax">Get Max plan</button>
+<button class="claude-btn" id="buyMax" data-i18n="btnMax">Max প্ল্যান নিন</button>
 <div class="features-list">
-<div>✓ Everything in Pro, plus:</div>
-<div>✓ 5x or 20x more usage than Pro</div>
-<div>✓ Priority access at high traffic times</div>
-<div>✓ Early access to advanced features</div>
+<div data-i18n="fMax1">✓ Pro প্ল্যানের সব সুবিধা, সাথে:</div>
+<div data-i18n="fMax2">✓ Pro এর চেয়ে ৫ গুণ বা ২০ গুণ বেশি ব্যবহার</div>
+<div data-i18n="fMax3">✓ বেশি ট্রাফিকের সময়েও দ্রুত রেসপন্স</div>
+<div data-i18n="fMax4">✓ নতুন সব ফিচারে সবার আগে অ্যাক্সেস</div>
 </div>
 </div>
-<div class="note" style="text-align:center;font-size:11px;opacity:0.6;margin-top:16px">Prices are samples. Google Play will show the final price. Cancel anytime in Play Store.</div>
+<div class="note" style="text-align:center;font-size:11px;opacity:0.6;margin-top:16px" data-i18n="pNote">দামগুলো নমুনা। চূড়ান্ত দাম আপনার দেশ অনুযায়ী Google Play দেখাবে। প্লে স্টোর থেকে যেকোনো সময় বাতিল করা যাবে।</div>
 </div>
 </div>
 
@@ -250,23 +246,21 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 </div>
 
 <div id="pick"><div class="sheet"><div class="row"><b id="pkTitle"></b><button class="btn" id="pkClose" data-i18n="close"></button></div><div style="padding:10px 14px"><input type="text" id="pkSearch" autocomplete="off"></div><div id="pkList" class="pl"></div></div></div>
-  <script>
+<script>
 const $=id=>document.getElementById(id);
 const T={
-bn:{title:"আমার এআই",prem:"👑 প্রিমিয়াম",ph:"Ask anything...",phImg:"কী আঁকতে হবে লিখুন...",mCam:"Camera",mGal:"Photos",mDoc:"Files",mDraw:"Draw an image",tooBig:"ফাইল বেশি বড়। ছোট ফাইল দিন (ছবি ৮MB, PDF ৪MB পর্যন্ত)।",readFail:"ফাইল পড়া যায়নি।",lookAt:"এটা দেখো",dTitle:"চ্যাট ইতিহাস",close:"বন্ধ",newc:"＋ নতুন চ্যাট",newTitle:"নতুন চ্যাট",thinking:"ভাবছি... (সার্ভার ঘুমিয়ে থাকলে ১ মিনিট লাগতে পারে)",errConn:"সংযোগে সমস্যা হয়েছে, আবার চেষ্টা করুন।",noImg:"ছবি আঁকার সুবিধা এখনো চালু হয়নি।",noReply:"উত্তর পাওয়া যায়নি।",listen:"শুনুন",copy:"কপি",copied:"কপি হয়েছে",copyFail:"কপি চলছে না",share:"শেয়ার",shareCopied:"কপি হয়েছে (এখানে শেয়ার চলে না)",shareFail:"শেয়ার চলছে না",regen:"আবার তৈরি",save:"সেভ",noSpeech:"এই অ্যাপে শোনা চলে না। Chrome-এ খুলে চেষ্টা করুন।",noVoice:"এই ফোনে ভয়েস পাওয়া যায়নি।",noMic:"এই অ্যাপে ভয়েস চলে না। Chrome-এ খুলে চেষ্টা করুন।",settings:"সেটিং",guest:"অতিথি",loginNot:"লগইন এখনো চালু হয়নি",secLang:"ভাষা ও ভয়েস",appLang:"অ্যাপের ভাষা",country:"দেশ",sl:"কথা বলা ও পড়ার ভাষা",voice:"পড়ে শোনানোর ভয়েস",vdef:"ফোনের ডিফল্ট",rate:"পড়ার গতি",r1:"ধীর",r2:"স্বাভাবিক",r3:"দ্রুত",auto:"উত্তর নিজে থেকে পড়ুক",secAi:"এআই আচরণ",search:"অনলাইনে যাচাই করুক",imgq:"ছবির মান",q1:"স্বাভাবিক",q2:"উচ্চ",style:"উত্তরের ধরন",s1:"সংক্ষিপ্ত",s2:"বিস্তারিত",secLook:"চেহারা",theme:"থিম",th1:"সিস্টেম অনুযায়ী",th2:"হালকা",th3:"গাঢ়",fs:"লেখার আকার",f1:"ছোট",f2:"মাঝারি",f3:"বড়",secData:"ডেটা ও গোপনীয়তা",exp:"চ্যাট এক্সপোর্ট (কপি)",expBtn:"কপি করুন",expOk:"সব চ্যাট কপি হয়েছে। নোট অ্যাপে পেস্ট করে রাখুন।",expFail:"কপি করা যায়নি।",clr:"সব চ্যাট মুছুন",clrBtn:"মুছুন",clrQ:"সব চ্যাট মুছে যাবে। নিশ্চিত?",priv:"প্রাইভেসি পলিসি",view:"দেখুন",secAcc:"অ্যাকাউন্ট",logout:"লগআউট",delacc:"অ্যাকাউন্ট মুছুন",loginMsg:"লগইন ব্যবস্থা এখনো যোগ হয়নি।",pTitle:"প্রিমিয়াম",pSub:"সীমা ছাড়া ব্যবহার করুন",pf1:"🖼 প্রতিদিন বেশি ছবি আঁকা",pf2:"⚡ দ্রুত ও উন্নত উত্তর",pf3:"🌐 বেশি অনলাইন সার্চ",pf4:"🕘 অসীম চ্যাট ইতিহাস",plan1:"মাসিক · ৳৫৯৯ প্রতি মাসে",plan2:"বার্ষিক · ৳৫,৯৯০ প্রতি বছরে (২ মাস ফ্রি)",buy:"প্রিমিয়াম শুরু করুন",buyMsg:"পেমেন্ট এখনো চালু হয়নি। অ্যাপ প্রকাশের সময় Google Play Billing যোগ হবে।",pNote:"দামগুলো নমুনা। চূড়ান্ত দাম আপনার দেশ অনুযায়ী Google Play দেখাবে। পেমেন্ট Google Play দিয়ে হবে এবং Play Store থেকে যেকোনো সময় বাতিল করা যাবে।",settingsD:"অ্যাপ সেটিং ও পছন্দ",srch:"খুঁজুন...",appLangD:"আপনার পছন্দের ভাষা বেছে নিন",countryD:"আপনার দেশের নাম বেছে নিন",slD:"মাইক ও পড়ার ভাষা",voiceD:"যে ভয়েসে উত্তর শুনবেন",rateD:"পড়ার গতি ঠিক করুন",autoD:"উত্তর এলেই নিজে পড়ে শোনাবে",searchD:"ওয়েবে খুঁজে উত্তর যাচাই করবে",imgqD:"ছবি আঁকার মান",styleD:"ছোট বা বিস্তারিত উত্তর",themeD:"অ্যাপের রঙের ধরন বেছে নিন",fsD:"লেখা ছোট বা বড় করুন",expD:"সব চ্যাট কপি করে রাখুন",clrD:"ফোন থেকে সব চ্যাট মুছে ফেলুন",privD:"আপনার ডেটা কীভাবে ব্যবহার হয়",aboutT:"অ্যাপ সম্পর্কে",aboutD:"ভার্সন ও অন্যান্য তথ্য",logoutD:"এই ডিভাইস থেকে বেরিয়ে যান",delaccD:"অ্যাকাউন্ট ও ডেটা স্থায়ীভাবে মুছুন",trFail:"অনুবাদ এখন পাওয়া যাচ্ছে না। আপাতত English দেখানো হচ্ছে।",wTitle:"স্বাগতম / Welcome",wSub:"শুরু করতে আপনার ভাষা ও দেশ বেছে নিন।",wc:"দেশ",wl:"ভাষা",pick:"— বেছে নিন —",go:"শুরু করুন",need:"আগে আপনার দেশ বেছে নিন।",me:"আমি",ai:"এআই"},
-en:{title:"My AI",prem:"👑 Premium",ph:"Ask anything...",phImg:"Describe what to draw...",mCam:"Camera",mGal:"Photos",mDoc:"Files",mDraw:"Draw an image",tooBig:"File is too large (images up to 8MB, PDF up to 4MB).",readFail:"Could not read the file.",lookAt:"Look at this",dTitle:"Chat history",close:"Close",newc:"＋ New chat",newTitle:"New chat",thinking:"Thinking... (may take up to 1 minute if the server was asleep)",errConn:"Connection problem. Please try again.",noImg:"Image drawing is not available yet.",noReply:"No reply received.",listen:"Listen",copy:"Copy",copied:"Copied",copyFail:"Copy failed",share:"Share",shareCopied:"Copied (sharing not supported here)",shareFail:"Sharing failed",regen:"Regenerate",save:"Save",noSpeech:"Listening is not supported in this app. Try in Chrome.",noVoice:"No voice available on this phone.",noMic:"Voice input is not supported in this app. Try in Chrome.",settings:"Settings",guest:"Guest",loginNot:"Login is not available yet",secLang:"Language & voice",appLang:"App language",country:"Country",sl:"Speaking & reading language",voice:"Reading voice",vdef:"Phone default",rate:"Reading speed",r1:"Slow",r2:"Normal",r3:"Fast",auto:"Read replies automatically",secAi:"AI behavior",search:"Verify online",imgq:"Image quality",q1:"Normal",q2:"High",style:"Reply style",s1:"Short",s2:"Detailed",secLook:"Appearance",theme:"Theme",th1:"System",th2:"Light",th3:"Dark",fs:"Text size",f1:"Small",f2:"Medium",f3:"Large",secData:"Data & privacy",exp:"Export chats (copy)",expBtn:"Copy",expOk:"All chats copied. Paste them into a notes app.",expFail:"Could not copy.",clr:"Delete all chats",clrBtn:"Delete",clrQ:"All chats will be deleted. Sure?",priv:"Privacy policy",view:"View",secAcc:"Account",logout:"Log out",delacc:"Delete account",loginMsg:"Login is not added yet.",pTitle:"Premium",pSub:"Use without limits",pf1:"🖼 More image drawing every day",pf2:"⚡ Faster, better replies",pf3:"🌐 More online searches",pf4:"🕘 Unlimited chat history",plan1:"Monthly · ৳599 per month",plan2:"Yearly · ৳5,990 per year (2 months free)",buy:"Start Premium",buyMsg:"Payment is not live yet. Google Play Billing will be added at launch.",pNote:"Prices are samples. Google Play will show the final price for your country. Payment is through Google Play and can be cancelled any time in the Play Store.",settingsD:"App settings and preferences",srch:"Search...",appLangD:"Choose your preferred language",countryD:"Choose your country",slD:"Language for mic and reading",voiceD:"The voice used to read replies",rateD:"Set how fast replies are read",autoD:"Reads each reply as it arrives",searchD:"Checks answers by searching the web",imgqD:"Quality of drawn images",styleD:"Short or detailed replies",themeD:"Choose the app colors",fsD:"Make text smaller or larger",expD:"Copy all your chats",clrD:"Remove all chats from this phone",privD:"How your data is used",aboutT:"About the app",aboutD:"Version and other info",logoutD:"Sign out on this device",delaccD:"Permanently delete your account and data",trFail:"Translation is not available right now. Showing English for now.",wTitle:"স্বাগতম / Welcome",wSub:"Choose your language and country to begin.",wc:"Country",wl:"Language",pick:"— Select —",go:"Start",need:"Please select your country first.",me:"Me",ai:"AI"}
+bn:{title:"আমার এআই",prem:"👑 প্রিমিয়াম",ph:"যে কোনো কিছু জিজ্ঞাসা করুন...",phImg:"কী আঁকতে হবে লিখুন...",mCam:"ক্যামেরা",mGal:"ছবি",mDoc:"ফাইল",mDraw:"ছবি আঁকুন",tooBig:"ফাইল বেশি বড়। ছোট ফাইল দিন (ছবি ৮MB, PDF ৪MB পর্যন্ত)।",readFail:"ফাইল পড়া যায়নি।",lookAt:"এটা দেখো",dTitle:"চ্যাট ইতিহাস",close:"বন্ধ",newc:"＋ নতুন চ্যাট",newTitle:"নতুন চ্যাট",thinking:"ভাবছি... (সার্ভার ঘুমিয়ে থাকলে ১ মিনিট লাগতে পারে)",errConn:"সংযোগে সমস্যা হয়েছে, আবার চেষ্টা করুন।",noImg:"ছবি আঁকার সুবিধা এখনো চালু হয়নি।",noReply:"উত্তর পাওয়া যায়নি।",listen:"শুনুন",copy:"কপি",copied:"কপি হয়েছে",copyFail:"কপি চলছে না",share:"শেয়ার",shareCopied:"কপি হয়েছে (এখানে শেয়ার চলে না)",shareFail:"শেয়ার চলছে না",regen:"আবার তৈরি",save:"সেভ",noSpeech:"এই অ্যাপে শোনা চলে না। Chrome-এ খুলে চেষ্টা করুন।",noVoice:"এই ফোনে ভয়েস পাওয়া যায়নি।",noMic:"এই অ্যাপে ভয়েস চলে না। Chrome-এ খুলে চেষ্টা করুন।",settings:"সেটিং",guest:"অতিথি",loginNot:"লগইন এখনো চালু হয়নি",secLang:"ভাষা ও ভয়েস",appLang:"অ্যাপের ভাষা",country:"দেশ",sl:"কথা বলা ও পড়ার ভাষা",voice:"পড়ে শোনানোর ভয়েস",vdef:"ফোনের ডিফল্ট",rate:"পড়ার গতি",r1:"ধীর",r2:"স্বাভাবিক",r3:"দ্রুত",auto:"উত্তর নিজে থেকে পড়ুক",secAi:"এআই আচরণ",search:"অনলাইনে যাচাই করুক",imgq:"ছবির মান",q1:"স্বাভাবিক",q2:"উচ্চ",style:"উত্তরের ধরন",s1:"সংক্ষিপ্ত",s2:"বিস্তারিত",secLook:"চেহারা",theme:"থিম",th1:"সিস্টেম অনুযায়ী",th2:"হালকা",th3:"গাঢ়",fs:"লেখার আকার",f1:"ছোট",f2:"মাঝারি",f3:"বড়",secData:"ডেটা ও গোপনীয়তা",exp:"চ্যাট এক্সপোর্ট (কপি)",expBtn:"কপি করুন",expOk:"সব চ্যাট কপি হয়েছে। নোট অ্যাপে পেস্ট করে রাখুন।",expFail:"কপি করা যায়নি।",clr:"সব চ্যাট মুছুন",clrBtn:"মুছুন",clrQ:"সব চ্যাট মুছে যাবে। নিশ্চিত?",priv:"প্রাইভেসি পলিসি",view:"দেখুন",secAcc:"অ্যাকাউন্ট",logout:"লগআউট",delacc:"অ্যাকাউন্ট মুছুন",loginMsg:"লগইন ব্যবস্থা এখনো যোগ হয়নি।",pTitle:"My AI এর আরও সুবিধা নিন",pSub:"আপনার জন্য উপযুক্ত প্ল্যানটি বেছে নিন",proDesc:"দৈনন্দিন কাজের জন্য",maxDesc:"My AI এর সাথে বেশি সময়",bMonthly:"মাসিক বিল",bYearly:"বার্ষিক বিল",savePct:"৯% সেভ",btnPro:"Pro প্ল্যান নিন",btnMax:"Max প্ল্যান নিন",fPro1:"✓ ফ্রি প্ল্যানের সব সুবিধা, সাথে:",fPro2:"✓ বেশি ব্যবহার ও দ্রুত উত্তর",fPro3:"✓ উন্নত My AI ফিচার ব্যবহার করুন",fPro4:"✓ অসীম চ্যাট ইতিহাস",fMax1:"✓ Pro প্ল্যানের সব সুবিধা, সাথে:",fMax2:"✓ Pro এর চেয়ে ৫ গুণ বা ২০ গুণ বেশি ব্যবহার",fMax3:"✓ বেশি ট্রাফিকের সময়েও দ্রুত রেসপন্স",fMax4:"✓ নতুন সব ফিচারে সবার আগে অ্যাক্সেস",pNote:"দামগুলো নমুনা। চূড়ান্ত দাম আপনার দেশ অনুযায়ী Google Play দেখাবে। প্লে স্টোর থেকে যেকোনো সময় বাতিল করা যাবে।",settingsD:"অ্যাপ সেটিং ও পছন্দ",srch:"খুঁজুন...",appLangD:"আপনার পছন্দের ভাষা বেছে নিন",countryD:"আপনার দেশের নাম বেছে নিন",slD:"মাইক ও পড়ার ভাষা",voiceD:"যে ভয়েসে উত্তর শুনবেন",rateD:"পড়ার গতি ঠিক করুন",autoD:"উত্তর এলেই নিজে পড়ে শোনাবে",searchD:"ওয়েবে খুঁজে উত্তর যাচাই করবে",imgqD:"ছবি আঁকার মান",styleD:"ছোট বা বিস্তারিত উত্তর",themeD:"অ্যাপের রঙের ধরন বেছে নিন",fsD:"লেখা ছোট বা বড় করুন",expD:"সব চ্যাট কপি করে রাখুন",clrD:"ফোন থেকে সব চ্যাট মুছে ফেলুন",privD:"আপনার ডেটা কীভাবে ব্যবহার হয়",aboutT:"অ্যাপ সম্পর্কে",aboutD:"ভার্সন ও অন্যান্য তথ্য",logoutD:"এই ডিভাইস থেকে বেরিয়ে যান",delaccD:"অ্যাকাউন্ট ও ডেটা স্থায়ীভাবে মুছুন",trFail:"অনুবাদ এখন পাওয়া যাচ্ছে না। আপাতত English দেখানো হচ্ছে।",wTitle:"স্বাগতম / Welcome",wSub:"শুরু করতে আপনার ভাষা ও দেশ বেছে নিন।",wc:"দেশ",wl:"ভাষা",pick:"— বেছে নিন —",go:"শুরু করুন",need:"আগে আপনার দেশ বেছে নিন।",me:"আমি",ai:"এআই"},
+en:{title:"My AI",prem:"👑 Premium",ph:"Ask anything...",phImg:"Describe what to draw...",mCam:"Camera",mGal:"Photos",mDoc:"Files",mDraw:"Draw an image",tooBig:"File is too large (images up to 8MB, PDF up to 4MB).",readFail:"Could not read the file.",lookAt:"Look at this",dTitle:"Chat history",close:"Close",newc:"＋ New chat",newTitle:"New chat",thinking:"Thinking... (may take up to 1 minute if the server was asleep)",errConn:"Connection problem. Please try again.",noImg:"Image drawing is not available yet.",noReply:"No reply received.",listen:"Listen",copy:"Copy",copied:"Copied",copyFail:"Copy failed",share:"Share",shareCopied:"Copied (sharing not supported here)",shareFail:"Sharing failed",regen:"Regenerate",save:"Save",noSpeech:"Listening is not supported in this app. Try in Chrome.",noVoice:"No voice available on this phone.",noMic:"Voice input is not supported in this app. Try in Chrome.",settings:"Settings",guest:"Guest",loginNot:"Login is not available yet",secLang:"Language & voice",appLang:"App language",country:"Country",sl:"Speaking & reading language",voice:"Reading voice",vdef:"Phone default",rate:"Reading speed",r1:"Slow",r2:"Normal",r3:"Fast",auto:"Read replies automatically",secAi:"AI behavior",search:"Verify online",imgq:"Image quality",q1:"Normal",q2:"High",style:"Reply style",s1:"Short",s2:"Detailed",secLook:"Appearance",theme:"Theme",th1:"System",th2:"Light",th3:"Dark",fs:"Text size",f1:"Small",f2:"Medium",f3:"Large",secData:"Data & privacy",exp:"Export chats (copy)",expBtn:"Copy",expOk:"All chats copied. Paste them into a notes app.",expFail:"Could not copy.",clr:"Delete all chats",clrBtn:"Delete",clrQ:"All chats will be deleted. Sure?",priv:"Privacy policy",view:"View",secAcc:"Account",logout:"Log out",delacc:"Delete account",loginMsg:"Login is not added yet.",pTitle:"Get more My AI",pSub:"Choose the plan right for you",proDesc:"For everyday productivity",maxDesc:"More time with My AI",bMonthly:"Billed monthly",bYearly:"Billed annually",savePct:"Save 9%",btnPro:"Get Pro plan",btnMax:"Get Max plan",fPro1:"✓ Everything in Free, plus:",fPro2:"✓ More usage & faster replies",fPro3:"✓ Access advanced My AI features",fPro4:"✓ Unlimited chat history",fMax1:"✓ Everything in Pro, plus:",fMax2:"✓ 5x or 20x more usage than Pro",fMax3:"✓ Priority access at high traffic times",fMax4:"✓ Early access to advanced features",pNote:"Prices are samples. Google Play will show the final price. Cancel anytime in Play Store.",settingsD:"App settings and preferences",srch:"Search...",appLangD:"Choose your preferred language",countryD:"Choose your country",slD:"Language for mic and reading",voiceD:"The voice used to read replies",rateD:"Set how fast replies are read",autoD:"Reads each reply as it arrives",searchD:"Checks answers by searching the web",imgqD:"Quality of drawn images",styleD:"Short or detailed replies",themeD:"Choose the app colors",fsD:"Make text smaller or larger",expD:"Copy all your chats",clrD:"Remove all chats from this phone",privD:"How your data is used",aboutT:"About the app",aboutD:"Version and other info",logoutD:"Sign out on this device",delaccD:"Permanently delete your account and data",trFail:"Translation is not available right now. Showing English for now.",wTitle:"স্বাগতম / Welcome",wSub:"Choose your language and country to begin.",wc:"Country",wl:"Language",pick:"— Select —",go:"Start",need:"Please select your country first.",me:"Me",ai:"AI"}
 };
-const LANGS=[["bn","বাংলা","bn-BD"],["en","English","en-US"],["hi","हिन्दी","hi-IN"],["ur","اردو","ur-PK"],["ne","नेपाली","ne-NP"],["si","සිංහල","si-LK"],["ta","தமிழ்","ta-IN"],["ms","Bahasa Melayu","ms-MY"],["id","Bahasa Indonesia","id-ID"],["th","ไทย","th-TH"],["vi","Tiếng Việt","vi-VN"],["zh","中文","zh-CN"],["ja","日本語","ja-JP"],["ko","한국어","ko-KR"],["ar","العربية","ar-SA"],["tr","Türkçe","tr-TR"],["fa","فارسی","fa-IR"],["fr","Français","fr-FR"],["de","Deutsch","de-DE"],["it","Italiano","it-IT"],["es","Español","es-ES"],["pt","Português","pt-BR"],["ru","Русский","ru-RU"],["nl","Nederlands","nl-NL"],["pl","Polski","pl-PL"],["sv","Svenska","sv-SE"],["tl","Filipino","fil-PH"],["sw","Kiswahili","sw-KE"]];
+const LANGS=[["bn","বাংলা","bn-BD"],["en","English","en-US"],["hi","हिन्दी","hi-IN"],["ur","اردو","ur-PK"],["ne","নেपाली","ne-NP"],["si","සිංහල","si-LK"],["ta","தமிழ்","ta-IN"],["ms","Bahasa Melayu","ms-MY"],["id","Bahasa Indonesia","id-ID"],["th","ไทย","th-TH"],["vi","Tiếng Việt","vi-VN"],["zh","中文","zh-CN"],["ja","日本語","ja-JP"],["ko","한국어","ko-KR"],["ar","العربية","ar-SA"],["tr","Türkçe","tr-TR"],["fa","فارسی","fa-IR"],["fr","Français","fr-FR"],["de","Deutsch","de-DE"],["it","Italiano","it-IT"],["es","Español","es-ES"],["pt","Português","pt-BR"],["ru","Русский","ru-RU"],["nl","Nederlands","nl-NL"],["pl","Polski","pl-PL"],["sv","Svenska","sv-SE"],["tl","Filipino","fil-PH"],["sw","Kiswahili","sw-KE"]];
 const RTL=["ar","ur","fa"];
 const SLMAP={};LANGS.forEach(l=>{SLMAP[l[0]]=l[2]});
 const C=[["BD","Bangladesh","bn","বাংলাদেশ"],["IN","India","hi","ভারত"],["PK","Pakistan","ur","পাকিস্তান"],["NP","Nepal","ne","নেপাল"],["LK","Sri Lanka","si","শ্রীলঙ্কা"],["BT","Bhutan","en","ভুটান"],["MV","Maldives","en","মালদ্বীপ"],["AF","Afghanistan","fa","আফগানিস্তান"],
 ["MY","Malaysia","ms","মালয়েশিয়া"],["SG","Singapore","en","সিঙ্গাপুর"],["ID","Indonesia","id"],["TH","Thailand","th"],["VN","Vietnam","vi"],["PH","Philippines","tl"],["MM","Myanmar","en"],["KH","Cambodia","en"],["BN","Brunei","ms"],
 ["CN","China","zh"],["HK","Hong Kong","zh"],["TW","Taiwan","zh"],["JP","Japan","ja","জাপান"],["KR","South Korea","ko","দক্ষিণ কোরিয়া"],
 ["AE","United Arab Emirates","ar","সংযুক্ত আরব আমিরাত"],["SA","Saudi Arabia","ar","সৌদি আরব"],["QA","Qatar","ar","কাতার"],["KW","Kuwait","ar","কুয়েত"],["OM","Oman","ar","ওমান"],["BH","Bahrain","ar"],["JO","Jordan","ar"],["LB","Lebanon","ar"],["IQ","Iraq","ar"],["IR","Iran","fa"],["IL","Israel","en"],["TR","Turkey","tr"],["EG","Egypt","ar"],["MA","Morocco","ar"],["DZ","Algeria","ar"],["TN","Tunisia","ar"],["LY","Libya","ar"],["SD","Sudan","ar"],
-["GB","United Kingdom","en","যুক্তরাজ্য"],["IE","Ireland","en"],["DE","Germany","de","জার্মানি"],["AT","Austria","de"],["CH","Switzerland","de"],["FR","France","fr","ফ্রান্স"],["BE","Belgium","fr"],["IT","Italy","it","ইতালি"],["ES","Spain","es"],["PT","Portugal","pt"],["NL","Netherlands","nl"],["PL","Poland","pl"],["SE","Sweden","sv"],["NO","Norway","en"],["DK","Denmark","en"],["FI","Finland","en"],["RU","Russia","ru"],["UA","Ukraine","en"],
-["US","United States","en","যুক্তরাষ্ট্র"],["CA","Canada","en","কানাডা"],["MX","Mexico","es"],["BR","Brazil","pt"],["AR","Argentina","es"],["CO","Colombia","es"],["CL","Chile","es"],["PE","Peru","es"],
-["NG","Nigeria","en"],["KE","Kenya","sw"],["TZ","Tanzania","sw"],["ZA","South Africa","en"],["ET","Ethiopia","en"],["GH","Ghana","en"],
-["AU","Australia","en","অস্ট্রেলিয়া"],["NZ","New Zealand","en"],["XX","Other","en","অন্যান্য"]];
+["GB","United Kingdom","en","যুক্তরাজ্য"],["IE","Ireland","en"],["DE","Germany","de","জার্মানি"],["AT","Austria","de"],["CH","Switzerland","de"],["FR","France","fr","ফ্রান্স"],["BE","Belgium","fr"],["IT","Italy","it","ইতালি"],["ES","Spain","es"],["PT","Portugal","pt"],["NL","Netherlands","nl"],["PL","Poland","pl"],["SE","Sweden","sv"],["NO","Norway","en"],["DK","Denmark","en"],["FI","Finland","en"],["RU","Russia","ru"],["UA","Ukraine","en"],["US","United States","en","যুক্তরাষ্ট্র"],["CA","Canada","en","কানাডা"],["MX","Mexico","es"],["BR","Brazil","pt"],["AR","Argentina","es"],["CO","Colombia","es"],["CL","Chile","es"],["PE","Peru","es"],
+["NG","Nigeria","en"],["KE","Kenya","sw"],["TZ","Tanzania","sw"],["ZA","South Africa","en"],["ET","Ethiopia","en"],["GH","Ghana","en"],["AU","Australia","en","অস্ট্রেলিয়া"],["NZ","New Zealand","en"],["XX","Other","en","অন্যান্য"]];
 const langFor=c=>{const f=C.find(x=>x[0]===c);return f?f[2]:"en"};
 let TR={};try{TR=JSON.parse(localStorage.getItem("tr"))||{}}catch(e){TR={}}
 const warned={};
@@ -313,305 +307,4 @@ async function ensureLang(){
     if(!r.ok)throw new Error("x");
     const j=await r.json();
     if(j&&j.map){TR[L]=j.map;try{localStorage.setItem("tr",JSON.stringify(TR))}catch(e){}}
-  }catch(e){if(!warned[L]){warned[L]=1;alert(T.en.trFail)}}
-  trBusy=false;
-  if(S.lang===L)applyLang();
-  else setPH();
-}
-function copyText(x){
-  try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(x);return true}}catch(e){}
-  try{const a=document.createElement("textarea");a.value=x;document.body.appendChild(a);a.select();const ok=document.execCommand("copy");document.body.removeChild(a);return ok}catch(e){return false}
-}
-function speak(x){
-  if(!window.speechSynthesis){alert(t("noSpeech"));return}
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(x);
-  u.lang=S.sl;u.rate=parseFloat(S.rate);
-  if(S.voice){const v=speechSynthesis.getVoices().find(v=>v.name===S.voice);if(v)u.voice=v}
-  u.onerror=()=>alert(t("noVoice"));
-  speechSynthesis.speak(u);
-}
-function share(x,el){
-  if(navigator.share){navigator.share({text:x}).catch(()=>{});return}
-  el.textContent=copyText(x)?t("shareCopied"):t("shareFail");
-}
-function addMsg(m,last,pending){
-  const d=mk("div","msg "+(m.role==="user"?"user":"ai"));
-  if(m.img){
-    const i=mk("img");i.src=m.img;
-    i.onclick=()=>window.open(m.img,"_blank");
-    d.appendChild(i);
-  }
-  d.appendChild(mk("div","",m.content+(m.note?"\n📎 "+m.note:"")));
-  if(m.role!=="user"&&!pending){
-    const a=mk("div","acts");
-    const mkA=(txt,fn)=>{const s=mk("span","",txt);s.onclick=()=>fn(s);a.appendChild(s)};
-    if(m.img){
-      mkA(t("save"),()=>window.open(m.img,"_blank"));
-      mkA(t("share"),s=>share(m.img,s));
-    }else{
-      mkA(t("listen"),()=>speak(m.content));
-      mkA(t("copy"),s=>{s.textContent=copyText(m.content)?t("copied"):t("copyFail")});
-      mkA(t("share"),s=>share(m.content,s));
-    }
-    if(last)mkA(t("regen"),()=>regen());
-    d.appendChild(a);
-  }
-  chatEl.appendChild(d);
-  chatEl.scrollTop=chatEl.scrollHeight;
-}
-function render(){chatEl.innerHTML="";const ms=cur().msgs;ms.forEach((m,i)=>addMsg(m,i===ms.length-1&&m.role!=="user"))}
-async function reply(c,q,asImg,a){
-  addMsg({role:"assistant",content:t("thinking")},false,true);
-  let m;
-  try{
-    if(asImg){
-      const r=await fetch("/image",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:q,quality:S.quality})});
-      if(!r.ok){m={role:"assistant",content:t("noImg")}}
-      else{const j=await r.json();m={role:"assistant",content:j.reply||"OK",img:j.url||""}}
-    }else{
-      const msgs=c.msgs.slice(-20).map(x=>({role:x.role,content:x.content}));
-      const body={messages:msgs,search:S.search,style:S.style};
-      if(a)body.attachment={type:a.type,media_type:a.media_type,data:a.data,text:a.text,name:a.name};
-      const r=await fetch("/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
-      const j=await r.json();
-      m={role:"assistant",content:j.reply||t("noReply")};
-    }
-  }catch(e){m={role:"assistant",content:t("errConn")}}
-  
-  if(c.msgs.length && c.msgs[c.msgs.length-1].content === t("thinking")) {
-    c.msgs.pop();
-  }
-  
-  c.msgs.push(m);persist();render();
-  if(S.auto&&!m.img)speak(m.content);
-}
-
-function showChip(){
-  const c=$("chip");
-  c.innerHTML="";
-  if(!att){c.style.display="none";return}
-  c.style.display="flex";
-  
-  if(att.type==="image" && att.data){
-    const box=mk("div","chip-preview-box");
-    const img=mk("img","chip-preview-img");
-    img.src="data:"+att.media_type+";base64,"+att.data;
-    const x=mk("button","chip-close-btn","✕");
-    x.type="button";
-    x.onclick=()=>{att=null;showChip()};
-    box.appendChild(img);
-    box.appendChild(x);
-    c.appendChild(box);
-  }else{
-    const info=mk("div","chip-doc-info");
-    info.appendChild(mk("span","","📄 "+att.name));
-    const x=mk("button","ib","✕");
-    x.type="button";
-    x.style.fontSize="16px";
-    x.onclick=()=>{att=null;showChip()};
-    info.appendChild(x);
-    c.appendChild(info);
-  }
-}
-
-function readFile(f){
-  if(!f)return;
-  if(f.size>8*1024*1024){alert(t("tooBig"));return}
-  const rd=new FileReader();
-  if(f.type.indexOf("image/")===0){
-    rd.onload=()=>{
-      const im=new Image();
-      im.onload=()=>{
-        const k=Math.min(1,1280/Math.max(im.width,im.height));
-        const w=Math.round(im.width*k),h=Math.round(im.height*k);
-        const cv=document.createElement("canvas");
-        cv.width=w;cv.height=h;
-        cv.getContext("2d").drawImage(im,0,0,w,h);
-        const d=cv.toDataURL("image/jpeg",0.8);
-        att={type:"image",media_type:"image/jpeg",data:d.split(",")[1],name:f.name||"image"};
-        showChip();
-      };
-      im.onerror=()=>alert(t("readFail"));
-      im.src=rd.result;
-    };
-    rd.readAsDataURL(f);
-  }else if(f.type==="application/pdf"||/\.pdf$/i.test(f.name)){
-    if(f.size>4*1024*1024){alert(t("tooBig"));return}
-    rd.onload=()=>{att={type:"pdf",media_type:"application/pdf",data:String(rd.result).split(",")[1],name:f.name};showChip()};
-    rd.readAsDataURL(f);
-  }else{
-    rd.onload=()=>{att={type:"text",text:String(rd.result).slice(0,20000),name:f.name};showChip()};
-    rd.readAsText(f);
-  }
-}
-["fCam","fGal","fDoc"].forEach(id=>{$(id).onchange=e=>{readFile(e.target.files[0]);e.target.value=""}});
-$("plus").onclick=()=>$("amenu").classList.toggle("open");
-$("mCam").onclick=()=>{$("amenu").classList.remove("open");$("fCam").click()};
-$("mGal").onclick=()=>{$("amenu").classList.remove("open");$("fGal").click()};
-$("mDoc").onclick=()=>{$("amenu").classList.remove("open");$("fDoc").click()};
-$("mDraw").onclick=()=>{$("amenu").classList.remove("open");imgMode=!imgMode;setPH()};
-function send(q,asImg){
-  const c=cur();
-  const a=asImg?null:att;
-  const m={role:"user",content:q||t("lookAt"),kind:asImg?"img":"txt"};
-  if(a)m.note=a.name;
-  if(a&&a.type==="image")m.img="data:"+a.media_type+";base64,"+a.data;
-  c.msgs.push(m);
-  if(isNew(c))c.title=(q||(a?a.name:"")).slice(0,28);
-  lastAtt=a;
-  att=null;showChip();
-  persist();render();
-  reply(c,m.content,asImg,a);
-}
-function regen(){
-  const c=cur();
-  if(c.msgs.length&&c.msgs[c.msgs.length-1].role==="assistant")c.msgs.pop();
-  const u=c.msgs[c.msgs.length-1];
-  if(!u||u.role!=="user")return;
-  render();
-  reply(c,u.content,u.kind==="img",u.note?lastAtt:null);
-}
-$("f").addEventListener("submit",e=>{
-  e.preventDefault();
-  const q=box.value.trim();
-  if(imgMode){if(!q)return}else if(!q&&!att)return;
-  box.value="";
-  send(q,imgMode);
-});
-
-let rec=null;
-$("mic").onclick=()=>{
-  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SpeechRec){alert(t("noMic"));return}
-  if(!rec){
-    rec = new SpeechRec();
-    rec.continuous = false;
-    rec.interimResults = true;
-    rec.onstart = () => { $("mic").classList.add("listening"); };
-    rec.onend = () => { $("mic").classList.remove("listening"); };
-    rec.onerror = () => { $("mic").classList.remove("listening"); };
-    rec.onresult = (e) => {
-      let transcript = Array.from(e.results).map(r => r[0].transcript).join('');
-      box.value = transcript;
-    };
-  }
-  rec.lang = S.sl || "bn-BD";
-  try { rec.start(); } catch(e) { rec.stop(); }
-};
-
-function drawer(){
-  const l=$("dlist");l.innerHTML="";
-  DB.chats.forEach(c=>{
-    const r=mk("div","ci");
-    const s=mk("span","",isNew(c)?t("newTitle"):c.title);
-    s.onclick=()=>{DB.cur=c.id;persist();render();$("drawer").classList.remove("open")};
-    const x=mk("button","ib","🗑");
-    x.onclick=()=>{DB.chats=DB.chats.filter(z=>z.id!==c.id);if(DB.cur===c.id)DB.cur=null;persist();render();drawer()};
-    r.appendChild(s);r.appendChild(x);l.appendChild(r);
-  });
-}
-$("menu").onclick=()=>{drawer();$("drawer").classList.add("open")};
-$("dclose").onclick=()=>$("drawer").classList.remove("open");
-$("dnew").onclick=()=>{DB.cur=null;cur();persist();render();$("drawer").classList.remove("open")};
-function bind(id,key,chk){const e=$(id);if(chk)e.checked=S[key];else e.value=S[key];e.onchange=()=>{S[key]=chk?e.checked:e.value;saveS()}}
-bind("theme","theme");bind("fs","fs");bind("rate","rate");bind("auto","auto",true);bind("search","search",true);bind("style","style");bind("quality","quality");bind("sl","sl");
-function voices(){
-  const v=$("voice");v.innerHTML="";
-  const o=mk("option","",t("vdef"));o.value="";v.appendChild(o);
-  if(window.speechSynthesis){speechSynthesis.getVoices().filter(x=>x.lang.toLowerCase().indexOf(S.sl.split("-")[0].toLowerCase())===0).forEach(x=>{const p=mk("option","",x.name);p.value=x.name;v.appendChild(p)})}
-  v.value=S.voice;
-}
-$("sl").addEventListener("change",voices);
-$("voice").onchange=e=>{S.voice=e.target.value;saveS()};
-const LFLAG={bn:"BD",en:"GB",hi:"IN",ur:"PK",ne:"NP",si:"LK",ta:"IN",ms:"MY",id:"ID",th:"TH",vi:"VN",zh:"CN",ja:"JP",ko:"KR",ar:"SA",tr:"TR",fa:"IR",fr:"FR",de:"DE",it:"IT",es:"ES",pt:"BR",ru:"RU",nl:"NL",pl:"PL",sv:"SE",tl:"PH",sw:"KE"};
-function flag(cc){if(!cc||cc==="XX")return "🌍";return String.fromCodePoint.apply(null,cc.split("").map(ch=>127397+ch.charCodeAt(0)))}
-function cname(c){return S.lang==="bn"?(c[3]||c[1]):c[1]}
-function updPills(){
-  const l=LANGS.find(x=>x[0]===S.lang);
-  $("alangV").textContent=flag(LFLAG[S.lang])+" "+(l?l[1]:S.lang);
-  const c=C.find(x=>x[0]===S.country);
-  $("ccountryV").textContent=c?(flag(c[0])+" "+cname(c)):t("pick");
-}
-function setLang(l){
-  S.lang=l;
-  S.sl=SLMAP[l]||"en-US";
-  $("sl").value=S.sl;
-  saveS();applyLang();ensureLang();voices();
-}
-function setCountry(c){
-  S.country=c;
-  if(c){S.lang=langFor(c);S.sl=SLMAP[S.lang]||"en-US";$("sl").value=S.sl}
-  saveS();applyLang();ensureLang();voices();
-}
-let pickKind="";
-function renderPick(){
-  const q=$("pkSearch").value.trim().toLowerCase();
-  const list=$("pkList");list.innerHTML="";
-  const items=pickKind==="lang"
-    ?LANGS.map(l=>({id:l[0],name:l[1],fl:flag(LFLAG[l[0]]),sel:S.lang===l[0],hay:(l[1]+" "+l[0]).toLowerCase()}))
-    :C.map(c=>({id:c[0],name:cname(c),fl:flag(c[0]),sel:S.country===c[0],hay:(c[1]+" "+(c[3]||"")+" "+c[0]).toLowerCase()}));
-  items.filter(i=>!q||i.hay.indexOf(q)>=0).forEach(i=>{
-    const r=mk("div","pi"+(i.sel?" sel":""));
-    r.appendChild(mk("span","pf",i.fl));
-    r.appendChild(mk("span","pn",i.name));
-    if(i.sel)r.appendChild(mk("span","pc","✓"));
-    r.onclick=()=>{$("pick").classList.remove("open");if(pickKind==="lang")setLang(i.id);else setCountry(i.id)};
-    list.appendChild(r);
-  });
-}
-function openPick(kind){
-  pickKind=kind;
-  $("pkTitle").textContent=t(kind==="lang"?"appLang":"country");
-  $("pkSearch").value="";
-  $("pkSearch").placeholder=t("srch");
-  renderPick();
-  $("pick").classList.add("open");
-}
-$("alangB").onclick=()=>openPick("lang");
-$("ccountryB").onclick=()=>openPick("country");
-$("pkSearch").oninput=renderPick;
-$("pkClose").onclick=()=>$("pick").classList.remove("open");
-$("pick").onclick=e=>{if(e.target===$("pick"))$("pick").classList.remove("open")};
-$("gear").onclick=()=>{updPills();voices();$("set").classList.add("open")};
-$("sclose").onclick=()=>$("set").classList.remove("open");
-$("exp").onclick=()=>{
-  const tx=DB.chats.map(c=>(isNew(c)?t("newTitle"):c.title)+"\n"+c.msgs.map(m=>(m.role==="user"?t("me"):t("ai"))+": "+m.content).join("\n")).join("\n\n----\n\n");
-  alert(copyText(tx)?t("expOk"):t("expFail"));
-};
-$("clr").onclick=()=>{if(confirm(t("clrQ"))){DB={cur:null,chats:[]};persist();render();$("set").classList.remove("open")}};
-$("priv").onclick=()=>window.open("/privacy","_blank");
-$("logout").onclick=()=>alert(t("loginMsg"));
-$("delacc").onclick=()=>alert(t("loginMsg"));
-$("prem").onclick=()=>$("pm").classList.add("open");
-$("pclose").onclick=()=>$("pm").classList.remove("open");
-$("buyPro").onclick=()=>alert(t("buyMsg"));
-$("buyMax").onclick=()=>alert(t("buyMsg"));
-$("welL").onchange=e=>{S.lang=e.target.value;applyLang();ensureLang()};
-$("welC").onchange=e=>{
-  if(!e.target.value)return;
-  S.lang=langFor(e.target.value);
-  $("welL").value=S.lang;
-  applyLang();ensureLang();
-};
-$("welGo").onclick=()=>{
-  if(!$("welC").value){alert(t("need"));return}
-  S.country=$("welC").value;
-  S.lang=$("welL").value;
-  S.sl=SLMAP[S.lang]||"en-US";
-  S.onb=true;
-  saveS();
-  $("sl").value=S.sl;
-  $("wel").classList.remove("open");
-  applyLang();ensureLang();
-};
-saveS();
-applyLang();
-ensureLang();
-$("welL").value=S.lang;
-$("sl").value=S.sl;
-if(!S.onb)$("wel").classList.add("open");
-if(/\bwv\b/.test(navigator.userAgent)){$("mCam").style.display="none"}
-</script>
-</body>
-</html>
+  }catch(e){if(!warn
