@@ -221,3 +221,9 @@ def translate(req: TranslateRequest, request: Request):
 @app.post("/image")
 def image(req: ImageRequest):
     return JSONResponse({"reply": "ছবি আঁকার সুবিধা এখনো চালু হয়নি।"}, status_code=501)
+    @app.get("/logo.png")
+def logo():
+    for n in ("logo.png", "logo.jpg", "logo.jpeg", "logo.webp"):
+        if os.path.exists(n):
+            return FileResponse(n)
+    return JSONResponse({"detail": "Not Found"}, status_code=404)
