@@ -126,7 +126,6 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 </head>
 <body>
 
-<!-- ChatGPT Style Splash Screen with Logo -->
 <div id="splash">
 <svg class="splash-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path>
@@ -270,8 +269,15 @@ select{font-size:15px;padding:6px;background:var(--ai);color:var(--fg);border:1p
 <script>
 const $=id=>document.getElementById(id);
 
-// Splash Screen Hide after 2 seconds
+// Splash Screen & Auto New Chat on Reopen (after 30 seconds away)
 window.addEventListener('DOMContentLoaded', () => {
+  const lastTime = localStorage.getItem('last_active_time');
+  const now = Date.now();
+  if (lastTime && (now - parseInt(lastTime) > 30000)) {
+    DB.cur = null; // Forces creation of a new chat session
+  }
+  localStorage.setItem('last_active_time', now.toString());
+
   setTimeout(() => {
     const splash = $('splash');
     if(splash){
@@ -279,6 +285,20 @@ window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => splash.style.display = 'none', 400);
     }
   }, 2000);
+});
+
+window.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    localStorage.setItem('last_active_time', Date.now().toString());
+  } else {
+    const lastTime = localStorage.getItem('last_active_time');
+    const now = Date.now();
+    if (lastTime && (now - parseInt(lastTime) > 30000)) {
+      DB.cur = null;
+      render();
+    }
+    localStorage.setItem('last_active_time', now.toString());
+  }
 });
 
 const T={
@@ -289,7 +309,7 @@ en:{title:"My AI",prem:"👑 Premium",ph:"Ask anything...",phImg:"Describe what 
 const LANGS=[["bn","বাংলা","bn-BD"],["en","English","en-US"],["hi","हिन्दी","hi-IN"],["ur","اردو","ur-PK"],["ne","নেपाली","ne-NP"],["si","සිංහල","si-LK"],["ta","தமிழ்","ta-IN"],["ms","Bahasa Melayu","ms-MY"],["id","Bahasa Indonesia","id-ID"],["th","ไทย","th-TH"],["vi","Tiếng Việt","vi-VN"],["zh","中文","zh-CN"],["ja","日本語","ja-JP"],["ko","한국어","ko-KR"],["ar","العربية","ar-SA"],["tr","Türkçe","tr-TR"],["fa","فارسی","fa-IR"],["fr","Français","fr-FR"],["de","Deutsch","de-DE"],["it","Italiano","it-IT"],["es","Español","es-ES"],["pt","Português","pt-BR"],["ru","Русский","ru-RU"],["nl","Nederlands","nl-NL"],["pl","Polski","pl-PL"],["sv","Svenska","sv-SE"],["tl","Filipino","fil-PH"],["sw","Kiswahili","sw-KE"]];
 const RTL=["ar","ur","fa"];
 const SLMAP={};LANGS.forEach(l=>{SLMAP[l[0]]=l[2]});
-const C=[["BD","Bangladesh","bn","বাংলাদেশ"],["IN","India","hi","ভারত"],["PK","Pakistan","ur","পাকিস্তান"],["NP","Nepal","ne","নেপাল"],["LK","Sri Lanka","si","শ্রীলঙ্কা"],["BT","Bhutan","en","ভুটান"],["MV","Maldives","en","মালদ্বীপ"],["AF","Afghanistan","fa","আফগানিস্তান"],
+const C=[["BD","Bangladesh","bn","বাংলাদেশ"],["IN","India","hi","ভারত"],["PK","Pakistan","ur","পাকিস্তান"],["NP","Nepal","ne","नेপাল"],["LK","Sri Lanka","si","শ্রীলঙ্কা"],["BT","Bhutan","en","ভুটান"],["MV","Maldives","en","মালদ্বীপ"],["AF","Afghanistan","fa","আফগানিস্তান"],
 ["MY","Malaysia","ms","মালয়েশিয়া"],["SG","Singapore","en","সিঙ্গাপুর"],["ID","Indonesia","id"],["TH","Thailand","th"],["VN","Vietnam","vi"],["PH","Philippines","tl"],["MM","Myanmar","en"],["KH","Cambodia","en"],["BN","Brunei","ms"],
 ["CN","China","zh"],["HK","Hong Kong","zh"],["TW","Taiwan","zh"],["JP","Japan","ja","জাপান"],["KR","South Korea","ko","দক্ষিণ কোরিয়া"],
 ["AE","United Arab Emirates","ar","সংযুক্ত আরব আমিরাত"],["SA","Saudi Arabia","ar","সৌদি আরব"],["QA","Qatar","ar","কাতার"],["KW","Kuwait","ar","কুয়েত"],["OM","Oman","ar","ওমান"],["BH","Bahrain","ar"],["JO","Jordan","ar"],["LB","Lebanon","ar"],["IQ","Iraq","ar"],["IR","Iran","fa"],["IL","Israel","en"],["TR","Turkey","tr"],["EG","Egypt","ar"],["MA","Morocco","ar"],["DZ","Algeria","ar"],["TN","Tunisia","ar"],["LY","Libya","ar"],["SD","Sudan","ar"],
@@ -631,8 +651,8 @@ $("exp").onclick=()=>{
 };
 $("clr").onclick=()=>{if(confirm(t("clrQ"))){DB={cur:null,chats:[]};persist();render();$("set").classList.remove("open")}};
 $("priv").onclick=()=>window.open("/privacy","_blank");
-`logout`.onclick=()=>alert(t("loginMsg"));
-`delacc`.onclick=()=>alert(t("loginMsg"));
+$("logout").onclick=()=>alert(t("loginMsg"));
+$("delacc").onclick=()=>alert(t("loginMsg"));
 $("prem").onclick=()=>{$("pm").classList.add("open");updatePrices()};
 $("pclose").onclick=()=>$("pm").classList.remove("open");
 $("buyPro").onclick=()=>alert(t("buyMsg"));
