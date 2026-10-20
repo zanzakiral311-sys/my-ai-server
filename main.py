@@ -66,9 +66,18 @@ def client_ip(request: Request):
 def text_of(resp):
     return "".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
 
+NOCACHE = {"Cache-Control": "no-cache, must-revalidate"}
+
 @app.get("/")
 def home():
-    return FileResponse("index.html")
+    return FileResponse("index.html", headers=NOCACHE)
+
+@app.get("/logo.png")
+def logo():
+    for n in ("logo.png", "logo.jpg", "logo.jpeg", "logo.webp"):
+        if os.path.exists(n):
+            return FileResponse(n, headers={"Cache-Control": "public, max-age=3600"})
+    return JSONResponse({"detail": "Not Found"}, status_code=404)
 
 @app.get("/health")
 def health():
@@ -76,7 +85,7 @@ def health():
 
 @app.get("/privacy")
 def privacy():
-    return FileResponse("privacy.html")
+    return FileResponse("privacy.html", headers=NOCACHE)
 
 @app.get("/admin")
 def admin(key: str = ""):
@@ -221,9 +230,3 @@ def translate(req: TranslateRequest, request: Request):
 @app.post("/image")
 def image(req: ImageRequest):
     return JSONResponse({"reply": "ছবি আঁকার সুবিধা এখনো চালু হয়নি।"}, status_code=501)
-    @app.get("/logo.png")
-def logo():
-    for n in ("logo.png", "logo.jpg", "logo.jpeg", "logo.webp"):
-        if os.path.exists(n):
-            return FileResponse(n)
-    return JSONResponse({"detail": "Not Found"}, status_code=404)
