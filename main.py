@@ -72,11 +72,23 @@ NOCACHE = {"Cache-Control": "no-cache, must-revalidate"}
 def home():
     return FileResponse("index.html", headers=NOCACHE)
 
+IMG_EXT = (".png", ".jpg", ".jpeg", ".webp", ".gif")
+
 @app.get("/logo.png")
 def logo():
-    for n in ("logo.png", "logo.jpg", "logo.jpeg", "logo.webp"):
-        if os.path.exists(n):
-            return FileResponse(n, headers={"Cache-Control": "public, max-age=3600"})
+    names = sorted(os.listdir("."))
+    pick = None
+    for n in names:
+        if n.lower().startswith("logo") and n.lower().endswith(IMG_EXT):
+            pick = n
+            break
+    if not pick:
+        for n in names:
+            if n.lower().endswith(IMG_EXT):
+                pick = n
+                break
+    if pick:
+        return FileResponse(pick, headers={"Cache-Control": "public, max-age=3600"})
     return JSONResponse({"detail": "Not Found"}, status_code=404)
 
 @app.get("/health")
