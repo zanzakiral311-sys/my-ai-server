@@ -638,6 +638,26 @@ updateInputState();
 $("welL").value=S.lang;
 $("sl").value=S.sl;
 if(!S.onb)$("wel").classList.add("open");
+let pickingFile=false,leftAt=0;
+["mCam","mGal","mDoc"].forEach(id=>$(id).addEventListener("click",()=>{pickingFile=true;setTimeout(()=>{pickingFile=false},180000)}));
+function startNewChatIfAway(){
+  if(pickingFile){pickingFile=false;leftAt=0;return}
+  if(!leftAt)return;
+  const away=Date.now()-leftAt;
+  leftAt=0;
+  if(away<30000)return;
+  if(att||box.value.trim())return;
+  const c=DB.chats.find(x=>x.id===DB.cur);
+  if(!c||c.msgs.length===0)return;
+  DB.chats=DB.chats.filter(x=>x.msgs.length>0);
+  DB.cur=null;cur();persist();render();
+  ["drawer","set","pm","pick"].forEach(id=>$(id).classList.remove("open"));
+}
+document.addEventListener("visibilitychange",()=>{
+  if(document.visibilityState==="hidden"){if(!leftAt)leftAt=Date.now()}
+  else startNewChatIfAway();
+});
+window.addEventListener("pageshow",()=>{startNewChatIfAway()});
 </script>
 </body>
 </html>
