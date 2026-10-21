@@ -658,6 +658,7 @@ document.addEventListener("visibilitychange",()=>{
   else startNewChatIfAway();
 });
 window.addEventListener("pageshow",()=>{startNewChatIfAway()});
+if(/\bwv\b/.test(navigator.userAgent)){$("mCam").style.display="none"}
 </script>
 </body>
 </html>
