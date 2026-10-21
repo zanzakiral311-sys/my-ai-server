@@ -432,7 +432,7 @@ function showChip(){
 
 function readFile(f){
   if(!f)return;
-  if(f.size>8*1024*1024){alert(t("tooBig"));return}
+  if(f.size>(f.type.indexOf("image/")===0?30:8)*1024*1024){alert(t("tooBig"));return}
   const rd=new FileReader();
   if(f.type.indexOf("image/")===0){
     rd.onload=()=>{
@@ -466,7 +466,33 @@ function readFile(f){
 }
 ["fCam","fGal","fDoc"].forEach(id=>{$(id).onchange=e=>{readFile(e.target.files[0]);e.target.value=""}});
 $("plus").onclick=()=>$("amenu").classList.toggle("open");
-$("mCam").onclick=()=>{$("amenu").classList.remove("open");$("fCam").click()};
+let camIv=null,lastTok="";
+function appCamera(){
+  try{AppInventor.setWebViewString("cam"+Date.now())}catch(e){$("fCam").click();return}
+  if(camIv)clearInterval(camIv);
+  let n=0;
+  camIv=setInterval(()=>{
+    n++;
+    let v="";
+    try{v=AppInventor.getWebViewString()||""}catch(e){}
+    if(v.indexOf("ph_")===0&&v!==lastTok){
+      lastTok=v;clearInterval(camIv);camIv=null;loadAppPhoto(v.slice(3));
+    }else if(n>240){clearInterval(camIv);camIv=null}
+  },1000);
+}
+async function loadAppPhoto(tok){
+  try{
+    const r=await fetch("/photo/"+encodeURIComponent(tok));
+    if(!r.ok)throw new Error("x");
+    const b=await r.blob();
+    readFile(new File([b],"camera.jpg",{type:b.type||"image/jpeg"}));
+  }catch(e){alert(t("readFail"))}
+}
+$("mCam").onclick=()=>{
+  $("amenu").classList.remove("open");
+  if(typeof AppInventor!=="undefined"&&AppInventor&&AppInventor.setWebViewString)appCamera();
+  else $("fCam").click();
+};
 $("mGal").onclick=()=>{$("amenu").classList.remove("open");$("fGal").click()};
 $("mDoc").onclick=()=>{$("amenu").classList.remove("open");$("fDoc").click()};
 $("mDraw").onclick=()=>{$("amenu").classList.remove("open");imgMode=!imgMode;setPH()};
@@ -658,7 +684,6 @@ document.addEventListener("visibilitychange",()=>{
   else startNewChatIfAway();
 });
 window.addEventListener("pageshow",()=>{startNewChatIfAway()});
-if(/\bwv\b/.test(navigator.userAgent)){$("mCam").style.display="none"}
 </script>
 </body>
 </html>
