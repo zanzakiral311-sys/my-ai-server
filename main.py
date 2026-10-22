@@ -1,11 +1,13 @@
 import os
 import json
 import hmac
+import time
+import secrets
 from datetime import date
 from typing import Optional
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse, HTMLResponse
+from fastapi.responses import FileResponse, JSONResponse, HTMLResponse, PlainTextResponse, Response
 from pydantic import BaseModel
 import anthropic
 
@@ -238,6 +240,46 @@ def translate(req: TranslateRequest, request: Request):
         return {"map": out}
     except Exception:
         return JSONResponse({"error": "failed"}, status_code=502)
+
+PHOTOS = {}
+UP_USE = {"day": "", "ips": {}}
+
+def is_image(data):
+    return data[:3] == b"\xff\xd8\xff" or data[:4] == b"\x89PNG"
+
+@app.post("/upload")
+async def upload(request: Request):
+    if os.environ.get("MAINTENANCE", "").lower() == "on":
+        return JSONResponse({"error": "maintenance"}, status_code=503)
+    data = await request.body()
+    if not data or len(data) > 15000000 or not is_image(data):
+        return JSONResponse({"error": "bad"}, status_code=400)
+    d = str(date.today())
+    if UP_USE["day"] != d:
+        UP_USE["day"] = d
+        UP_USE["ips"] = {}
+    ip = client_ip(request)
+    n = UP_USE["ips"].get(ip, 0)
+    if n >= 40:
+        return JSONResponse({"error": "limit"}, status_code=429)
+    UP_USE["ips"][ip] = n + 1
+    now = time.time()
+    for k in [k for k, v in PHOTOS.items() if now - v[0] > 180]:
+        PHOTOS.pop(k, None)
+    while len(PHOTOS) >= 6:
+        PHOTOS.pop(min(PHOTOS, key=lambda k: PHOTOS[k][0]), None)
+    tok = secrets.token_urlsafe(12)
+    PHOTOS[tok] = (now, data)
+    return PlainTextResponse("ph_" + tok)
+
+@app.get("/photo/{tok}")
+def photo(tok: str):
+    item = PHOTOS.pop(tok, None)
+    if not item:
+        return JSONResponse({"detail": "Not Found"}, status_code=404)
+    data = item[1]
+    mt = "image/png" if data[:4] == b"\x89PNG" else "image/jpeg"
+    return Response(content=data, media_type=mt, headers={"Cache-Control": "no-store"})
 
 @app.post("/image")
 def image(req: ImageRequest):
