@@ -1,4 +1,5 @@
 import os
+import io
 import json
 import hmac
 import time
@@ -10,6 +11,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, HTMLResponse, PlainTextResponse, Response
 from pydantic import BaseModel
 import anthropic
+
+try:
+    from PIL import Image, ImageOps
+except Exception:
+    Image = None
 
 app = FastAPI()
 app.add_middleware(
@@ -247,6 +253,22 @@ UP_USE = {"day": "", "ips": {}}
 def is_image(data):
     return data[:3] == b"\xff\xd8\xff" or data[:4] == b"\x89PNG"
 
+def shrink(data):
+    if Image is None:
+        return data
+    try:
+        im = Image.open(io.BytesIO(data))
+        im.draft("RGB", (1280, 1280))
+        im = ImageOps.exif_transpose(im)
+        im = im.convert("RGB")
+        im.thumbnail((1280, 1280))
+        out = io.BytesIO()
+        im.save(out, "JPEG", quality=85)
+        small = out.getvalue()
+        return small if len(small) < len(data) else data
+    except Exception:
+        return data
+
 @app.post("/upload")
 async def upload(request: Request):
     if os.environ.get("MAINTENANCE", "").lower() == "on":
@@ -268,6 +290,7 @@ async def upload(request: Request):
         PHOTOS.pop(k, None)
     while len(PHOTOS) >= 6:
         PHOTOS.pop(min(PHOTOS, key=lambda k: PHOTOS[k][0]), None)
+    data = shrink(data)
     tok = secrets.token_urlsafe(12)
     PHOTOS[tok] = (now, data)
     return PlainTextResponse("ph_" + tok)
