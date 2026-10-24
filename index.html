@@ -20,6 +20,9 @@ header .t{flex:1;font-weight:600;text-align:center}
 .user{align-self:flex-end;background:#2f5fd0;color:#fff}
 .ai{align-self:flex-start;background:var(--ai)}
 .msg img{max-width:100%;max-height:250px;border-radius:10px;display:block;margin-bottom:6px;object-fit:cover;cursor:pointer}
+.msg.pic{background:transparent;padding:0;text-align:right}
+.msg.pic img{max-width:240px;max-height:320px;border-radius:16px;margin:0;display:inline-block}
+.msg.pic .cap{display:inline-block;background:#2f5fd0;color:#fff;padding:8px 12px;border-radius:14px;margin-top:6px;text-align:left}
 .acts{display:flex;gap:18px;margin-top:8px;font-size:13px;opacity:.8;flex-wrap:wrap}
 .acts span{cursor:pointer}
 
@@ -344,13 +347,19 @@ function share(x,el){
   el.textContent=copyText(x)?t("shareCopied"):t("shareFail");
 }
 function addMsg(m,last,pending){
-  const d=mk("div","msg "+(m.role==="user"?"user":"ai"));
+  const pic=m.role==="user"&&!!m.img;
+  const d=mk("div","msg "+(m.role==="user"?"user":"ai")+(pic?" pic":""));
   if(m.img){
     const i=mk("img");i.src=m.img;
     i.onclick=()=>window.open(m.img,"_blank");
     d.appendChild(i);
   }
-  d.appendChild(mk("div","",m.content+(m.note?"\n📎 "+m.note:"")));
+  if(pic){
+    const auto=m.auto||Object.keys(T).some(k=>T[k].lookAt===m.content);
+    if(!auto&&m.content)d.appendChild(mk("div","cap",m.content));
+  }else{
+    d.appendChild(mk("div","",m.content+(m.note?"\n📎 "+m.note:"")));
+  }
   if(m.role!=="user"&&!pending){
     const a=mk("div","acts");
     const mkA=(txt,fn)=>{const s=mk("span","",txt);s.onclick=()=>fn(s);a.appendChild(s)};
@@ -519,6 +528,7 @@ function send(q,asImg){
   const a=asImg?null:att;
   const m={role:"user",content:q||t("lookAt"),kind:asImg?"img":"txt"};
   if(a)m.note=a.name;
+  if(!q)m.auto=true;
   if(a&&a.type==="image")m.img=a.thumb;
   c.msgs.push(m);
   if(isNew(c))c.title=(q||(a?a.name:"")).slice(0,28);
@@ -699,6 +709,12 @@ document.addEventListener("visibilitychange",()=>{
   else startNewChatIfAway();
 });
 window.addEventListener("pageshow",()=>{startNewChatIfAway()});
+document.addEventListener("click",e=>{
+  const mn=$("amenu");
+  if(!mn.classList.contains("open"))return;
+  if(e.target.closest("#amenu")||e.target.closest("#plus"))return;
+  mn.classList.remove("open");
+});
 </script>
 </body>
 </html>
